@@ -256,6 +256,28 @@ void Inventory::print(Hero& h)
     }
 }
 
+void Inventory::addWeapon(Weapon w)
+{
+     weapons.push_back(w);
+}
+
+void Inventory::addArmor(Armor a)
+{
+     armors.push_back(a);
+}
+
+void Inventory::addPotion(Potion p)
+{
+     potions.push_back(p);
+}
+
+void Inventory::addSpell(Spell* s)
+{
+    spells.push_back(s);
+}
+
+
+
 Weapon Inventory::equipWeapon(const int index, Weapon currentWeapon)
 {
     Weapon returnWeapon = weapons[index];

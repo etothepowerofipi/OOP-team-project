@@ -8,6 +8,7 @@ class Level
         int realLevel;
         int currentXp;
         int levelUpXp;
+
     public:
         Level(const int);
 
@@ -38,11 +39,16 @@ class Inventory
         Inventory();
         ~Inventory();
 
-        bool isFull();
-        void print(Hero&);
+        void addWeapon(Weapon);
+        void addArmor(Armor);
+        void addPotion(Potion);
+        void addSpell(Spell*);
 
         Weapon equipWeapon(const int,const Weapon);
         Armor equipArmor(const int,const Armor);
+
+        bool isFull();
+        void print(Hero&);
 };
 
 class Hero: public LivingBeing
