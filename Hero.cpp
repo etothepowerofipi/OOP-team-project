@@ -125,10 +125,10 @@ void Hero::checkInventory()
 
 void Hero::addMoney(int a){money+=a;}
 void Hero::buy(Weapon w){
-    cout << "Would you like to buy this weapon? Y/N" << endl; w.print();
+    cout << "Would you like to buy this weapon? y/n" << endl; w.print();
     char a;
     cin >> a;
-    if(a == 'Y'){
+    if(a == 'y'){
         if(money >= w.getPrice()){
             money-=w.getPrice();
             inventory.addWeapon(w);
@@ -137,10 +137,10 @@ void Hero::buy(Weapon w){
     }
 }
 void Hero::buy(Armor a){
-    cout << "Would you like to buy this armor? Y/N" << endl; a.print();
+    cout << "Would you like to buy this armor? y/n" << endl; a.print();
     char an;
     cin >> an;
-    if(an == 'Y'){
+    if(an == 'y'){
         if(money >= a.getPrice()){
             money-=a.getPrice();
             inventory.addArmor(a);
@@ -149,10 +149,10 @@ void Hero::buy(Armor a){
     }
 }
 void Hero::buy(Potion p){
-    cout << "Would you like to buy this potion? Y/N" << endl; p.print();
+    cout << "Would you like to buy this potion? y/n" << endl; p.print();
     char a;
     cin >> a;
-    if(a == 'Y'){
+    if(a == 'y'){
         if(money >= p.getPrice()){
             money-=p.getPrice();
             inventory.addPotion(p);
@@ -161,10 +161,10 @@ void Hero::buy(Potion p){
     }
 }
 void Hero::buy(Spell* s){
-    cout << "Would you like to buy this spell? Y/N" << endl; s->print();
+    cout << "Would you like to buy this spell? y/n" << endl; s->print();
     char a;
     cin >> a;
-    if(a == 'Y'){
+    if(a == 'y'){
         if(money >= s->getPrice()){
             money-=s->getPrice();
             inventory.addSpell(s);
