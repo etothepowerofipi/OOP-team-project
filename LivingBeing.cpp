@@ -9,7 +9,8 @@ using namespace std;
 //CONSTRUCTORS
 //CONSTRUCTORS
 
-LivingBeing::LivingBeing(const string s, const int lvl=1){
+LivingBeing::LivingBeing(const string s, const int lvl=1)
+{
     name=s;
     level=lvl;
 }
