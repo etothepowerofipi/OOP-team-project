@@ -326,7 +326,6 @@ void Inventory::addSpell(Spell* s)
 }
 
 
-
 Weapon Inventory::equipWeapon(const int index, Weapon currentWeapon)
 {
     Weapon returnWeapon = weapons[index];
