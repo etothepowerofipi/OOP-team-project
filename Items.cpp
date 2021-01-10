@@ -11,7 +11,7 @@ Item::Item(int lvl,string nam,string type) : name(nam) {
     price=100+50*base;
 }
 Item::Item(){}
-Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(lvl/2+1+lvl*rand()%4) , twoHanded( (rand()%2 == 0) ? true : false ) {}
+Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(1+lvl/2+lvl*rand()%4) , twoHanded( (rand()%2 == 0) ? true : false ) {}
 Weapon::Weapon(){starterWeapon();}
 Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(lvl+1+lvl*rand()%4) {}
 Armor::Armor() : Item() {starterArmor();}
