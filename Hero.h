@@ -66,8 +66,9 @@ class Hero: public LivingBeing
         void takeDamage(int);
         int use(Spell&);
         void use(Potion&);
-        virtual void levelUp() const = 0;
+        virtual void levelUp() = 0;
         void addXP(const int);
+        void faint();
 
         void checkInventory();
 
@@ -86,7 +87,6 @@ class Warrior: public Hero
 {
     public: 
         Warrior(const std::string);
-
         void levelUp();
 };
 
@@ -94,7 +94,6 @@ class Sorcerer: public Hero
 {
     public:
         Sorcerer(const std::string);
-
         void levelUp();
 };
 
@@ -102,6 +101,5 @@ class Paladin: public Hero
 {
     public:
         Paladin(const std::string);
-
         void levelUp();
 };
