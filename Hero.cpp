@@ -123,6 +123,56 @@ void Hero::checkInventory()
     }
 }
 
+void Hero::addMoney(int a){money+=a;}
+void Hero::buy(Weapon w){
+    cout << "Would you like to buy this weapon? y/n" << endl; w.print();
+    char a;
+    cin >> a;
+    if(a == 'y'){
+        if(money >= w.getPrice()){
+            money-=w.getPrice();
+            inventory.addWeapon(w);
+        }
+        else cout << "Too poor lmao!" << endl;
+    }
+}
+void Hero::buy(Armor a){
+    cout << "Would you like to buy this armor? y/n" << endl; a.print();
+    char an;
+    cin >> an;
+    if(an == 'y'){
+        if(money >= a.getPrice()){
+            money-=a.getPrice();
+            inventory.addArmor(a);
+        }
+        else cout << "Too poor lmao!" << endl;
+    }
+}
+void Hero::buy(Potion p){
+    cout << "Would you like to buy this potion? y/n" << endl; p.print();
+    char a;
+    cin >> a;
+    if(a == 'y'){
+        if(money >= p.getPrice()){
+            money-=p.getPrice();
+            inventory.addPotion(p);
+        }
+        else cout << "Too poor lmao!" << endl;
+    }
+}
+void Hero::buy(Spell* s){
+    cout << "Would you like to buy this spell? y/n" << endl; s->print();
+    char a;
+    cin >> a;
+    if(a == 'y'){
+        if(money >= s->getPrice()){
+            money-=s->getPrice();
+            inventory.addSpell(s);
+        }
+        else cout << "Too poor lmao!" << endl;
+    }
+}
+
 void Hero::equip(const Weapon& w){weapon = w;}
 void Hero::equip(const Armor& a){armor = a;}
 
@@ -223,14 +273,13 @@ void Inventory::print(Hero& h)
     cout << "Here is the current equipment for " + h.getName() << endl;
     cout << curcapacity << '/' << maxcapacity << " slots are in use." << endl;
     cout << "Weapons:" << endl;
-    for (int i=0; i<wcapacity; i++){
+    for (int i=0; i<weapons.size(); i++){
         cout << ++equipmentCounter << ". ";
         weapons[i].print();
     }
     cout << "Current weapon is: " << endl;
     h.getWeapon().print();
   
-
     equipmentCounter = 0;
     cout << "Armors:" << endl;
     for (int i=0; i<acapacity; i++){
@@ -258,17 +307,17 @@ void Inventory::print(Hero& h)
 
 void Inventory::addWeapon(Weapon w)
 {
-     weapons.push_back(w);
+    weapons.push_back(w);
 }
 
 void Inventory::addArmor(Armor a)
 {
-     armors.push_back(a);
+    armors.push_back(a);
 }
 
 void Inventory::addPotion(Potion p)
 {
-     potions.push_back(p);
+    potions.push_back(p);
 }
 
 void Inventory::addSpell(Spell* s)

@@ -77,6 +77,11 @@ class Hero: public LivingBeing
         void faint();
 
         void checkInventory();
+        void buy(Weapon);
+        void buy(Armor);
+        void buy(Potion);
+        void buy(Spell*);
+        void addMoney(int a);
 
         void equip(const int);
         void equip(const Weapon&);
