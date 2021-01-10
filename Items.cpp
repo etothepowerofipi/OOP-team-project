@@ -10,12 +10,12 @@ Item::Item(int lvl,string nam,string type) : name(nam) {
     if(minLevel <= 0) minLevel=1;
     price=100+50*base;
 }
-Weapon::Weapon(int lvl=0,string name="0") : Item(lvl,name,"weapon") , damage(lvl/2+1+lvl*rand()%4) , twoHanded( (rand()%2 == 0) ? true : false ) {
-    if(name == "0") this->starterWeapon();
-}
-Armor::Armor(int lvl=0,string name="0") : Item(lvl,name,"armor") , protection(lvl+1+lvl*rand()%4) {
-    if(name == "0") this->starterArmor();
-}Potion::Potion(int lvl,string name) : Item(lvl,name,"potion") , effectPoints(10+10*(lvl-2+rand()%4)) {}
+Item::Item(){}
+Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(lvl/2+1+lvl*rand()%4) , twoHanded( (rand()%2 == 0) ? true : false ) {}
+Weapon::Weapon(){starterWeapon();}
+Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(lvl+1+lvl*rand()%4) {}
+Armor::Armor() : Item() {starterArmor();}
+Potion::Potion(int lvl,string name) : Item(lvl,name,"potion") , effectPoints(10+10*(lvl-2+rand()%4)) {}
 
 //printers
 
@@ -52,7 +52,7 @@ Potion::~Potion() {}
 
 //copy-constructors
 
-Item::Item(const Item& i)
+/* Item::Item(const Item& i)
 {
     if (this!=&i)
     {
@@ -81,7 +81,7 @@ Potion::Potion(const Potion& p):Item(p)
 {
     if (this!=&p)
         effectPoints = p.effectPoints;
-}
+} */
 
 //assignment operator overloads
 

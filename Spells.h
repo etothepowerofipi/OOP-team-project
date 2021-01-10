@@ -23,8 +23,8 @@ class Spell
         int getLevelReq() const;
         int getMP() const;
 
-        virtual int getReduction() const = 0;
-        virtual void print() const = 0;
+        virtual int getReduction() const=0;
+        virtual void print() const=0;
 };
 
 class IceSpell: public Spell

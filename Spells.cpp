@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #include "Spells.h"
 
 using namespace std;
@@ -107,6 +108,7 @@ FireSpell& FireSpell::operator=(const FireSpell& f)
 {
     if (this!=&f)
         defenseReduction = f.defenseReduction;
+    return *this;
 }
 
 LightningSpell& LightningSpell::operator=(const LightningSpell& l)
