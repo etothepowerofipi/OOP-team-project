@@ -15,7 +15,7 @@ class LivingBeing
         LivingBeing(const std::string,const int);
         virtual ~LivingBeing();
 
-        virtual void takeDamage(int)=0;
+        void takeDamage(int);
         virtual void faint() = 0;
 
         std::string getName();

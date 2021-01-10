@@ -89,6 +89,11 @@ void Hero::takeDamage(int damage){
     cout << name << " takes " << damage << " damage!" << endl;
 }
 
+void Hero::faint(){
+    cout << name << " has fainted!" << endl;
+    healthPower/=2;
+}
+
 void Hero::addXP(const int xpToAdd) 
 {
     const int levelUps = level.addXp(xpToAdd);

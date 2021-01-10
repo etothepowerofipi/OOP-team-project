@@ -32,6 +32,8 @@ int main(void){
 
 //LivingBeing testing
     cout << "\n\nTesting LivingBeings\n\n";
+    Sorcerer myh("Gamw thn poutana thn mana sou github kai izabw");
+    myh.checkInventory();
 
     return 0;
 }
