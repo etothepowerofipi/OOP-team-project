@@ -33,10 +33,10 @@ void LivingBeing::takeDamage(const int damage)
         faint();
 }
 
-bool LivingBeing::dodge()
+bool LivingBeing::dodge(const int dodgeChance)
 {
     int temp = rand()%100;
-    if (temp>agility)
+    if (temp>dodgeChance)
         return false;
     return true;
 }
@@ -44,4 +44,3 @@ bool LivingBeing::dodge()
 string LivingBeing::getName(){return name;}
 int LivingBeing::getHP(){return healthPower;}
 int LivingBeing::getLevel(){return level;}
-int LivingBeing::getAgility(){return agility;}

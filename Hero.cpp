@@ -54,27 +54,28 @@ Inventory::~Inventory() {
 //LEVEL
 //LEVEL
 //LEVEL
-bool Level::addXp(int xptoadd)
+int Level::addXp(int xptoadd)
 {
+    int levelUps = 0;
     currentXp+=xptoadd;
-    if(currentXp >= levelUpXp){
-        realLevel++;
-        currentXp -= levelUpXp;
-        return true;
+    while(currentXp >= levelUpXp)
+    {
+        levelUp();
+        levelUps++;
     }
-    return false;
+    return levelUps;
 }
 
 void Level::levelUp()
 {
     realLevel++;
-    currentXp = 0;
+    currentXp -= levelUpXp;
     levelUpXp = realLevel*100 + realLevel*(realLevel-1);
 }
 
 int Level::getRL() {return realLevel;}
 int Level::getXP() {return currentXp;}
-int Level::getLvlUp() {return levelUpXp;}
+int Level::getLvlUpXP() {return levelUpXp;}
 
 //HERO
 //HERO
@@ -82,10 +83,17 @@ int Level::getLvlUp() {return levelUpXp;}
 int Hero::attack(){return (weapon.getDamage()+strength);}
 void Hero::takeDamage(int damage){
     damage-=armor.getProtection();
-    if(dodge()){cout << "Attack has been dodged!" << endl; return;}
+    if(dodge(agility)){cout << "Attack has been dodged!" << endl; return;}
     if(damage < 0) damage=0;
     healthPower-=damage;
     cout << name << " takes " << damage << " damage!" << endl;
+}
+
+void Hero::addXP(const int xpToAdd) 
+{
+    const int levelUps = level.addXp(xpToAdd);
+    for (int i=0; i<levelUps; i++)
+        levelUp();
 }
 
 void Hero::checkInventory()
@@ -117,6 +125,7 @@ Weapon Hero::getWeapon(){return weapon;}
 Armor Hero::getArmor(){return armor;}
 Level Hero::getLevel(){return level;}
 Inventory Hero::getInventory(){return inventory;}
+int Hero::getAgility(){return agility;}
 
 // int Hero::use(Spell& s)
 // {
@@ -163,7 +172,6 @@ void Hero::use(Potion& p)
 
 void Warrior::levelUp()
 {
-    level.levelUp();
     LivingBeing::level++;
     healthPower += 50;
     MP =+ 50;
@@ -175,7 +183,6 @@ void Warrior::levelUp()
 
 void Sorcerer::levelUp()
 {
-    level.levelUp();
     LivingBeing::level++;
     healthPower += 50;
     MP =+ 50;
@@ -187,8 +194,7 @@ void Sorcerer::levelUp()
 
 void Paladin::levelUp()
 {
-    level.levelUp();
-    LivingBeing::level++;
+    LivingBeing::level++; // = level.reallevel
     healthPower += 50;
     MP =+ 50;
 

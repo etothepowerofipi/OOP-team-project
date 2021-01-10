@@ -9,6 +9,8 @@ class Monster: public LivingBeing
         int minAttack;
         int maxAttack;
         int defense;
+        int dodgeChance;
+        
     public:
         Monster(const std::string,const int);
         virtual ~Monster();

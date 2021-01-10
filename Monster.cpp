@@ -17,19 +17,19 @@ Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
     minAttack=5+6*lvl;
     maxAttack=10+6*lvl;
     defense=10+4*lvl;
-    agility=10+2*lvl;
+    dodgeChance=10+2*lvl;
 }
 Exosceleton::Exosceleton(const string n,int lvl) : Monster(n,lvl) {
     minAttack=3+3*lvl;
     maxAttack=3+3*lvl;
     defense=20+5*lvl;
-    agility=10+2*lvl;
+    dodgeChance=10+2*lvl;
 }
 Spirit::Spirit(const string n,int lvl) : Monster(n,lvl) {
     minAttack=3+3*lvl;
     maxAttack=3+3*lvl;
     defense=10+4*lvl;
-    agility=20+3*lvl;
+    dodgeChance=20+3*lvl;
 }
 
 //DESTRUCTORS
@@ -56,7 +56,7 @@ int Monster::attack()
 
 void Monster::takeDamage(int damage){
     damage-=defense;
-    if(dodge()){cout << "Attack has been dodged!" << endl; return;}
+    if(dodge(dodgeChance)){cout << "Attack has been dodged!" << endl; return;}
     if(damage < 0) damage=0;
     healthPower-=damage;
     cout << name << " takes " << damage << " damage!" << endl;

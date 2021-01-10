@@ -10,7 +10,7 @@ class LivingBeing
         std::string name;
         int healthPower;
         int level;
-        int agility;
+
     public:
         LivingBeing(const std::string,const int);
         virtual ~LivingBeing();
@@ -21,7 +21,6 @@ class LivingBeing
         std::string getName();
         int getHP();
         int getLevel();
-        int getAgility();
 
-        bool dodge();
+        bool dodge(const int);
 };

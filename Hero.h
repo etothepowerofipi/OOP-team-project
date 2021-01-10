@@ -13,10 +13,10 @@ class Level
 
         void levelUp();
 
-        bool addXp(int);
+        int addXp(int); //Pros8etei XP = <orisma> sto currentXP, kai epistrefei to posa level anebhke o hrwas.
         int getRL();
         int getXP();
-        int getLvlUp();
+        int getLvlUpXP();
 };
 
 class Hero;
@@ -51,11 +51,13 @@ class Hero: public LivingBeing
         int MP;
         int strength;
         int dexterity;
+        int agility;
         int money;
         Weapon weapon;
         Armor armor;
         Level level;
         Inventory inventory;
+
     public:
         Hero(const std::string);
         ~Hero();
@@ -64,7 +66,8 @@ class Hero: public LivingBeing
         void takeDamage(int);
         int use(Spell&);
         void use(Potion&);
-        virtual void levelUp() const=0;
+        virtual void levelUp() const = 0;
+        void addXP(const int);
 
         void checkInventory();
 
@@ -75,7 +78,8 @@ class Hero: public LivingBeing
         Weapon getWeapon();
         Armor getArmor();
         Level getLevel();
-        Inventory getInventory();    
+        Inventory getInventory();
+        int getAgility();    
 };
 
 class Warrior: public Hero
