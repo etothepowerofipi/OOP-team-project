@@ -1,4 +1,4 @@
-#include "Monster.h"
+#include "Map.h"
 using namespace std;
 
 string WeaponNames[119],ArmorNames[78],MonsterNames[98],PotionNames[5],FireSpellNames[15],IceSpellNames[6],LightningSpellNames[3];
@@ -31,8 +31,7 @@ int main(void){
     li.print();
 
 //LivingBeing testing
-    // cout << "\n\nTesting LivingBeings\n\n";
-    // cout << "test" << endl;
+    cout << "\n\nTesting LivingBeings\n\n";
     Sorcerer myh("Gamw thn poutana thn mana sou github kai izabw");
     myh.addMoney(10000);
     myh.buy(w1);
@@ -40,6 +39,10 @@ int main(void){
     myh.buy(a1);
     myh.buy(a2);
     myh.checkInventory();
+
+//Map test
+    Map m;
+    m.print();
 
     cout << "Ending program" << endl;
 

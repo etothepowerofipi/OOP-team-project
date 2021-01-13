@@ -1,6 +1,9 @@
-Client	: Items.o Spells.o LivingBeing.o Hero.o Monster.o Client.cpp
-	g++  Items.o Spells.o LivingBeing.o Hero.o Monster.o -o Client Client.cpp
+Client	: Items.o Spells.o LivingBeing.o Hero.o Monster.o Map.o Client.cpp
+	g++  Items.o Spells.o LivingBeing.o Hero.o Monster.o Map.o -o Client Client.cpp
 	./Client
+
+Map.o :	Map.cpp
+	g++ -c Map.cpp
 
 Monster.o : Monster.cpp
 	g++ -c Monster.cpp
