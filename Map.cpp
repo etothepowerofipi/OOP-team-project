@@ -5,7 +5,8 @@
 
 using namespace std;
 
-Map::Map(){
+Map::Map(Hero* h){
+    heroes=h;
     maxi=20;
     maxj=20;
     for(int i=0;i<maxi;i++){
@@ -27,35 +28,25 @@ Map::Map(){
     grid[0][0]='H';
 }
 
-void Map::moveDown(){
-    grid[x][y]=tempchar;
-    if(y+1 != 0 && y+1 != maxj){
-        y++;
-        tempchar=grid[x][y];
-        grid[x][y]='H';
-    }
-    else{
-        cout << "You cant go there!" << endl;
-    }
-}
-
-void Map::moveUp(){
-    grid[x][y]=tempchar;
-    if(y-1 != 0 && y-1 != maxj){
-        y--;
-        tempchar=grid[x][y];
-        grid[x][y]='H';
-    }
-    else{
-        cout << "You cant go there!" << endl;
-    }
+void Map::move(){
+    char awnser;
+    do{
+        print();
+        cout << "Would you like to move? n=no / l=left / r =right / u = up / d = down" << endl;
+        cin >> awnser;
+        if(awnser == 'l') moveLeft();
+        else if(awnser == 'r') moveRight();
+        else if(awnser == 'u') moveUp();
+        else if(awnser == 'd') moveDown();
+    } while(awnser != 'n');
 }
 
 void Map::moveRight(){
-    grid[x][y]=tempchar;
-    if(x+1 != 0 && x+1 != maxi){
-        x++;
+    if(y+1 <= maxi){
+        grid[x][y]=tempchar;
+        y++;
         tempchar=grid[x][y];
+        checkBlock(x,y);
         grid[x][y]='H';
     }
     else{
@@ -64,14 +55,53 @@ void Map::moveRight(){
 }
 
 void Map::moveLeft(){
-    grid[x][y]=tempchar;
-    if(x-1 != 0 && x-1 != maxi){
-        x--;
+    if(y-1 >= 0){
+        grid[x][y]=tempchar;
+        y--;
         tempchar=grid[x][y];
+        checkBlock(x,y);
         grid[x][y]='H';
     }
     else{
         cout << "You cant go there!" << endl;
+    }
+}
+
+void Map::moveUp(){
+    if(x-1 >= 0){
+        grid[x][y]=tempchar;
+        x--;
+        tempchar=grid[x][y];
+        checkBlock(x,y);
+        grid[x][y]='H';
+    }
+    else{
+        cout << "You cant go there!" << endl;
+    }
+}
+
+void Map::moveDown(){
+    if(x+1 <= maxi){
+        grid[x][y]=tempchar;
+        x++;
+        tempchar=grid[x][y];
+        checkBlock(x,y);
+        grid[x][y]='H';
+    }
+    else{
+        cout << "You cant go there!" << endl;
+    }
+}
+
+void Map::checkBlock(int i,int j){
+    if(grid[i][j]== 'M'){
+        cout << "You have reached a marketplace!\nWould you like to enter? y/n" << endl;
+    }
+    else if(grid[i][j] == '+'){
+        int prob=rand()%100;
+        if(prob <= 30){
+            cout << "A monster has appeared!\nPrepare to battle!" << endl;
+        }
     }
 }
 
@@ -81,4 +111,5 @@ void Map::print(){
             cout << grid[i][j] << " ";
         cout << endl;
     }
+    cout << endl << endl;
 }
