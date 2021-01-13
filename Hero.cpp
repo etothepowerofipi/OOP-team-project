@@ -107,6 +107,13 @@ void Hero::checkInventory()
     inventory.print(*this);
     cout << "Would you like to swap weapons? y/n" << endl;
     char answer;
+    bool isLetter = (answer >= 'a' && answer <= 'z') || (answer>='A' && answer<='Z');
+    while (isLetter==false)
+    {
+        cout << "Wrong input. Try again." << endl;
+        char answer;
+        bool isLetter = (answer >= 'a' && answer <= 'z') || (answer>='A' && answer<='Z');
+    }
     int a;
     cin >> answer;
     if (answer == 'y' || answer == 'Y')
