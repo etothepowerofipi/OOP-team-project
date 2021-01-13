@@ -31,20 +31,25 @@ int main(void){
     li.print();
 
 //LivingBeing testing
-    cout << "\n\nTesting LivingBeings\n\n";
-    Sorcerer myh("Gamw thn poutana thn mana sou github kai izabw");
-    myh.addMoney(10000);
-    myh.buy(w1);
-    myh.buy(w2);
-    myh.buy(a1);
-    myh.buy(a2);
-    myh.checkInventory();
+    // cout << "\n\nTesting LivingBeings\n" << endl;
+    // Sorcerer myh("Gamw thn poutana thn mana sou github kai izabw");
+    // myh.addMoney(10000);
+    // myh.buy(w1);
+    // myh.buy(w2);
+    // myh.buy(a1);
+    // myh.buy(a2);
+    // myh.checkInventory();
 
 //Map test
+    cout << "\n\nTesting map\n" << endl;
     Map m;
     m.print();
+    cout << "Moving down and right!" << endl;
+    m.moveDown();
+    m.moveRight();
+    m.print();
 
-    cout << "Ending program" << endl;
+    cout << "\n\nEnding program" << endl;
 
     return 0;
 }
