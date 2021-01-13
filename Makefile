@@ -18,5 +18,4 @@ Items.o	:	Items.cpp
 	g++ -c Items.cpp
 
 clean	:
-	rm Client 
-	rm *.o
+	rm Client *.o
