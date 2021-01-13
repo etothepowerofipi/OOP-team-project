@@ -107,28 +107,33 @@ void Hero::checkInventory()
     inventory.print(*this);
     cout << "Would you like to swap weapons? y/n" << endl;
     char answer;
+    int index;
     cin >> answer;
-    bool isLetter = (answer >= 'a' && answer <= 'z') || (answer>='A' && answer<='Z');
-    while (isLetter==false)
+    bool isAcceptable = answer >= 'y' || answer <= 'Y' || answer>='n' && answer<='N';
+    while (isAcceptable==false)
     {
         cout << "Wrong input. Try again." << endl;
         cin >> answer;
-        bool isLetter = (answer >= 'a' && answer <= 'z') || (answer>='A' && answer<='Z');
+        isAcceptable = answer >= 'y' || answer <= 'Y' || answer>='n' && answer<='N';
     }
-    int a;
     if (answer == 'y' || answer == 'Y')
     {
         cout << "Which weapon to equip? Input a number" << endl;
-        cin >> a;
-        equip(inventory.equipWeapon(a,weapon));
+        cin >> index;
+        while (index > getInventory().getWeapons())
+        {
+            cout << "Wrong input. Try again." << endl;
+            cin >> index;
+        }
+        equip(inventory.equipWeapon(index,weapon));
     }
     cout << "Would you like to swap armors? y/n" << endl;
     cin >> answer;
     if (answer == 'y' || answer == 'Y')
     {
         cout << "Which armor to equip? Input a number" << endl;
-        cin >> a;
-        equip(inventory.equipArmor(a,armor));
+        cin >> index;
+        equip(inventory.equipArmor(index,armor));
     }
     cout << "Current weapon is: " << endl;
     getWeapon().print();
@@ -272,6 +277,24 @@ void Paladin::levelUp()
 }
 
 //INVENTORY
+
+int Inventory::getWeapons(){
+    return weapons.size();
+}
+
+int Inventory::getArmors(){
+    return armors.size();
+}
+
+int Inventory::getPotions(){
+    return potions.size();
+}
+
+int Inventory::getSpells(){
+    return spells.size();
+}
+
+
 
 bool Inventory::isFull()
 {

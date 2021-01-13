@@ -47,6 +47,10 @@ class Inventory
         Weapon equipWeapon(const int,const Weapon);
         Armor equipArmor(const int,const Armor);
 
+        int getWeapons();
+        int getArmors();
+        int getPotions();
+        int getSpells();
         bool isFull();
         void print(Hero&);
 };
