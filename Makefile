@@ -18,4 +18,5 @@ Items.o	:	Items.cpp
 	g++ -c Items.cpp
 
 clean	:
-	rm Client Items.o Spells.o LivingBeing.o Monster.o Hero.o
+	rm Client 
+	rm *.o

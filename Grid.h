@@ -4,7 +4,7 @@
 
 
 
-class Grid
+class Map
 {
     private:
         int rows;
@@ -12,7 +12,7 @@ class Grid
 
 
     public:
-        Grid(const int, const int);
+        Map(const int, const int);
 };
 
 class Cell

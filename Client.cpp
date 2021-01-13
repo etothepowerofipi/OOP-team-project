@@ -31,7 +31,8 @@ int main(void){
     li.print();
 
 //LivingBeing testing
-    cout << "\n\nTesting LivingBeings\n\n";
+    // cout << "\n\nTesting LivingBeings\n\n";
+    // cout << "test" << endl;
     Sorcerer myh("Gamw thn poutana thn mana sou github kai izabw");
     myh.addMoney(10000);
     myh.buy(w1);
@@ -39,6 +40,8 @@ int main(void){
     myh.buy(a1);
     myh.buy(a2);
     myh.checkInventory();
+
+    cout << "Ending program" << endl;
 
     return 0;
 }
