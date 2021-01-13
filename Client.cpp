@@ -43,6 +43,8 @@ int main(void){
 
     cout << "Ending program" << endl;
 
+    cout <<"fuck you" << endl;
+
     return 0;
 }
 
