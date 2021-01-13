@@ -300,7 +300,7 @@ void Inventory::print(Hero& h)
     if(armors.size() == 0) cout << "No armors currently on inventory!" << endl;
     else{
         cout << "Armors:" << endl;
-        for (int i=0; i<acapacity; i++){
+        for (int i=0; i<armors.size(); i++){
             cout << ++equipmentCounter << ". ";
             armors[i].print();
         }
