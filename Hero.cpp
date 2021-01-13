@@ -18,6 +18,7 @@ Hero::Hero(const string s) : LivingBeing(s,1) {
     agility = 0.1;
     dexterity = 5;
     weapon.starterWeapon();
+    armor.starterArmor();
 }
 
 Warrior::Warrior(const string s): Hero(s) 
@@ -106,21 +107,26 @@ void Hero::checkInventory()
     inventory.print(*this);
     cout << "Would you like to swap weapons? y/n" << endl;
     char answer;
+    int a;
     cin >> answer;
     if (answer == 'y' || answer == 'Y')
     {
         cout << "Which weapon to equip? Input a number" << endl;
-        int answer;
-        equip(inventory.equipWeapon(answer,weapon));
+        cin >> a;
+        equip(inventory.equipWeapon(a,weapon));
     }
     cout << "Would you like to swap armors? y/n" << endl;
     cin >> answer;
     if (answer == 'y' || answer == 'Y')
     {
         cout << "Which armor to equip? Input a number" << endl;
-        int answer;
-        equip(inventory.equipArmor(answer,armor));
+        cin >> a;
+        equip(inventory.equipArmor(a,armor));
     }
+    cout << "Current weapon is: " << endl;
+    getWeapon().print();
+    cout << "Current armor is: " << endl;
+    getArmor().print();
 }
 
 void Hero::addMoney(int a){money+=a;}
@@ -272,36 +278,48 @@ void Inventory::print(Hero& h)
     int equipmentCounter = 0;
     cout << "Here is the current equipment for " + h.getName() << endl;
     cout << curcapacity << '/' << maxcapacity << " slots are in use." << endl;
-    cout << "Weapons:" << endl;
-    for (int i=0; i<weapons.size(); i++){
-        cout << ++equipmentCounter << ". ";
-        weapons[i].print();
+    if(weapons.size() == 0) cout << "No weapons currently on inventory!" << endl;
+    else{
+        cout << "Weapons:" << endl;
+        for (int i=0; i<weapons.size(); i++){
+            cout << ++equipmentCounter << ". ";
+           weapons[i].print();
+        }
     }
     cout << "Current weapon is: " << endl;
     h.getWeapon().print();
   
     equipmentCounter = 0;
-    cout << "Armors:" << endl;
-    for (int i=0; i<acapacity; i++){
-        cout << ++equipmentCounter << ". ";
-        armors[i].print();
+    if(armors.size() == 0) cout << "No armors currently on inventory!" << endl;
+    else{
+        cout << "Armors:" << endl;
+        for (int i=0; i<acapacity; i++){
+            cout << ++equipmentCounter << ". ";
+            armors[i].print();
+        }
     }
     cout << "Current armor is: " << endl;
     h.getArmor().print();
   
 
     equipmentCounter = 0;
-    cout << "Potions:" << endl;
-    for (int i=0; i<pcapacity; i++){
-        cout << ++equipmentCounter << ". ";
-        potions[i].print();
+    if(potions.size() == 0) cout << "No potions currently on inventory!" << endl;
+    else{
+        cout << "Potions:" << endl;
+        for (int i=0; i<pcapacity; i++){
+            cout << ++equipmentCounter << ". ";
+            potions[i].print();
+        }
     }
 
     equipmentCounter = 0;
-    cout << "Spells:" << endl;
-    for (int i=0; i<scapacity; i++){
-        cout << ++equipmentCounter << ". ";
-        spells[i]->print();
+    if(spells.size() == 0) cout << "No spells currently on inventory!" << endl;
+    else{
+        cout << "Spells:" << endl;
+        for (int i=0; i<scapacity; i++){
+            cout << ++equipmentCounter << ". ";
+            spells[i]->print();
+        }
     }
 }
 

@@ -36,6 +36,8 @@ int main(void){
     myh.addMoney(10000);
     myh.buy(w1);
     myh.buy(w2);
+    myh.buy(a1);
+    myh.buy(a2);
     myh.checkInventory();
 
     return 0;
