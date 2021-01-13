@@ -4,6 +4,10 @@
 #include "Hero.h"
 using namespace std;
 
+bool input();
+int input(int);
+
+
 //CONSTRUCTORS
 //CONSTRUCTORS
 //CONSTRUCTORS
@@ -105,36 +109,26 @@ void Hero::addXP(const int xpToAdd)
 void Hero::checkInventory()
 {
     inventory.print(*this);
-    cout << "Would you like to swap weapons? y/n" << endl;
-    char answer;
+
+    char yes;
     int index;
-    cin >> answer;
-    bool isAcceptable = answer >= 'y' || answer <= 'Y' || answer>='n' && answer<='N';
-    while (isAcceptable==false)
-    {
-        cout << "Wrong input. Try again." << endl;
-        cin >> answer;
-        isAcceptable = answer >= 'y' || answer <= 'Y' || answer>='n' && answer<='N';
-    }
-    if (answer == 'y' || answer == 'Y')
-    {
+    
+    cout << "Would you like to swap weapons? y/n" << endl;
+    yes = input();
+    if (yes){
         cout << "Which weapon to equip? Input a number" << endl;
-        cin >> index;
-        while (index > getInventory().getWeapons())
-        {
-            cout << "Wrong input. Try again." << endl;
-            cin >> index;
-        }
+        index = input(inventory.getWeapons());
         equip(inventory.equipWeapon(index,weapon));
     }
+
     cout << "Would you like to swap armors? y/n" << endl;
-    cin >> answer;
-    if (answer == 'y' || answer == 'Y')
-    {
+    yes = input();
+    if (yes){
         cout << "Which armor to equip? Input a number" << endl;
-        cin >> index;
+        index = input(inventory.getArmors());
         equip(inventory.equipArmor(index,armor));
     }
+
     cout << "Current weapon is: " << endl;
     getWeapon().print();
     cout << "Current armor is: " << endl;
@@ -144,11 +138,11 @@ void Hero::checkInventory()
 void Hero::addMoney(int a){money+=a;}
 void Hero::buy(Weapon w){
     cout << "Would you like to buy this weapon? y/n" << endl; w.print();
-    char a;
-    cin >> a;
-    if(a == 'y'){
+    char yes = input();
+    
+    if(yes){
         if(money >= w.getPrice()){
-            money-=w.getPrice();
+            money-= w.getPrice();
             inventory.addWeapon(w);
         }
         else cout << "Too poor lmao!" << endl;
@@ -156,9 +150,8 @@ void Hero::buy(Weapon w){
 }
 void Hero::buy(Armor a){
     cout << "Would you like to buy this armor? y/n" << endl; a.print();
-    char an;
-    cin >> an;
-    if(an == 'y'){
+    char yes = input();
+    if(yes){
         if(money >= a.getPrice()){
             money-=a.getPrice();
             inventory.addArmor(a);
@@ -168,9 +161,8 @@ void Hero::buy(Armor a){
 }
 void Hero::buy(Potion p){
     cout << "Would you like to buy this potion? y/n" << endl; p.print();
-    char a;
-    cin >> a;
-    if(a == 'y'){
+    char yes = input();
+    if(yes){
         if(money >= p.getPrice()){
             money-=p.getPrice();
             inventory.addPotion(p);
@@ -180,9 +172,8 @@ void Hero::buy(Potion p){
 }
 void Hero::buy(Spell* s){
     cout << "Would you like to buy this spell? y/n" << endl; s->print();
-    char a;
-    cin >> a;
-    if(a == 'y'){
+    char yes = input();
+    if(yes){
         if(money >= s->getPrice()){
             money-=s->getPrice();
             inventory.addSpell(s);
@@ -386,4 +377,28 @@ Armor Inventory::equipArmor(const int index, Armor currentArmor)
     Armor returnArmor = armors[index];
     armors[index] = currentArmor;
     return returnArmor;
+}
+
+bool input()
+{
+    char input;
+    bool acceptable = input == 'y' || input == 'Y' || input == 'n' || input == 'N';
+    while (acceptable == false){
+        cout << "Wrong input. Try again." << endl;
+        cin >> input;
+        acceptable = input == 'y' || input == 'Y' || input == 'n' || input == 'N';
+    }
+
+    return (input == 'y' || input == 'Y');   
+}
+
+int input(int max)
+{
+    unsigned input;
+    bool acceptable = input <= max;
+    while (acceptable == false){
+        cout << "Wrong input.Try again." << endl;
+        cin >> input;
+        acceptable = input <= max;
+    }
 }
