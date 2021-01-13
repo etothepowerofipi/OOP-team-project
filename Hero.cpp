@@ -5,7 +5,7 @@
 using namespace std;
 
 bool input();
-int input(int);
+int input(const int);
 
 
 //CONSTRUCTORS
@@ -299,18 +299,19 @@ void Inventory::print(Hero& h)
     int equipmentCounter = 0;
     cout << "Here is the current equipment for " + h.getName() << endl;
     cout << curcapacity << '/' << maxcapacity << " slots are in use." << endl;
+    
     if(weapons.size() == 0) cout << "No weapons currently on inventory!" << endl;
     else{
         cout << "Weapons:" << endl;
         for (int i=0; i<weapons.size(); i++){
             cout << ++equipmentCounter << ". ";
-           weapons[i].print();
+            weapons[i].print();
         }
     }
     cout << "Current weapon is: " << endl;
     h.getWeapon().print();
   
-    equipmentCounter = 0;
+
     if(armors.size() == 0) cout << "No armors currently on inventory!" << endl;
     else{
         cout << "Armors:" << endl;
@@ -323,21 +324,21 @@ void Inventory::print(Hero& h)
     h.getArmor().print();
   
 
-    equipmentCounter = 0;
+
     if(potions.size() == 0) cout << "No potions currently on inventory!" << endl;
     else{
         cout << "Potions:" << endl;
-        for (int i=0; i<pcapacity; i++){
+        for (int i=0; i<potions.size(); i++){
             cout << ++equipmentCounter << ". ";
             potions[i].print();
         }
     }
 
-    equipmentCounter = 0;
+
     if(spells.size() == 0) cout << "No spells currently on inventory!" << endl;
     else{
         cout << "Spells:" << endl;
-        for (int i=0; i<scapacity; i++){
+        for (int i=0; i<spells.size(); i++){
             cout << ++equipmentCounter << ". ";
             spells[i]->print();
         }
@@ -392,7 +393,7 @@ bool input()
     return (input == 'y' || input == 'Y');   
 }
 
-int input(int max)
+int input(const int max)
 {
     unsigned input;
     bool acceptable = input <= max;
@@ -401,4 +402,5 @@ int input(int max)
         cin >> input;
         acceptable = input <= max;
     }
+    return input;
 }
