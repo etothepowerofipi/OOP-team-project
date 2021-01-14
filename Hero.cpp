@@ -109,6 +109,8 @@ void Hero::addXP(const int xpToAdd)
 
 void Hero::checkInventory()
 {
+
+    cout << "Here is the current inventory for " + name << endl;
     inventory.print(*this);
 
     char yes;
@@ -388,7 +390,6 @@ int PlayerInventory::Capacity(const int level) const
 
 void PlayerInventory::print(const Hero& h) const
 {
-    cout << "Here is the current equipment for " + h.getName() << endl;
     cout << getSize() << '/' << Capacity(h.getLevel().getRL()) << " slots are in use." << endl;
     
     Inventory::print();
