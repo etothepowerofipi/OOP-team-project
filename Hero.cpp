@@ -2,10 +2,8 @@
 #include <string>
 #include <ctime>
 #include "Hero.h"
+#include "Functions.h"
 using namespace std;
-
-bool input();
-int input(const int);
 
 
 //CONSTRUCTORS
@@ -117,18 +115,18 @@ void Hero::checkInventory()
     int index;
     
     cout << "Would you like to swap weapons? y/n" << endl;
-    yes = input();
+    yes = inputAnswer();
     if (yes){
         cout << "Which weapon to equip? Input a number" << endl;
-        index = input(inventory.getWeapons());
+        index = inputNumber(inventory.getWeapons());
         equip(inventory.equipWeapon(index,weapon));
     }
 
     cout << "Would you like to swap armors? y/n" << endl;
-    yes = input();
+    yes = inputAnswer();
     if (yes){
         cout << "Which armor to equip? Input a number" << endl;
-        index = input(inventory.getArmors());
+        index = inputNumber(inventory.getArmors());
         equip(inventory.equipArmor(index,armor));
     }
 
@@ -141,7 +139,7 @@ void Hero::checkInventory()
 void Hero::addMoney(int a){money+=a;}
 void Hero::buy(Weapon w){
     cout << "Would you like to buy this weapon? y/n" << endl; w.print();
-    char yes = input();
+    char yes = inputAnswer();
     
     if(yes){
         if(money >= w.getPrice()){
@@ -153,7 +151,7 @@ void Hero::buy(Weapon w){
 }
 void Hero::buy(Armor a){
     cout << "Would you like to buy this armor? y/n" << endl; a.print();
-    char yes = input();
+    char yes = inputAnswer();
     if(yes){
         if(money >= a.getPrice()){
             money-=a.getPrice();
@@ -164,7 +162,7 @@ void Hero::buy(Armor a){
 }
 void Hero::buy(Potion p){
     cout << "Would you like to buy this potion? y/n" << endl; p.print();
-    char yes = input();
+    char yes = inputAnswer();
     if(yes){
         if(money >= p.getPrice()){
             money-=p.getPrice();
@@ -175,7 +173,7 @@ void Hero::buy(Potion p){
 }
 void Hero::buy(Spell* s){
     cout << "Would you like to buy this spell? y/n" << endl; s->print();
-    char yes = input();
+    char yes = inputAnswer();
     if(yes){
         if(money >= s->getPrice()){
             money-=s->getPrice();
@@ -402,27 +400,4 @@ void PlayerInventory::print(const Hero& h) const
 
 
 
-bool input()
-{
-    char input;
-    bool acceptable = input == 'y' || input == 'Y' || input == 'n' || input == 'N';
-    while (acceptable == false){
-        cout << "Wrong input. Try again." << endl;
-        cin >> input;
-        acceptable = input == 'y' || input == 'Y' || input == 'n' || input == 'N';
-    }
 
-    return (input == 'y' || input == 'Y');   
-}
-
-int input(const int max)
-{
-    unsigned input;
-    bool acceptable = input <= max;
-    while (acceptable == false){
-        cout << "Wrong input.Try again." << endl;
-        cin >> input;
-        acceptable = input <= max;
-    }
-    return input;
-}
