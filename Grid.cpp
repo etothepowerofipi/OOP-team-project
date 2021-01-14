@@ -167,7 +167,7 @@ bool Grid::menu(){
             for(int i=0;i<numofheroes;i++) heroes[i]->checkInventory();
             return true;
         case '3' :
-            //To be changed
+            for(int i=0;i<numofheroes;i++) heroes[i]->showStats();
             return true;
         case '4' :
             return false;

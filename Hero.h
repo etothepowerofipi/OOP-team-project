@@ -90,6 +90,9 @@ class Hero: public LivingBeing
         virtual void levelUp() = 0;
         void addXP(const int);
         void faint();
+        void showStats();
+        int maxHP();
+        int maxMP();
 
         void checkInventory();
         void buy(Weapon);

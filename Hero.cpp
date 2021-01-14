@@ -16,31 +16,28 @@ Hero::Hero(const string s) : LivingBeing(s,1) {
     healthPower=100;
     MP=100;
     money=0;
-    strength = 10;
-    agility = 0.1;
-    dexterity = 5;
     weapon.starterWeapon();
     armor.starterArmor();
 }
 
 Warrior::Warrior(const string s): Hero(s) 
 {
-    strength *= 1.5;
-    agility *= 1.5;
-    dexterity *= 1;
+    strength = 2;
+    agility = 2;
+    dexterity = 1;
 }
 Sorcerer::Sorcerer(const string s): Hero(s) 
 {
-    strength *= 1;
-    agility *= 1.5;
-    dexterity *= 1.5;
+    strength = 1;
+    agility = 2;
+    dexterity = 2;
 }
 
 Paladin::Paladin(const string s): Hero(s)
 {
-    strength *= 1.5;
-    agility *= 1;
-    dexterity *= 1.5;
+    strength = 2;
+    agility = 1;
+    dexterity = 2;
 }
 
 Inventory::Inventory() {} 
@@ -86,6 +83,22 @@ int Level::getLvlUpXP() const {return levelUpXp;}
 //HERO
 //HERO
 //HERO
+
+void Hero::showStats(){
+    cout << "Printing stats for " << name << "." << endl;
+    cout << "Health points : " << healthPower << "/" << maxHP() << endl;
+    cout << "Magical points : " << MP << "/" << maxMP() << endl;
+    cout << "Level : " << level.getRL() << endl;
+    cout << "Strength : " << strength << endl;
+    cout << "Agility : " << agility << endl;
+    cout << "Dexterity : " << dexterity << endl;
+    cout << "Money : " << money << endl;
+    cout << endl;
+}
+
+int Hero::maxHP(){return 100+5*(level.getRL()-1);}
+int Hero::maxMP(){return 100+5*(level.getRL()-1);}
+
 int Hero::attack(){return (weapon.getDamage()+strength);}
 void Hero::takeDamage(int damage){
     damage-=armor.getProtection();
@@ -110,7 +123,7 @@ void Hero::addXP(const int xpToAdd)
 void Hero::checkInventory()
 {
 
-    cout << "Here is the current inventory for " + name << endl;
+    cout << "Here is the current inventory for " << name << endl;
     inventory.print(*this);
 
     char yes;
