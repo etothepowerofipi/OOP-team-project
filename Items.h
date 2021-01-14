@@ -14,10 +14,10 @@ public:
     ~Item();
     Item& operator=(const Item& );
 
-    virtual void print()=0;
-    std::string getName();
-    int getPrice();
-    int getMinLevel();
+    virtual void print() const =0;
+    std::string getName() const;
+    int getPrice() const;
+    int getMinLevel() const;
 };
 
 class Weapon : public Item{
@@ -30,9 +30,9 @@ public:
     Weapon& operator=(const Weapon& );
 
     void starterWeapon();
-    int getDamage();
-    bool getTwoHanded();
-    void print();
+    int getDamage() const;
+    bool getTwoHanded() const;
+    void print() const;
 };
 
 class Armor : public Item{
@@ -44,8 +44,8 @@ public:
     Armor& operator=(const Armor& );
     
     void starterArmor();
-    int getProtection();
-    void print();
+    int getProtection() const;
+    void print() const;
 };
 
 class Potion : public Item{
@@ -55,7 +55,7 @@ public:
     ~Potion();
     Potion& operator=(const Potion& );
 
-    std::string getUse();
-    int getEffectPoints();
-    void print();
+    std::string getUse() const;
+    int getEffectPoints() const;
+    void print() const;
 };
