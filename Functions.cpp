@@ -6,6 +6,7 @@ using namespace std;
 bool inputAnswer()
 {
     char input;
+    cin >> input;
     bool acceptable = input == 'y' || input == 'Y' || input == 'n' || input == 'N';
     while (acceptable == false){
         cout << "Wrong input. Try again." << endl;
@@ -19,6 +20,7 @@ bool inputAnswer()
 int inputNumber(const int max)
 {
     unsigned input;
+    cin >> input;
     bool acceptable = input <= max;
     while (acceptable == false){
         cout << "Wrong input.Try again." << endl;
