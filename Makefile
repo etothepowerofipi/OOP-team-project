@@ -1,5 +1,5 @@
-Client	: Items.o Spells.o LivingBeing.o Hero.o Monster.o Grid.o Client.cpp
-	g++  Items.o Spells.o LivingBeing.o Hero.o Monster.o Grid.o -o Client Client.cpp
+Client	: Functions.o Items.o Spells.o LivingBeing.o Hero.o Monster.o Grid.o Client.cpp
+	g++  Functions.o Items.o Spells.o LivingBeing.o Hero.o Monster.o Grid.o -o Client Client.cpp
 	./Client
 
 Grid.o :	Grid.cpp
@@ -20,5 +20,8 @@ Spells.o	:	Spells.cpp
 Items.o	:	Items.cpp
 	g++ -c Items.cpp
 
+Functions.o : Functions.cpp
+	g++ -c Functions.cpp
+
 clean	:
-	rm Client.exe *.o
+	rm Client *.o
