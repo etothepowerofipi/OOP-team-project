@@ -85,7 +85,7 @@ int Level::getLvlUpXP() const {return levelUpXp;}
 //HERO
 
 void Hero::showStats(){
-    cout << "Printing stats for " << name << "." << endl;
+    cout << "Printing stats for " << getName() << "." << endl;
     cout << "Health points : " << healthPower << "/" << maxHP() << endl;
     cout << "Magical points : " << MP << "/" << maxMP() << endl;
     cout << "Level : " << level.getRL() << endl;
@@ -123,7 +123,7 @@ void Hero::addXP(const int xpToAdd)
 void Hero::checkInventory()
 {
 
-    cout << "Here is the current inventory for " << name << endl;
+    cout << "Here is the current inventory for " << getName() << endl;
     inventory.print(*this);
 
     char yes;

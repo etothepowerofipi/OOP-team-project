@@ -18,6 +18,7 @@ class LivingBeing
         void takeDamage(int);
         virtual void faint() = 0;
 
+        void printName();
         std::string getName() const;
         int getHP() const;
         int getLevel() const;

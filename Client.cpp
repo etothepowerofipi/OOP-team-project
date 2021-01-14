@@ -37,13 +37,13 @@ int main(void){
         }
     }
     Grid grid(heroes,dif);
+
+    while(grid.menu() == true); //Start game
     for(int i=0;i<dif;i++){
         delete heroes[i];
     }
     delete[] heroes;
-
-    while(grid.menu() == true); //Start game
-
+    
     cout << "\n\nGame over!" << endl;
 
     return 0;

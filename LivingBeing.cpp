@@ -41,6 +41,7 @@ bool LivingBeing::dodge(const int dodgeChance)
     return true;
 }
 
+void LivingBeing::printName(){cout << name;}
 string LivingBeing::getName() const{return name;}
 int LivingBeing::getHP() const{return healthPower;}
 int LivingBeing::getLevel() const{return level;}
