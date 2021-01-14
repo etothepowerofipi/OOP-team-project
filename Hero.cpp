@@ -45,7 +45,7 @@ Paladin::Paladin(const string s): Hero(s)
     dexterity *= 1.5;
 }
 
-Inventory::Inventory(): curcapacity(0),maxcapacity(100) {} //TOBECHANGED
+Inventory::Inventory(): maxcapacity(100) {} //TOBECHANGED
 
 //DESTRUCTORS
 //DESTRUCTORS
@@ -53,7 +53,7 @@ Inventory::Inventory(): curcapacity(0),maxcapacity(100) {} //TOBECHANGED
 
 Hero::~Hero() {}
 Inventory::~Inventory() {
-    for(int i=0;i<scapacity;i++) delete spells[i];
+    for(int i=0;i<spells.size();i++) delete spells[i];
 }
 
 //LEVEL
@@ -297,7 +297,7 @@ void Inventory::print(Hero& h)
 {
     int equipmentCounter = 0;
     cout << "Here is the current equipment for " + h.getName() << endl;
-    cout << curcapacity << '/' << maxcapacity << " slots are in use." << endl;
+    cout << weapons.size() + armors.size() + potions.size() + spells.size() << '/' << maxcapacity << " slots are in use." << endl;
     
     if(weapons.size() == 0) cout << "No weapons currently on inventory!" << endl;
     else{
