@@ -289,8 +289,7 @@ int Inventory::getSpells(){
 
 bool Inventory::isFull()
 {
-    if(wcapacity+acapacity+pcapacity+scapacity < maxcapacity) 
-        return false;
+    if(weapons.size() + armors.size() + potions.size() + spells.size() < maxcapacity) return false;
     return true;
 }
 

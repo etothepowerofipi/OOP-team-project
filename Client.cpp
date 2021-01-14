@@ -33,7 +33,7 @@ int main(void){
 //LivingBeing testing
     cout << "\n\nTesting LivingBeings\n" << endl;
     Sorcerer myh("Alfredo");
-    myh.addMoney(10000);
+    // myh.addMoney(10000);
     // myh.buy(w1);
     // myh.buy(w2);
     // myh.buy(a1);
@@ -45,7 +45,7 @@ int main(void){
     Map m(&myh);
     m.move();
 
-    cout << "\n\nEnding program" << endl;
+    cout << "\n\nGame over!" << endl;
 
     return 0;
 }

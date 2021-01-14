@@ -25,11 +25,6 @@ class Inventory
 {
     private:
         int maxcapacity;
-        int curcapacity;
-        int wcapacity;
-        int acapacity;
-        int pcapacity;
-        int scapacity;
         std::vector <Weapon> weapons;
         std::vector <Armor> armors;
         std::vector <Potion> potions;
