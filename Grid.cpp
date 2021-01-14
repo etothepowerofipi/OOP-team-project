@@ -2,6 +2,7 @@
 #include <string>
 #include <ctime>
 #include "Grid.h"
+#include "Functions.h"
 
 using namespace std;
 
@@ -157,19 +158,18 @@ void Grid::print(){
 bool Grid::menu(){
     cout << "Choose your next move!" << endl;
     cout << "To keep moving press '1'\nTo check your inventory press '2'\nTo see your stats press '3'\nTo quit the game press '4'" << endl;
-    char answer;
-    cin >> answer;
+    int answer = inputNumber(4);
     switch(answer){
-        case '1' :
+        case 1 :
             move();
             return true;
-        case '2' :
+        case 2 :
             for(int i=0;i<numofheroes;i++) heroes[i]->checkInventory();
             return true;
-        case '3' :
+        case 3 :
             for(int i=0;i<numofheroes;i++) heroes[i]->showStats();
             return true;
-        case '4' :
+        case 4 :
             return false;
     }
     return false;
