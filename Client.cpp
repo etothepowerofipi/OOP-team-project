@@ -41,7 +41,8 @@ int main(void){
         delete heroes[i];
     }
     delete[] heroes;
-    grid.menu();
+
+    while(grid.menu() == true); //Start game
 
     cout << "\n\nGame over!" << endl;
 

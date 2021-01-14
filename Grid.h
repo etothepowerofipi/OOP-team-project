@@ -15,7 +15,7 @@ class Grid{
 public:
     Grid(Hero** ,int );
     
-    void menu();
+    bool menu();
     void print();
     void move();
     bool canPlace(int ,int );

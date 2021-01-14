@@ -7,7 +7,8 @@ using namespace std;
 
 Grid::Grid(Hero** h,int numofh){
     numofheroes=numofh;
-    heroes=h;
+    heroes=new Hero*[numofh];
+    for(int i=0;i<numofh;i++) heroes[i]=h[i];
     maxi=20;
     maxj=20;
     for(int i=0;i<maxi;i++){
@@ -68,61 +69,61 @@ void Grid::move(){
 
 void Grid::moveRight(){
     if(y+1 <= maxi){
-        if(checkBlock(x,y) == true){
+        if(checkBlock(x,y+1) == true){
             map[x][y]=tempchar;
             y++;
             tempchar=map[x][y];
             map[x][y]='H';
         }
-        else cout << "You cant go there!" << endl;
+        else cout << "You can't go there!" << endl;
     }
     else{
-        cout << "You cant go there!" << endl;
+        cout << "You can't go there!" << endl;
     }
 }
 
 void Grid::moveLeft(){
     if(y-1 >= 0){
-        if(checkBlock(x,y) == true){
+        if(checkBlock(x,y-1) == true){
             map[x][y]=tempchar;
             y--;
             tempchar=map[x][y];
             map[x][y]='H';
         }
-        else cout << "You cant go there!" << endl;
+        else cout << "You can't go there!" << endl;
     }
     else{
-        cout << "You cant go there!" << endl;
+        cout << "You can't go there!" << endl;
     }
 }
 
 void Grid::moveUp(){
     if(x-1 >= 0){
-        if(checkBlock(x,y) == true){
+        if(checkBlock(x-1,y) == true){
             map[x][y]=tempchar;
             x--;
             tempchar=map[x][y];
             map[x][y]='H';
         }
-        else cout << "You cant go there!" << endl;
+        else cout << "You can't go there!" << endl;
     }
     else{
-        cout << "You cant go there!" << endl;
+        cout << "You can't go there!" << endl;
     }
 }
 
 void Grid::moveDown(){
     if(x+1 <= maxi){
-        if(checkBlock(x,y) == true){
+        if(checkBlock(x+1,y) == true){
             map[x][y]=tempchar;
             x++;
             tempchar=map[x][y];
             map[x][y]='H';
         }
-        else cout << "You cant go there!" << endl;
+        else cout << "You can't go there!" << endl;
     }
     else{
-        cout << "You cant go there!" << endl;
+        cout << "You can't go there!" << endl;
     }
 }
 
@@ -153,23 +154,26 @@ void Grid::print(){
     cout << endl << endl;
 }
 
-void Grid::menu(){
+bool Grid::menu(){
     cout << "Choose your next move!" << endl;
-    cout << "To keep moving press '1'/nTo check your inventory press '2'/nTo see your stats press '3'/nTo quit the game press '4'" << endl;
-    int answer;
+    cout << "To keep moving press '1'\nTo check your inventory press '2'\nTo see your stats press '3'\nTo quit the game press '4'" << endl;
+    char answer;
     cin >> answer;
     switch(answer){
-        case 1 :
+        case '1' :
             move();
-            break;
-        case 2 :
+            return true;
+        case '2' :
+            for(int i=0;i<numofheroes;i++){
+                cout << "Cheking inventory of " << heroes[i]->getName() << "!" << endl;
+                heroes[i]->checkInventory();
+            }
+            return true;
+        case '3' :
             //To be changed
-            break;
-        case 3 :
-            //To be changed
-            break;
-        case 4 :
-            //To be changed
-            break;
+            return true;
+        case '4' :
+            return false;
     }
+    return false;
 }
