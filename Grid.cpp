@@ -164,10 +164,7 @@ bool Grid::menu(){
             move();
             return true;
         case '2' :
-            for(int i=0;i<numofheroes;i++){
-                cout << "Cheking inventory of " << heroes[i]->getName() << "!" << endl;
-                heroes[i]->checkInventory();
-            }
+            for(int i=0;i<numofheroes;i++) heroes[i]->checkInventory();
             return true;
         case '3' :
             //To be changed
