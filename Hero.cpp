@@ -45,7 +45,8 @@ Paladin::Paladin(const string s): Hero(s)
     dexterity *= 1.5;
 }
 
-Inventory::Inventory(): curcapacity(0),maxcapacity(100) {} //TOBECHANGED
+Inventory::Inventory() {} 
+PlayerInventory::PlayerInventory(): Inventory() {}
 
 //DESTRUCTORS
 //DESTRUCTORS
@@ -53,8 +54,10 @@ Inventory::Inventory(): curcapacity(0),maxcapacity(100) {} //TOBECHANGED
 
 Hero::~Hero() {}
 Inventory::~Inventory() {
-    for(int i=0;i<scapacity;i++) delete spells[i];
+    for(int i=0;i<spells.size();i++) delete spells[i];
 }
+
+PlayerInventory::~PlayerInventory() {}
 
 //LEVEL
 //LEVEL
@@ -78,9 +81,9 @@ void Level::levelUp()
     levelUpXp = realLevel*100 + realLevel*(realLevel-1);
 }
 
-int Level::getRL() {return realLevel;}
-int Level::getXP() {return currentXp;}
-int Level::getLvlUpXP() {return levelUpXp;}
+int Level::getRL() const {return realLevel;}
+int Level::getXP() const {return currentXp;}
+int Level::getLvlUpXP() const {return levelUpXp;}
 
 //HERO
 //HERO
@@ -182,14 +185,14 @@ void Hero::buy(Spell* s){
     }
 }
 
-void Hero::equip(const Weapon& w){weapon = w;}
-void Hero::equip(const Armor& a){armor = a;}
+void Hero::equip(const Weapon& w) {weapon = w;}
+void Hero::equip(const Armor& a) {armor = a;}
 
-Weapon Hero::getWeapon(){return weapon;}
-Armor Hero::getArmor(){return armor;}
-Level Hero::getLevel(){return level;}
-Inventory Hero::getInventory(){return inventory;}
-int Hero::getAgility(){return agility;}
+Weapon Hero::getWeapon() const {return weapon;}
+Armor Hero::getArmor() const {return armor;}
+Level Hero::getLevel() const {return level;}
+PlayerInventory Hero::getInventory() const {return inventory;}
+int Hero::getAgility() const {return agility;}
 
 // int Hero::use(Spell& s)
 // {
@@ -269,76 +272,64 @@ void Paladin::levelUp()
 
 //INVENTORY
 
-int Inventory::getWeapons(){
+int Inventory::getWeapons() const{
     return weapons.size();
 }
 
-int Inventory::getArmors(){
+int Inventory::getArmors() const{
     return armors.size();
 }
 
-int Inventory::getPotions(){
+int Inventory::getPotions() const{
     return potions.size();
 }
 
-int Inventory::getSpells(){
+int Inventory::getSpells() const{
     return spells.size();
 }
 
-
-
-bool Inventory::isFull()
-{
-    if(weapons.size() + armors.size() + potions.size() + spells.size() < maxcapacity) return false;
-    return true;
+int Inventory::getSize() const{
+    return (weapons.size() + armors.size() + potions.size() + spells.size());
 }
 
-void Inventory::print(Hero& h)
+
+
+
+
+void Inventory::print() const
 {
-    int equipmentCounter = 0;
-    cout << "Here is the current equipment for " + h.getName() << endl;
-    cout << curcapacity << '/' << maxcapacity << " slots are in use." << endl;
-    
     if(weapons.size() == 0) cout << "No weapons currently on inventory!" << endl;
     else{
         cout << "Weapons:" << endl;
         for (int i=0; i<weapons.size(); i++){
-            cout << ++equipmentCounter << ". ";
+            cout << (i+1) << ".";
             weapons[i].print();
         }
     }
-    cout << "Current weapon is: " << endl;
-    h.getWeapon().print();
-  
 
     if(armors.size() == 0) cout << "No armors currently on inventory!" << endl;
     else{
         cout << "Armors:" << endl;
         for (int i=0; i<armors.size(); i++){
-            cout << ++equipmentCounter << ". ";
+            cout << (i+1) << ".";
             armors[i].print();
         }
     }
-    cout << "Current armor is: " << endl;
-    h.getArmor().print();
-  
-
 
     if(potions.size() == 0) cout << "No potions currently on inventory!" << endl;
     else{
         cout << "Potions:" << endl;
         for (int i=0; i<potions.size(); i++){
-            cout << ++equipmentCounter << ". ";
+            cout << (i+1) << ".";            
             potions[i].print();
         }
     }
-
 
     if(spells.size() == 0) cout << "No spells currently on inventory!" << endl;
     else{
         cout << "Spells:" << endl;
         for (int i=0; i<spells.size(); i++){
-            cout << ++equipmentCounter << ". ";
+            cout << (i+1) << ".";
             spells[i]->print();
         }
     }
@@ -365,19 +356,51 @@ void Inventory::addSpell(Spell* s)
 }
 
 
-Weapon Inventory::equipWeapon(const int index, Weapon currentWeapon)
+
+
+//PLAYERINVENTORY
+//PLAYERINVENTORY
+//PLAYERINVENTORY
+
+Weapon PlayerInventory::equipWeapon(const int index, Weapon currentWeapon)
 {
     Weapon returnWeapon = weapons[index];
     weapons[index] = currentWeapon;
     return returnWeapon;
 }
 
-Armor Inventory::equipArmor(const int index, Armor currentArmor)
+Armor PlayerInventory::equipArmor(const int index, Armor currentArmor)
 {
     Armor returnArmor = armors[index];
     armors[index] = currentArmor;
     return returnArmor;
 }
+
+
+bool PlayerInventory::isFull(const Hero& h) const
+{
+    if(weapons.size() + armors.size() + potions.size() + spells.size() < Capacity(h.getLevel().getRL())) return false;
+    return true;
+}
+
+int PlayerInventory::Capacity(const int level) const
+{
+    return (10 + level/3);
+}
+
+void PlayerInventory::print(const Hero& h) const
+{
+    cout << "Here is the current equipment for " + h.getName() << endl;
+    cout << getSize() << '/' << Capacity(h.getLevel().getRL()) << " slots are in use." << endl;
+    
+    Inventory::print();
+
+    cout << "Current equipment:" << endl;
+    h.getWeapon().print();
+    h.getArmor().print();
+}
+
+
 
 bool input()
 {

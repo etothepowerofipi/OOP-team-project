@@ -25,20 +25,20 @@ Potion::Potion(int lvl,string name) : Item(lvl,name,"potion") , effectPoints(10+
 
 //printers
 
-void Weapon::print(){
+void Weapon::print() const{
     cout << "Name: " << name << endl;
     cout << "Damage : " << damage << endl;
     if(twoHanded == true) cout << "Type : heavy (both hands needed)" << endl; else cout << "Type : light (one hand needed)" << endl;
     cout << "Price : " << price << endl;
     cout << "Requirements : minimum level " << minLevel << endl << endl;
 }
-void Armor::print(){
+void Armor::print() const{
     cout << "Name : " << name << endl;
     cout << "Protection : " << protection << endl;
     cout << "Price : " << price << endl;
     cout << "Requirements : minimum level " << minLevel << endl << endl;
 }
-void Potion::print(){
+void Potion::print() const{
     cout << "Potion of " << name << endl;
     cout << "Potion's power : " << effectPoints << endl;
     cout << "Price : " << price << endl;
@@ -131,17 +131,17 @@ Potion& Potion::operator=(const Potion& p)
 
 //getters
 
-string Item::getName(){return name;}
-int Item::getPrice(){return price;}
-int Item::getMinLevel(){return minLevel;}
+string Item::getName() const{return name;}
+int Item::getPrice() const{return price;}
+int Item::getMinLevel() const{return minLevel;}
 
-string Potion::getUse(){return name;}
-int Potion::getEffectPoints(){return effectPoints;}
+string Potion::getUse() const{return name;}
+int Potion::getEffectPoints() const{return effectPoints;}
 
-int Armor::getProtection(){return protection;}
+int Armor::getProtection() const{return protection;}
 
-int Weapon::getDamage(){return damage;}
-bool Weapon::getTwoHanded(){return twoHanded;}
+int Weapon::getDamage() const{return damage;}
+bool Weapon::getTwoHanded() const{return twoHanded;}
 
 //mutators
 

@@ -15,16 +15,15 @@ class Level
         void levelUp();
 
         int addXp(int); //Pros8etei XP = <orisma> sto currentXP, kai epistrefei to posa level anebhke o hrwas.
-        int getRL();
-        int getXP();
-        int getLvlUpXP();
+        int getRL() const;
+        int getXP() const;
+        int getLvlUpXP() const;
 };
 
 class Hero;
 class Inventory
 {
-    private:
-        int maxcapacity;
+    protected:
         std::vector <Weapon> weapons;
         std::vector <Armor> armors;
         std::vector <Potion> potions;
@@ -32,22 +31,39 @@ class Inventory
 
     public:
         Inventory();
-        ~Inventory();
+        virtual ~Inventory();
 
         void addWeapon(Weapon);
         void addArmor(Armor);
         void addPotion(Potion);
         void addSpell(Spell*);
 
-        Weapon equipWeapon(const int,const Weapon);
-        Armor equipArmor(const int,const Armor);
+        void removeWeapon(int);
+        void removeArmor(int);
+        void removePotion(int);
+        void removeSpell(int);
 
-        int getWeapons();
-        int getArmors();
-        int getPotions();
-        int getSpells();
-        bool isFull();
-        void print(Hero&);
+        int getWeapons() const;
+        int getArmors() const;
+        int getPotions() const;
+        int getSpells() const;
+        int getSize() const;
+
+        void print() const;
+};
+
+class PlayerInventory : public Inventory
+{
+    public:
+        PlayerInventory();
+        ~PlayerInventory();
+
+        Weapon equipWeapon(const int,Weapon);
+        Armor equipArmor(const int,Armor);
+
+        int Capacity(const int) const;
+        bool isFull(const Hero&) const;
+        void print(const Hero&) const;
 };
 
 class Hero: public LivingBeing
@@ -61,7 +77,7 @@ class Hero: public LivingBeing
         Weapon weapon;
         Armor armor;
         Level level;
-        Inventory inventory;
+        PlayerInventory inventory;
 
     public:
         Hero(const std::string);
@@ -80,17 +96,17 @@ class Hero: public LivingBeing
         void buy(Armor);
         void buy(Potion);
         void buy(Spell*);
-        void addMoney(int a);
+        void addMoney(int);
 
         void equip(const int);
         void equip(const Weapon&);
         void equip(const Armor&);
 
-        Weapon getWeapon();
-        Armor getArmor();
-        Level getLevel();
-        Inventory getInventory();
-        int getAgility();    
+        Weapon getWeapon() const;
+        Armor getArmor() const;
+        Level getLevel() const;
+        PlayerInventory getInventory() const;
+        int getAgility() const; 
 };
 
 class Warrior: public Hero

@@ -18,9 +18,9 @@ class LivingBeing
         void takeDamage(int);
         virtual void faint() = 0;
 
-        std::string getName();
-        int getHP();
-        int getLevel();
+        std::string getName() const;
+        int getHP() const;
+        int getLevel() const;
 
         bool dodge(const int);
 };
