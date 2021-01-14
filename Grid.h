@@ -1,49 +1,28 @@
-#include "Items.h"
-#include "Spells.h"
+#include <iostream>
+#include <string>
+#include <ctime>
 #include "Monster.h"
 
+class Grid{
+    int maxi;
+    int maxj;
+    char tempchar;
+    char map[20][20];
+    int x; //x h grammh pou einai o xarakthras ston pinaka
+    int y; //y h sthlh pou einai o xarakthras ston xarth
+    int numofheroes;
+    Hero** heroes;
+public:
+    Grid(Hero** ,int );
+    
+    void menu();
+    void print();
+    void move();
+    bool canPlace(int ,int );
 
-
-class Map
-{
-    private:
-        int rows;
-        int columns;
-
-
-    public:
-        Map(const int, const int);
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+    bool checkBlock(int ,int );
 };
-
-class Cell
-{
-    private:
-
-    public:
-        Cell(const int avgPlayerLevel);
-};
-
-class Market: public Cell
-{
-    private:
-        std::vector<Weapon> weapons;
-        std::vector<Armor> armors;
-        std::vector<Potion> potions;
-        std::vector<Spell*> spells;
-
-    public:
-        Market(const int avgPlayerLevel);
-};
-
-class Common: public Cell
-{
-    private:
-        std::vector<Monster*> monsters;
-
-    public:
-        Common(const int avgPlayerLevel);
-
-};
-
-
-

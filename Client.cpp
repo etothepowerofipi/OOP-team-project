@@ -1,4 +1,4 @@
-#include "Map.h"
+#include "Grid.h"
 using namespace std;
 
 string WeaponNames[119],ArmorNames[78],MonsterNames[98],PotionNames[5],FireSpellNames[15],IceSpellNames[6],LightningSpellNames[3];
@@ -12,38 +12,36 @@ int main(void){
     srand(time(0));
     InitializeNameArrays();
 
-//Weapons and spells testing
-    cout << "\n\nTesting weapons and spells\n\n";
-    Weapon w1(2,genName("weapon")),w2(2,genName("weapon"));
-    Armor a1(2,genName("armor")),a2(2,genName("armor"));
-    Potion p1(2,genName("potion")),p2(2,genName("potion"));
-    IceSpell ic(2,genName("icespell"));
-    FireSpell fi(2,genName("firespell"));
-    LightningSpell li(2,genName("lightningspell"));
-    w1.print();
-    a1.print();
-    p1.print();
-    w2.print();
-    a2.print();
-    p2.print();
-    fi.print();
-    ic.print();
-    li.print();
-
-//LivingBeing testing
-    cout << "\n\nTesting LivingBeings\n" << endl;
-    Sorcerer myh("Alfredo");
-    // myh.addMoney(10000);
-    // myh.buy(w1);
-    // myh.buy(w2);
-    // myh.buy(a1);
-    // myh.buy(a2);
-    // myh.checkInventory();
-
-//Map test
-    cout << "\n\nTesting map\n" << endl;
-    Map m(&myh);
-    m.move();
+    cout << "Choose a difficulty :\nHard mode : You only have 1 hero!(press '1')\nMedium mode : You have 2 heroes!(press '2')\nEasy mode : You have 3 heroes!(press '3')" << endl;
+    int dif,intAnswer;
+    cin >> dif;
+    Hero** heroes=new Hero*[dif];
+    string name;
+    for(int i=0;i<dif;i++){
+        cout << "Choose a name for hero number " << i+1 << "!" << endl;
+        cin >> name;
+        cout << "Choose a class for "<< name << "!\n" << endl;
+        cout << "Warriors have increased damage and agility. To make " << name << " a warrior press '1'\n" << endl;
+        cout << "Paladins have increased damage and dexterity. To make " << name << " a paladin press '2'\n" << endl;
+        cout << "Sorcerers have increased dexterity and agility. To make " << name << " a sorcerer press '3'\n" << endl;
+        cin >> intAnswer;
+        switch(intAnswer){
+            case 1 :
+                heroes[i]=new Warrior(name);
+                break;
+            case 2 :
+                heroes[i]=new Paladin(name);
+                break;
+            case 3 :
+                heroes[i]=new Sorcerer(name);
+        }
+    }
+    Grid grid(heroes,dif);
+    for(int i=0;i<dif;i++){
+        delete heroes[i];
+    }
+    delete[] heroes;
+    grid.menu();
 
     cout << "\n\nGame over!" << endl;
 
