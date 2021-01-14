@@ -32,12 +32,12 @@ void Map::move(){
     char awnser;
     do{
         print();
-        cout << "Would you like to move? n=no / l=left / r =right / u = up / d = down" << endl;
+        cout << "Would you like to move? n=no / a=left / d =right / w = up / s = down" << endl;
         cin >> awnser;
-        if(awnser == 'l') moveLeft();
-        else if(awnser == 'r') moveRight();
-        else if(awnser == 'u') moveUp();
-        else if(awnser == 'd') moveDown();
+        if(awnser == 'a') moveLeft();
+        else if(awnser == 'd') moveRight();
+        else if(awnser == 'w') moveUp();
+        else if(awnser == 's') moveDown();
     } while(awnser != 'n');
 }
 
