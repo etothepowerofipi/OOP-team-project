@@ -6,10 +6,6 @@
 
 using namespace std;
 
-//////////////////////////////////////
-//////////////GRIRD//////////////////
-////////////////////////////////////
-
 Grid::Grid(Hero** h,int numofh){
     numofheroes=numofh;
     heroes=new Hero*[numofh];
@@ -144,23 +140,31 @@ void Grid::moveDown(){
 bool Grid::checkBlock(int i,int j){
     if(map[i][j]== 'M'){
         cout << "You have reached a marketplace!\nWould you like to enter? y/n" << endl;
-        if(inputAnswer() == true){
-            market=new Marketplace(heroes);
-            market->menu();
-            delete market;
-        }
         return true;
     }
     else if(map[i][j] == '+'){
         int prob=rand()%100;
         if(prob <= 30){
-            cout << "A monster has appeared!\nPrepare to battle!" << endl;            
+            battle();
         }
         return true;
     }
     else{
-        cout << "You can't go there!" << endl;
+        cout << "You can go there!" << endl;
         return false;
+    }
+}
+
+bool Grid::battle(){
+    int numOfMonsters = rand()%2 + numofheroes;
+    if (numOfMonsters == 1)
+        cout << "A monster has appeared!\nPrepare to battle!" << endl;
+    else
+        cout << "Monsters have appeared!\nPrepare to battle!" << endl;
+
+    Monster** Monsters = new Monster*[numOfMonsters];
+    for (int i=0; i< numOfMonsters; i++){
+
     }
 }
 
@@ -191,37 +195,4 @@ bool Grid::menu(){
             return false;
     }
     return false;
-}
-
-//////////////////////////////////////
-//////////////MARKETPLACE////////////
-////////////////////////////////////
-
-Marketplace::Marketplace(Hero** h,int noh){
-    heroes=h;
-    numofheroes=noh;
-    Weapon* w[2*numofheroes];  //To market periexei 2 opla gia ka8e xarakthra
-    Armor* a[2*numofheroes];  //To market periexei 2 panoplies gia ka8e xarakthra
-    Spell* s[2*numofheroes]; //To market periexei 2 spells gia ka8e xarakthra
-    Potion* p[2*noh+1];       //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion 
-    for(int i=0;i<2*numofheroes;i++){
-        w[i]=new Weapon();
-        a[i]=new Armor();
-        s[i]=new Spell();
-    }
-}
-
-void Marketplace::menu(){
-    cout << "What would you like to do?\n" << endl;
-    unsigned int input;
-    do{
-        cout << "To buy items press 1\nTo sell items press 2\nTo leave press 3\n" << endl;
-        input=inputNumber(3);
-        if(input ==1){
-
-        }
-        else if(input == 2){
-
-        }
-    } while(input != 3);
 }
