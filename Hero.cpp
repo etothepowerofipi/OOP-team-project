@@ -121,10 +121,6 @@ bool Hero::dodge(){
     return (temp <= agility );
 }
 
-void Hero::faint(){
-    cout << name << " has fainted!" << endl;
-    healthPower/=2;
-}
 
 void Hero::addXP(const int xpToAdd) 
 {
