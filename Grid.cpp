@@ -60,16 +60,25 @@ bool Grid::canPlace(int i,int j){
 }
 
 void Grid::move(){
-    char answer;
+    int answer;
     do{
         print();
         cout << "Would you like to move? n=no / a=left / d =right / w = up / s = down" << endl;
-        cin >> answer;
-        if(answer == 'a') moveLeft();
-        else if(answer == 'd') moveRight();
-        else if(answer == 'w') moveUp();
-        else if(answer == 's') moveDown();
-    } while(answer != 'n');
+        answer = inputMenu();
+        switch (answer){
+            case 1:
+                moveLeft();
+                break;
+            case 2:
+                moveRight();
+                break;
+            case 3:
+                moveUp();
+                break;
+            case 4:
+                moveDown();
+        }
+    } while(answer != 5);
 }
 
 void Grid::moveRight(){

@@ -26,7 +26,7 @@ int inputNumber(const int max)
     cin >> input;
     bool acceptable = input <= max;
     while (acceptable == false){
-        cout << "Wrong input.Try again." << endl;
+        cout << "Wrong input. Try again." << endl;
         cin >> input;
         acceptable = input <= max;
     }
