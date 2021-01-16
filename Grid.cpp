@@ -12,8 +12,9 @@ using namespace std;
 
 Grid::Grid(Hero** h,int numofh){
     numofheroes=numofh;
-    heroes=new Hero*[numofh];
-    for(int i=0;i<numofh;i++) heroes[i]=h[i];
+    // heroes=new Hero*[numofh];
+    // for(int i=0;i<numofh;i++) heroes[i]=h[i];
+    heroes=h;
     maxi=20;
     maxj=20;
     for(int i=0;i<maxi;i++){
@@ -199,16 +200,29 @@ bool Grid::menu(){
 
 Marketplace::Marketplace(Hero** h,int noh){
     heroes=h;
-    numofheroes=noh;
-    Weapon* w[2*numofheroes];  //To market periexei 2 opla gia ka8e xarakthra
-    Armor* a[2*numofheroes];  //To market periexei 2 panoplies gia ka8e xarakthra
-    Spell* s[2*numofheroes]; //To market periexei 2 spells gia ka8e xarakthra
-    Potion* p[2*noh+1];       //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion 
-    for(int i=0;i<2*numofheroes;i++){
-        w[i]=new Weapon();
-        a[i]=new Armor();
-        s[i]=new Spell();
+    Weapon* w[2*numofheroes];   //To market periexei 2 opla gia ka8e xarakthra
+    Armor* a[2*numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
+    Spell* s[3];              //To market periexei 1 spell gia ka8e eidous spell
+    Potion* p[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
+    for(i=0;i<numofheroes;i++){
+        stock.addWeapon(w[i]=new Weapon( heroes[i]->getLevel() , genName("weapon") ) );
+        stock.addWeapon(w[i+numofheroes]=new Weapon( heroes[i]->getLevel() , genName("weapon") ) );
+
+        stock.addArmor(a[i]=new Armor( heroes[i]->getLevel() , genName("armor") ) );
+        stock.addArmor(a[i+numofheroes]=new Armor( heroes[i]->getLevel() , genName("armor") ) );
     }
+    //Arxikopoihsh spell
+    //To prwto spell einai analogo tou level tou prwtou xarakthra
+    stock.addSpell(s[0]=new Spell(heroes[0]->getLevel() , genName("firespell") ) );
+
+    //To deutero spell einai analogo tou level tou deuterou xarakthra, an uparxei
+    if(numofheroes >= 2) stock.addSpell(s[1]=new Spell(heroes[1]->getLevel() , genName("icespell") ) );
+    else stock.addSpell(s[1]=new Spell(heroes[0]->getLevel() , genName("icespell") ) );
+
+    //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
+    if(numofheroes == 3) stock.addSpell(s[2]=new Spell(heroes[2]->getLevel() , genName("lightningspell")); );
+    else spells[0]=new Spell(heroes[2]->getLevel() , genName("lightningspell"));
+
 }
 
 void Marketplace::menu(){
