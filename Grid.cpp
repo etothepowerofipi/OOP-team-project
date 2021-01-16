@@ -281,13 +281,14 @@ Marketplace::Marketplace(Hero** h,int noh){
 
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
     if(numofheroes == 3) 
-        stock.addSpell(s[2]=new Spell(heroes[2]->getLevel() , genName("lightningspell")) );
-    else spells[0]=new Spell(heroes[2]->getLevel() , genName("lightningspell"));
+        stock.addSpell(s[2]=new Spell(heroes[2]->getLevel().getRL() , genName("lightningspell")) );
+    else 
+        spells[0]=new Spell(heroes[2]->getLevel().getRL() , genName("lightningspell"));
 
     //Arxikopoihsh potion
     for(int i=0;i<numofheroes; i++){
-        stock.addPotion(p[i]=new Potion( level(heroes,numofheroes),"HP") );
-        stock.addPotion(p[i+numofheroes]=new Potion( level(heroes,numofheroes),"MP") );
+        stock.addPotion(p[i]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"HP") );
+        stock.addPotion(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL(),"MP") );
     }
     stock.addPotion(p[i+numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) );
 
