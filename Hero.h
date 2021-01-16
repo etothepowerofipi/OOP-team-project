@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "LivingBeing.h"
+#include "Monster.h"
 
 class Level
 {

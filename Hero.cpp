@@ -99,7 +99,10 @@ void Hero::showStats(){
 int Hero::maxHP() const{return 100+5*(level.getRL()-1);}
 int Hero::maxMP() const{return 100+5*(level.getRL()-1);}
 
-int Hero::attack(){return (weapon.getDamage()+strength);}
+int Hero::attack()
+{
+    int initialDamage = weapon.getDamage()+strength;
+    }
 void Hero::takeDamage(int damage){
     damage-=armor.getProtection();
     if(dodge(agility)){cout << "Attack has been dodged!" << endl; return;}

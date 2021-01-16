@@ -163,10 +163,61 @@ bool Grid::battle(){
     else
         cout << "Monsters have appeared!\nPrepare to battle!" << endl;
 
-    Monster** Monsters = new Monster*[numOfMonsters];
+    Monster** monsters = new Monster*[numOfMonsters];
     for (int i=0; i< numOfMonsters; i++){
-
+        monsters[i] = monsterGenerator(level());
     }
+
+    while (thereAreHeroes() && thereAreMonsters(monsters,numOfMonsters)){
+        for (int i=0; i<numofheroes; i++){
+            int action = battleMenu(i);
+            switch (action){
+                case 1:
+                    heroes[i]->attack();
+            }
+    }
+}
+
+int Grid::battleMenu(const int index){
+    cout << "What would you like " + heroes[index]->getName() + " to do?" << endl;
+    cout << "To attack normally, type 1." << endl;
+    cout << "To cast a spell, type 2." << endl;
+    cout << "To use a potion, type 3." << endl;
+    cout << "To change equipment, type 4." << endl;
+
+    return inputNumber(4);
+}
+
+bool Grid::thereAreHeroes(){
+    bool thereAre = false;
+    int index = 0;
+    while (index < numofheroes){
+    if (heroes[index]->getHP() == 0)
+        index++;
+    else
+        thereAre = true;
+    }
+    return thereAre;
+}
+
+bool Grid::thereAreMonsters(Monster** monsters, const int numofmonsters){
+    bool thereAre = false;
+    int index = 0;
+    while (index < numofmonsters){
+    if (monsters[index]->getHP() == 0)
+        index++;
+    else
+        thereAre = true;
+    }
+    return thereAre;
+}
+
+int Grid::level() const{
+    int sum = 0;
+    for (int i=0; i<numofheroes; i++)
+        sum += heroes[i]->getLevel().getRL();
+    int average = sum / numofheroes;
+    return randomLevel(average);
 }
 
 void Grid::print(){
@@ -208,7 +259,7 @@ Marketplace::Marketplace(Hero** h,int noh){
     Armor* a[2*numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
     Spell* s[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion* p[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
-    for(i=0;i<numofheroes;i++){
+    for(int i=0;i<numofheroes;i++){
         stock.addWeapon(w[i]=new Weapon( heroes[i]->getLevel() , genName("weapon") ) );
         stock.addWeapon(w[i+numofheroes]=new Weapon( heroes[i]->getLevel() , genName("weapon") ) );
 

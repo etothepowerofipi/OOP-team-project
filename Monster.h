@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Hero.h"
+#include "LivingBeing.h"
 
 class Monster: public LivingBeing
 {
