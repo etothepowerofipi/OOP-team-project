@@ -82,13 +82,13 @@ Monster* monsterGenerator(const int heroAverage){
     Monster* monster;
     switch (type){
         case 0:
-            monster = new Dragon(MonsterNames[monsterindex++],randomLevel(heroAverage));
+            monster = new Dragon(genName("monster"),randomLevel(heroAverage));
             return monster;
         case 1:
-            monster = new Exosceleton(MonsterNames[monsterindex++],randomLevel(heroAverage));
+            monster = new Exosceleton(genName("monster"),randomLevel(heroAverage));
             return monster;
         case 2:
-            monster = new Spirit(MonsterNames[monsterindex++],randomLevel(heroAverage));
+            monster = new Spirit(genName("monster"),randomLevel(heroAverage));
             return monster;
     }
 }
