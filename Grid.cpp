@@ -145,7 +145,7 @@ bool Grid::checkBlock(int i,int j){
     else if(map[i][j] == '+'){
         int prob=rand()%100;
         if(prob <= 30){
-            cout << "A monster has appeared!\nPrepare to battle!" << endl;
+            cout << "A monster has appeared!\nPrepare to battle!" << endl;            
         }
         return true;
     }
