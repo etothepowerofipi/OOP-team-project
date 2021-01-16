@@ -33,14 +33,6 @@ void LivingBeing::takeDamage(const int damage)
         faint();
 }
 
-bool LivingBeing::dodge(const int dodgeChance)
-{
-    int temp = rand()%100;
-    if (temp>dodgeChance)
-        return false;
-    return true;
-}
-
 void LivingBeing::printName(){cout << name;}
 string LivingBeing::getName() const{return name;}
 int LivingBeing::getHP() const{return healthPower;}

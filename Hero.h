@@ -83,12 +83,13 @@ class Hero: public LivingBeing
         Hero(const std::string);
         ~Hero();
 
-        int attack();
+        int attack(Monster*);
         void takeDamage(int);
         int use(Spell&);
         void use(Potion&);
         virtual void levelUp() = 0;
         void addXP(const int);
+        bool dodge();
         void faint();
     
         void buy(Weapon);

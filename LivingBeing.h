@@ -23,5 +23,5 @@ class LivingBeing
         int getHP() const;
         int getLevel() const;
 
-        bool dodge(const int);
+        virtual bool dodge() = 0;
 };

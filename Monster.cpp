@@ -55,7 +55,7 @@ int Monster::attack(){
 
 void Monster::takeDamage(int damage){
     damage-=defense;
-    if(dodge(dodgeChance)){cout << "Attack has been dodged!" << endl; return;}
+    if(dodge()){cout << "Attack has been dodged!" << endl; return;}
     if(damage < 0) damage=0;
     healthPower-=damage;
     cout << name << " takes " << damage << " damage!" << endl;
@@ -66,6 +66,11 @@ int Monster::defend(const int attack){
     if (damage < 0)
         return 0;
     return damage;    
+}
+
+bool Monster::dodge(){
+    int temp = rand()%100;
+    return (temp <= dodgeChance);
 }
 
 void Monster::faint(){
