@@ -196,7 +196,6 @@ bool Grid::menu(){
             return false;
     }
     return false;
-<<<<<<< HEAD
 }
 
 //////////////////////////////////////
@@ -243,6 +242,4 @@ void Marketplace::menu(){
 
         }
     } while(input != 3);
-=======
->>>>>>> c415d8ce0ddfa8ebff1d8a2d2625d8482858021d
 }
