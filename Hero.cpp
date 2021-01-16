@@ -168,10 +168,10 @@ void Hero::checkInventory()
     getArmor().print();
 }
 
-int Hero::getWeaponsSize() const{return weapons.size();}
-int Hero::getArmorsSize() const{return armors.size();}
-int Hero::getPotionsSize() const{return potions.size();}
-int Hero::getSpellsSize() const{return spells.size();}
+int Inventory::getWeaponsSize() const{return weapons.size();}
+int Inventory::getArmorsSize() const{return armors.size();}
+int Inventory::getPotionsSize() const{return potions.size();}
+int Inventory::getSpellsSize() const{return spells.size();}
 
 void Hero::addMoney(int a){money+=a;}
 bool Hero::buy(Weapon w){
@@ -199,7 +199,7 @@ bool Hero::buy(Armor a){
 bool Hero::buy(Potion p){
     if(money >= p.getPrice()){
         money-= p.getPrice();
-        inventory.addPotion(s);
+        inventory.addPotion(p);
         return true;
     }
     else{
@@ -324,7 +324,7 @@ Potion Inventory::getPotion(int i){
     return potions[i];
 }
 
-Spell Inventory::getSpell(int i){
+Spell* Inventory::getSpell(int i){
     return spells[i];
 }
 
