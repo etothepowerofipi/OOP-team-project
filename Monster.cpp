@@ -47,8 +47,7 @@ Spirit::~Spirit() {}
 //MONSTER
 //MONSTER
 //MONSTER
-int Monster::attack()
-{
+int Monster::attack(){
     int damage=rand()%(maxAttack+1);
     if(damage < minAttack) damage+=minAttack;
     return damage;
@@ -56,16 +55,24 @@ int Monster::attack()
 
 void Monster::takeDamage(int damage){
     damage-=defense;
-    if(dodge(dodgeChance)){cout << "Attack has been dodged!" << endl; return;}
+    if(dodge()){cout << "Attack has been dodged!" << endl; return;}
     if(damage < 0) damage=0;
     healthPower-=damage;
     cout << name << " takes " << damage << " damage!" << endl;
 }
 
-int Monster::defend(const int attack)
-{
+int Monster::defend(const int attack){
     int damage = attack - defense;
     if (damage < 0)
         return 0;
     return damage;    
+}
+
+bool Monster::dodge(){
+    int temp = rand()%100;
+    return (temp <= dodgeChance);
+}
+
+void Monster::faint(){
+    cout << name + " has fainted! It's out of the battle!" << endl;
 }

@@ -61,7 +61,6 @@ Monster* monsterGenerator(const int heroAverage){
             monster = new Spirit(MonsterNames[monsterindex++],randomLevel(heroAverage));
             return monster;
     }
-
 }
 
 

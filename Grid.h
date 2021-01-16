@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "Monster.h"
+#include "Hero.h"
 
 class Marketplace{
     Inventory stock;
@@ -30,6 +30,7 @@ public:
     void print();
     void move();
     bool canPlace(int ,int );
+    int level() const;
 
     void moveUp();
     void moveDown();
@@ -38,4 +39,7 @@ public:
     bool checkBlock(int,int);
 
     bool battle();
+    int battleMenu(const int);
+    bool thereAreHeroes();
+    bool thereAreMonsters(Monster**,const int);
 };
