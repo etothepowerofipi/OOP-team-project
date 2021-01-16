@@ -188,7 +188,7 @@ bool Hero::buy(Weapon w){
 bool Hero::buy(Armor a){
     if(money >= a.getPrice()){
         money-= a.getPrice();
-        inventory.addWeapon(w);
+        inventory.addArmor(a);
         return true;
     }
     else{
@@ -197,9 +197,9 @@ bool Hero::buy(Armor a){
     }
 }
 bool Hero::buy(Potion p){
-    if(money >= w.getPrice()){
-        money-= w.getPrice();
-        inventory.addWeapon(w);
+    if(money >= p.getPrice()){
+        money-= p.getPrice();
+        inventory.addPotion(s);
         return true;
     }
     else{
@@ -208,9 +208,9 @@ bool Hero::buy(Potion p){
     }
 }
 bool Hero::buy(Spell* s){
-    if(money >= w.getPrice()){
-        money-= w.getPrice();
-        inventory.addWeapon(w);
+    if(money >= s->getPrice()){
+        money-= s->getPrice();
+        inventory.addSpell(s);
         return true;
     }
     else{
