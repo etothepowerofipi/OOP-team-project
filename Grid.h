@@ -3,6 +3,18 @@
 #include <ctime>
 #include "Monster.h"
 
+class Marketplace{
+    Inventory stock;
+    Hero** heroes;
+    int numofheroes;
+public:
+    Marketplace(Hero** );
+
+    void menu();
+    void buy();
+    void sell();
+};
+
 class Grid{
     int maxi;
     int maxj;
@@ -12,6 +24,7 @@ class Grid{
     int y; //y h sthlh pou einai o xarakthras ston xarth
     int numofheroes;
     Hero** heroes;
+    Marketplace* market;
 public:
     Grid(Hero** ,int );
     
