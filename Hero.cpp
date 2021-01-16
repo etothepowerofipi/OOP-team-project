@@ -142,22 +142,22 @@ void Hero::checkInventory()
     char yes;
     int index;
     
-    if (inventory.getWeapons() > 0){
+    if (inventory.getWeaponsSize() > 0){
         cout << "Would you like to swap weapons? y/n" << endl;
         yes = inputAnswer();
         if (yes){
             cout << "Which weapon to equip? Input a number" << endl;
-            index = inputNumber(inventory.getWeapons());
+            index = inputNumber(inventory.getWeaponsSize());
             equip(inventory.equipWeapon(index,weapon));
         }
     }
 
-    if (inventory.getArmors() > 0){
+    if (inventory.getArmorsSize() > 0){
         cout << "Would you like to swap armors? y/n" << endl;
         yes = inputAnswer();
         if (yes){
             cout << "Which armor to equip? Input a number" << endl;
-            index = inputNumber(inventory.getArmors());
+            index = inputNumber(inventory.getArmorsSize());
             equip(inventory.equipArmor(index,armor));
         }
     }

@@ -97,8 +97,8 @@ class Hero: public LivingBeing
         bool dodge();
         void faint();
         void showStats();
-        int maxHP();
-        int maxMP();
+        int maxHP() const;
+        int maxMP() const;
 
         void checkInventory();
         bool buy(Weapon);
