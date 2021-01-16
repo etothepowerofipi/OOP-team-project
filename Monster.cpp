@@ -76,3 +76,19 @@ bool Monster::dodge(){
 void Monster::faint(){
     cout << name + " has fainted! It's out of the battle!" << endl;
 }
+
+Monster* monsterGenerator(const int heroAverage){
+    int type = rand() % 3;
+    Monster* monster;
+    switch (type){
+        case 0:
+            monster = new Dragon(MonsterNames[monsterindex++],randomLevel(heroAverage));
+            return monster;
+        case 1:
+            monster = new Exosceleton(MonsterNames[monsterindex++],randomLevel(heroAverage));
+            return monster;
+        case 2:
+            monster = new Spirit(MonsterNames[monsterindex++],randomLevel(heroAverage));
+            return monster;
+    }
+}

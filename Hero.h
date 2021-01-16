@@ -139,3 +139,5 @@ class Paladin: public Hero
         Paladin(const std::string);
         void levelUp();
 };
+
+int level(Hero** , const int );

@@ -42,3 +42,5 @@ class Spirit: public Monster
         Spirit(const std::string,const int);
         ~Spirit();
 };
+
+Monster* monsterGenerator(const int);

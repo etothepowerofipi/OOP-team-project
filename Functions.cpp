@@ -39,34 +39,6 @@ int randomLevel(const int heroAverage){
     return heroAverage + rand()%5 - 2; // ==return heroAverage +/- 2;
 }
 
-int level(Hero** heroes, const int numOfHeroes){
-    int sum = 0;
-    for (int i=0; i<numOfHeroes; i++)
-        sum += heroes[i]->getLevel().getRL();
-    int average = sum / numOfHeroes;
-    return randomLevel(average);
-}
-
-Monster* monsterGenerator(const int heroAverage){
-    int type = rand() % 3;
-    Monster* monster;
-    switch (type){
-        case 0:
-            monster = new Dragon(MonsterNames[monsterindex++],randomLevel(heroAverage));
-            return monster;
-        case 1:
-            monster = new Exosceleton(MonsterNames[monsterindex++],randomLevel(heroAverage));
-            return monster;
-        case 2:
-            monster = new Spirit(MonsterNames[monsterindex++],randomLevel(heroAverage));
-            return monster;
-    }
-}
-
-
-
-
-
 //Random Name Generator
 
 void InitializeNameArrays(){

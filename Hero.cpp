@@ -104,6 +104,7 @@ int Hero::attack(Monster* monster){
     if (monster->dodge() == false){
         monster->takeDamage(monster->defend(initialDamage));
     }
+    return 42069;
 
 }
 
@@ -455,6 +456,10 @@ void PlayerInventory::print(const Hero& h) const
     h.getArmor().print();
 }
 
-
-
-
+int level(Hero** heroes, const int numOfHeroes){
+    int sum = 0;
+    for (int i=0; i<numOfHeroes; i++)
+        sum += heroes[i]->getLevel().getRL();
+    int average = sum / numOfHeroes;
+    return randomLevel(average);
+}
