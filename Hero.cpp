@@ -186,8 +186,8 @@ bool Hero::buy(Weapon w){
     }
 }
 bool Hero::buy(Armor a){
-    if(money >= w.getPrice()){
-        money-= w.getPrice();
+    if(money >= a.getPrice()){
+        money-= a.getPrice();
         inventory.addWeapon(w);
         return true;
     }
