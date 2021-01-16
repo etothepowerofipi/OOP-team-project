@@ -177,12 +177,12 @@ bool Grid::battle(){
             int action = battleMenu(i);
             switch (action){
                 case 1:
-                    heroes[i]->attack();
+                    heroes[i]->attack(monsters[rand()%3]);
             }
     }
 }
 
-int Grid::battleMenu(const int index){
+int Grid::battleMenu(int index){
     cout << "What would you like " + heroes[index]->getName() + " to do?" << endl;
     cout << "To attack normally, type 1." << endl;
     cout << "To cast a spell, type 2." << endl;
@@ -280,11 +280,12 @@ Marketplace::Marketplace(Hero** h,int noh){
     else stock.addSpell(s[1]=new Spell(heroes[0]->getLevel() , genName("icespell") ) );
 
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
-    if(numofheroes == 3) stock.addSpell(s[2]=new Spell(heroes[2]->getLevel() , genName("lightningspell")); );
+    if(numofheroes == 3) 
+        stock.addSpell(s[2]=new Spell(heroes[2]->getLevel() , genName("lightningspell")) );
     else spells[0]=new Spell(heroes[2]->getLevel() , genName("lightningspell"));
 
     //Arxikopoihsh potion
-    for(i=0;i<numofheroes){
+    for(int i=0;i<numofheroes; i++){
         stock.addPotion(p[i]=new Potion( level(heroes,numofheroes),"HP") );
         stock.addPotion(p[i+numofheroes]=new Potion( level(heroes,numofheroes),"MP") );
     }

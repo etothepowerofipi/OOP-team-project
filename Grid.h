@@ -39,7 +39,7 @@ public:
     bool checkBlock(int,int);
 
     bool battle();
-    int battleMenu(const int);
+    int battleMenu(int);
     bool thereAreHeroes();
     bool thereAreMonsters(Monster**,const int);
 };
