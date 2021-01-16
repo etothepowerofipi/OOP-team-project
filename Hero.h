@@ -43,10 +43,15 @@ class Inventory
         void removePotion(int);
         void removeSpell(int);
 
-        int getWeapons() const;
-        int getArmors() const;
-        int getPotions() const;
-        int getSpells() const;
+        Weapon getWeapon(int );
+        Armor getArmor(int );
+        Potion getPotion(int );
+        Spell* getSpell(int );
+
+        int getWeaponsSize() const;
+        int getArmorsSize() const;
+        int getPotionsSize() const;
+        int getSpellsSize() const;
         int getSize() const;
 
         void print() const;
@@ -95,10 +100,10 @@ class Hero: public LivingBeing
         int maxMP();
 
         void checkInventory();
-        void buy(Weapon);
-        void buy(Armor);
-        void buy(Potion);
-        void buy(Spell*);
+        bool buy(Weapon);
+        bool buy(Armor);
+        bool buy(Potion);
+        bool buy(Spell*);
         void addMoney(int);
 
         void equip(const int);
@@ -110,6 +115,7 @@ class Hero: public LivingBeing
         Level getLevel() const;
         PlayerInventory getInventory() const;
         int getAgility() const; 
+        int getMoney();
 };
 
 class Warrior: public Hero

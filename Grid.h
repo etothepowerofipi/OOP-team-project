@@ -8,11 +8,9 @@ class Marketplace{
     Hero** heroes;
     int numofheroes;
 public:
-    Marketplace(Hero** );
+    Marketplace(Hero** ,int );
 
     void menu();
-    void buy();
-    void sell();
 };
 
 class Grid{

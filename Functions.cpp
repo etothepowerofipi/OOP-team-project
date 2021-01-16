@@ -5,7 +5,7 @@
 
 using namespace std;
 
-string WeaponNames[119],ArmorNames[78],MonsterNames[98],PotionNames[5],FireSpellNames[15],IceSpellNames[6],LightningSpellNames[3];
+string WeaponNames[119],ArmorNames[78],MonsterNames[98],PotionNames[3],FireSpellNames[15],IceSpellNames[6],LightningSpellNames[3];
 int    weaponindex     ,armorindex    ,monsterindex    ,potionindex   ,firespellindex    ,icespellindex   ,lightningspellindex;
 
 bool inputAnswer()
@@ -39,10 +39,10 @@ int randomLevel(const int heroAverage){
     return heroAverage + rand()%5 - 2; // ==return heroAverage +/- 2;
 }
 
-int level(Hero* heroes, const int numOfHeroes){
+int level(Hero** heroes, const int numOfHeroes){
     int sum = 0;
     for (int i=0; i<numOfHeroes; i++)
-        sum += heroes[i].getLevel().getRL();
+        sum += heroes[i]->getLevel().getRL();
     int average = sum / numOfHeroes;
     return randomLevel(average);
 }
@@ -104,7 +104,7 @@ void InitializeNameArrays(){
     myfile.close();
 
     myfile.open("PotionNames.txt");
-    for(i=0;i<5;i++){
+    for(i=0;i<3;i++){
         getline(myfile,line);
         PotionNames[i]=line;
     }
@@ -163,10 +163,10 @@ string genName(string type){
         return tempname;
     }
     else if(type == "potion"){
-        if(potionindex >= 5) potionindex=0;
-        tempindex=rand()%(5-potionindex);
+        if(potionindex >= 3) potionindex=0;
+        tempindex=rand()%(3-potionindex);
         tempname=PotionNames[tempindex];
-        swap(PotionNames[tempindex],PotionNames[4-potionindex++]);
+        swap(PotionNames[tempindex],PotionNames[2-potionindex++]);
         return tempname;
     }
     else if(type == "firespell"){

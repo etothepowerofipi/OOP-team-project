@@ -155,50 +155,54 @@ void Hero::checkInventory()
     getArmor().print();
 }
 
+int Hero::getWeaponsSize() const{return weapons.size();}
+int Hero::getArmorsSize() const{return armors.size();}
+int Hero::getPotionsSize() const{return potions.size();}
+int Hero::getSpellsSize() const{return spells.size();}
+
 void Hero::addMoney(int a){money+=a;}
-void Hero::buy(Weapon w){
-    cout << "Would you like to buy this weapon? y/n" << endl; w.print();
-    char yes = inputAnswer();
-    
-    if(yes){
-        if(money >= w.getPrice()){
-            money-= w.getPrice();
-            inventory.addWeapon(w);
-        }
-        else cout << "Too poor lmao!" << endl;
+bool Hero::buy(Weapon w){
+    if(money >= w.getPrice()){
+        money-= w.getPrice();
+        inventory.addWeapon(w);
+        return true;
+    }
+    else{
+        cout << "Too poor lmao!" << endl;
+        return false;
     }
 }
-void Hero::buy(Armor a){
-    cout << "Would you like to buy this armor? y/n" << endl; a.print();
-    char yes = inputAnswer();
-    if(yes){
-        if(money >= a.getPrice()){
-            money-=a.getPrice();
-            inventory.addArmor(a);
-        }
-        else cout << "Too poor lmao!" << endl;
+bool Hero::buy(Armor a){
+    if(money >= w.getPrice()){
+        money-= w.getPrice();
+        inventory.addWeapon(w);
+        return true;
+    }
+    else{
+        cout << "Too poor lmao!" << endl;
+        return false;
     }
 }
-void Hero::buy(Potion p){
-    cout << "Would you like to buy this potion? y/n" << endl; p.print();
-    char yes = inputAnswer();
-    if(yes){
-        if(money >= p.getPrice()){
-            money-=p.getPrice();
-            inventory.addPotion(p);
-        }
-        else cout << "Too poor lmao!" << endl;
+bool Hero::buy(Potion p){
+    if(money >= w.getPrice()){
+        money-= w.getPrice();
+        inventory.addWeapon(w);
+        return true;
+    }
+    else{
+        cout << "Too poor lmao!" << endl;
+        return false;
     }
 }
-void Hero::buy(Spell* s){
-    cout << "Would you like to buy this spell? y/n" << endl; s->print();
-    char yes = inputAnswer();
-    if(yes){
-        if(money >= s->getPrice()){
-            money-=s->getPrice();
-            inventory.addSpell(s);
-        }
-        else cout << "Too poor lmao!" << endl;
+bool Hero::buy(Spell* s){
+    if(money >= w.getPrice()){
+        money-= w.getPrice();
+        inventory.addWeapon(w);
+        return true;
+    }
+    else{
+        cout << "Too poor lmao!" << endl;
+        return false;
     }
 }
 
@@ -210,6 +214,7 @@ Armor Hero::getArmor() const {return armor;}
 Level Hero::getLevel() const {return level;}
 PlayerInventory Hero::getInventory() const {return inventory;}
 int Hero::getAgility() const {return agility;}
+int Hero::getMoney(){return money;}
 
 // int Hero::use(Spell& s)
 // {
@@ -289,28 +294,25 @@ void Paladin::levelUp()
 
 //INVENTORY
 
-int Inventory::getWeapons() const{
-    return weapons.size();
+Weapon Inventory::getWeapon(int i){
+    return weapons[i];
 }
 
-int Inventory::getArmors() const{
-    return armors.size();
+Armor Inventory::getArmor(int i){
+    return armors[i];
 }
 
-int Inventory::getPotions() const{
-    return potions.size();
+Potion Inventory::getPotion(int i){
+    return potions[i];
 }
 
-int Inventory::getSpells() const{
-    return spells.size();
+Spell Inventory::getSpell(int i){
+    return spells[i];
 }
 
 int Inventory::getSize() const{
     return (weapons.size() + armors.size() + potions.size() + spells.size());
 }
-
-
-
 
 
 void Inventory::print() const
@@ -350,6 +352,26 @@ void Inventory::print() const
             spells[i]->print();
         }
     }
+}
+
+void Inventory::removeWeapon(int i)
+{
+    weapons.erase(weapons.begin() + i);
+}
+
+void Inventory::removeArmor(int i)
+{
+    armors.erase(armors.begin() + i);
+}
+
+void Inventory::removePotion(int i)
+{
+    potions.erase(potions.begin() + i);
+}
+
+void Inventory::removeSpell(int i)
+{
+    spells.erase(spells.begin() + i);
 }
 
 void Inventory::addWeapon(Weapon w)
