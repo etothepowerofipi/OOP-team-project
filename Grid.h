@@ -37,5 +37,7 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
-    bool checkBlock(int ,int );
+    bool checkBlock(int,int);
+
+    bool battle();
 };

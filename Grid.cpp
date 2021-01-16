@@ -6,10 +6,6 @@
 
 using namespace std;
 
-//////////////////////////////////////
-//////////////GRIRD//////////////////
-////////////////////////////////////
-
 Grid::Grid(Hero** h,int numofh){
     numofheroes=numofh;
     // heroes=new Hero*[numofh];
@@ -145,23 +141,31 @@ void Grid::moveDown(){
 bool Grid::checkBlock(int i,int j){
     if(map[i][j]== 'M'){
         cout << "You have reached a marketplace!\nWould you like to enter? y/n" << endl;
-        if(inputAnswer() == true){
-            market=new Marketplace(heroes);
-            market->menu();
-            delete market;
-        }
         return true;
     }
     else if(map[i][j] == '+'){
         int prob=rand()%100;
         if(prob <= 30){
-            cout << "A monster has appeared!\nPrepare to battle!" << endl;
+            battle();
         }
         return true;
     }
     else{
-        cout << "You can't go there!" << endl;
+        cout << "You can go there!" << endl;
         return false;
+    }
+}
+
+bool Grid::battle(){
+    int numOfMonsters = rand()%2 + numofheroes;
+    if (numOfMonsters == 1)
+        cout << "A monster has appeared!\nPrepare to battle!" << endl;
+    else
+        cout << "Monsters have appeared!\nPrepare to battle!" << endl;
+
+    Monster** Monsters = new Monster*[numOfMonsters];
+    for (int i=0; i< numOfMonsters; i++){
+
     }
 }
 
@@ -192,6 +196,7 @@ bool Grid::menu(){
             return false;
     }
     return false;
+<<<<<<< HEAD
 }
 
 //////////////////////////////////////
@@ -238,4 +243,6 @@ void Marketplace::menu(){
 
         }
     } while(input != 3);
+=======
+>>>>>>> c415d8ce0ddfa8ebff1d8a2d2625d8482858021d
 }
