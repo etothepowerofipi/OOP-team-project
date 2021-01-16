@@ -90,11 +90,7 @@ class Hero: public LivingBeing
         virtual void levelUp() = 0;
         void addXP(const int);
         void faint();
-        void showStats();
-        int maxHP();
-        int maxMP();
-
-        void checkInventory();
+    
         void buy(Weapon);
         void buy(Armor);
         void buy(Potion);
@@ -109,7 +105,12 @@ class Hero: public LivingBeing
         Armor getArmor() const;
         Level getLevel() const;
         PlayerInventory getInventory() const;
-        int getAgility() const; 
+        int getAgility() const;
+        int maxHP() const;
+        int maxMP() const;
+
+        void showStats();
+        void checkInventory(); 
 };
 
 class Warrior: public Hero

@@ -96,8 +96,8 @@ void Hero::showStats(){
     cout << endl;
 }
 
-int Hero::maxHP(){return 100+5*(level.getRL()-1);}
-int Hero::maxMP(){return 100+5*(level.getRL()-1);}
+int Hero::maxHP() const{return 100+5*(level.getRL()-1);}
+int Hero::maxMP() const{return 100+5*(level.getRL()-1);}
 
 int Hero::attack(){return (weapon.getDamage()+strength);}
 void Hero::takeDamage(int damage){
@@ -250,6 +250,11 @@ void Hero::use(Potion& p)
     }
     else
         cout << "Hero's level is not high enough to use this potion." << endl;
+}
+
+void Hero::faint(){
+    money /=2;
+    cout << name + " has fainted and is out of the battle!" << endl;
 }
 
 //SubClasses Hero
