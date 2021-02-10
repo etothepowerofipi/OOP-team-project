@@ -43,3 +43,5 @@ class Spirit: public Monster
 };
 
 Monster* monsterGenerator(const int);
+void monsterFainted(Monster**, int&, const int);
+int chooseMonster(Monster**, const int);

@@ -95,7 +95,7 @@ class Hero: public LivingBeing
         int cast(Spell*);
 
         int usePotion();    
-        void use(Potion&);
+        void use(const Potion&);
 
         void removeSpell(const int);
         void removePotion(const int);

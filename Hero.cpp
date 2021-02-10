@@ -259,7 +259,7 @@ int Hero::usePotion(){
 }
 
 
-void Hero::use(Potion& p){
+void Hero::use(const Potion& p){
     if (p.getMinLevel() <= level.getRL()){
         if (p.getUse() == "HP") healthPower += p.getEffectPoints(); //TOBECHANGED
         

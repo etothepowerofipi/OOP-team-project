@@ -59,8 +59,8 @@ int max(const int a, const int b){
 
 void monsterFainted(Monster** monsterArray, int& size, const int index){
     Monster* deadMonster = monsterArray[index];
-    monsterArray[index] = monsterArray[size];
-    monsterArray[size--] = deadMonster;
+    monsterArray[index] = monsterArray[size-1];
+    monsterArray[--size] = deadMonster;
 }
 
 int chooseMonster(Monster** monsterArray, const int max){
@@ -69,7 +69,7 @@ int chooseMonster(Monster** monsterArray, const int max){
         cout << (i+1) << ". ";
         monsterArray[i]->print();
     }
-    int monster = inputNumber(max);
+    return inputNumber(max);
 }
 
 //Random Name Generator

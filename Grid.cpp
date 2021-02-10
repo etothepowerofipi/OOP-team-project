@@ -166,6 +166,7 @@ bool Grid::battle(){
         cout << "Monsters have appeared!\nPrepare to battle!" << endl;
 
     Monster** monsters = new Monster*[numOfMonsters];
+    cout << "Monster array declared" << endl;
     for (int i=0; i< numOfMonsters; i++){
         monsters[i] = monsterGenerator(level());
     }
