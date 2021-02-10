@@ -15,13 +15,15 @@ class LivingBeing
         LivingBeing(const std::string,const int);
         virtual ~LivingBeing();
 
-        void takeDamage(int);
-        virtual void faint() = 0;
+        bool takeDamage(int);
+        void faint();
 
         void printName();
         std::string getName() const;
         int getHP() const;
         int getLevel() const;
+
+        void print() const;
 
         virtual bool dodge() = 0;
 };

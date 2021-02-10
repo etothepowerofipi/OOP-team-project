@@ -100,12 +100,9 @@ int Hero::maxHP() const{return 100+5*(level.getRL()-1);}
 int Hero::maxMP() const{return 100+5*(level.getRL()-1);}
 
 int Hero::attack(Monster* monster){
-    int initialDamage = weapon.getDamage()+strength;
-    if (monster->dodge() == false){
-        monster->takeDamage(monster->defend(initialDamage));
-    }
+    int damage = weapon.getDamage()+strength;
+    monster->takeDamage(damage);
     return 42069;
-
 }
 
 void Hero::takeDamage(int damage){
@@ -228,9 +225,8 @@ int Hero::getMoney(){return money;}
 int Hero::castSpell(){
     if (getInventory().getSpellsSize() > 0){
         cout << "Choose which spell to use" << endl;
-        for (int i=0; i<getInventory().getSpellsSize(); i++){
+        for (int i=0; i<getInventory().getSpellsSize(); i++)
             getInventory().getSpell(i)->print();
-        }
         return inputNumber(getInventory().getSpellsSize()) - 1;
     }
     else
@@ -238,45 +234,53 @@ int Hero::castSpell(){
     return -1;
 }
 
-int Hero::cast(Spell& s)
+int Hero::cast(Spell* s)
 {
-    if (s.getLevelReq() <= level.getRL())
+    if (s->getLevelReq() <= level.getRL())
     {
-        int damage = rand() % (s.getMax() - s.getMin());
-        damage += s.getMin();
+        int damage = rand() % (s->getMax() - s->getMin());
+        damage += s->getMin();
         return damage;
     }
     cout << "Hero's level is not high enough to use this spell." << endl;
     return 0;
 }
 
-void Hero::use(Potion& p)
-{
-    if (p.getMinLevel() <= level.getRL())
-    {
-        if (p.getUse() == "HP")
-        {
-            healthPower += p.getEffectPoints(); //TOBECHANGED
-        }
-        else if (p.getUse() == "MP")
-        {
-            MP += p.getEffectPoints();
-        }
-        else if (p.getUse() == "Strength")
-        {
-            strength += p.getEffectPoints();
-        }
-        else if (p.getUse() == "Agility")
-        {
-            agility += p.getEffectPoints();
-        }
-        else //p.getUse() == "Dexterity"
-        {
-            dexterity += p.getEffectPoints();
-        }
+int Hero::usePotion(){
+    if (getInventory().getPotionsSize() > 0){
+        cout << "Choose which potion to use" << endl;
+        for (int i=0; i<getInventory().getPotionsSize(); i++)
+            getInventory().getPotion(i).print();
+        return inputNumber(getInventory().getPotionsSize()) - 1;
+    }
+    else
+        cout << "This hero has no potions available" << endl;
+    return -1;
+}
+
+
+void Hero::use(Potion& p){
+    if (p.getMinLevel() <= level.getRL()){
+        if (p.getUse() == "HP") healthPower += p.getEffectPoints(); //TOBECHANGED
+        
+        else if (p.getUse() == "MP") MP += p.getEffectPoints();
+        
+        else if (p.getUse() == "Strength") strength += p.getEffectPoints();
+        
+        else if (p.getUse() == "Agility") agility += p.getEffectPoints();
+        
+        else dexterity += p.getEffectPoints();
     }
     else
         cout << "Hero's level is not high enough to use this potion." << endl;
+}
+
+void Hero::removeSpell(const int index){
+    inventory.removeSpell(index);
+}
+
+void Hero::removePotion(const int index){
+    inventory.removePotion(index);
 }
 
 void Hero::faint(){

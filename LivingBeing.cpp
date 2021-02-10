@@ -25,15 +25,28 @@ LivingBeing::~LivingBeing() {}
 //LivingBeing
 //LivingBeing
 
-void LivingBeing::takeDamage(const int damage)
+bool LivingBeing::takeDamage(const int damage)
 {
-    if (damage < healthPower)
+    if (damage < healthPower){
         healthPower-= damage;
-    else
+        return false;
+    }
+    else{
         faint();
+        return true;
+    }
 }
 
-void LivingBeing::printName(){cout << name;}
+void LivingBeing::faint(){
+
+}
+
+
 string LivingBeing::getName() const{return name;}
 int LivingBeing::getHP() const{return healthPower;}
 int LivingBeing::getLevel() const{return level;}
+
+void LivingBeing::print() const{
+    cout << "\tName: " + name << endl;
+    cout << "\tHP: " << healthPower << endl;
+}

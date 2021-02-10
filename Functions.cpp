@@ -52,6 +52,26 @@ int randomLevel(const int heroAverage){
     return heroAverage + rand()%5 - 2; // ==return heroAverage +/- 2;
 }
 
+int max(const int a, const int b){
+    if (a>=b) return a;
+    else return b;
+}
+
+void monsterFainted(Monster** monsterArray, int& size, const int index){
+    Monster* deadMonster = monsterArray[index];
+    monsterArray[index] = monsterArray[size];
+    monsterArray[size--] = deadMonster;
+}
+
+int chooseMonster(Monster** monsterArray, const int max){
+    cout << "Which monster would you like to attack?" << endl;
+    for (int i=0; i<max; i++){
+        cout << (i+1) << ". ";
+        monsterArray[i]->print();
+    }
+    int monster = inputNumber(max);
+}
+
 //Random Name Generator
 
 void InitializeNameArrays(){

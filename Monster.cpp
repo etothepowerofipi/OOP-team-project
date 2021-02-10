@@ -53,19 +53,13 @@ int Monster::attack(){
     return damage;
 }
 
-void Monster::takeDamage(int damage){
-    damage-=defense;
-    if(dodge()){cout << "Attack has been dodged!" << endl; return;}
-    if(damage < 0) damage=0;
-    healthPower-=damage;
-    cout << name << " takes " << damage << " damage!" << endl;
-}
-
-int Monster::defend(const int attack){
-    int damage = attack - defense;
-    if (damage < 0)
-        return 0;
-    return damage;    
+bool Monster::takeDamage(int damage){
+    if(dodge()){
+        cout << name + " dodges the attack!" << endl;
+        return false;
+    }
+    damage -= defense;
+    return LivingBeing::takeDamage(max(damage,0));
 }
 
 bool Monster::dodge(){

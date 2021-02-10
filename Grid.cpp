@@ -151,7 +151,7 @@ bool Grid::checkBlock(int i,int j){
         int prob=rand()%100;
         if(prob <= 30){
             cout << "Battle\n";
-            // battle();
+            battle();
         }
         return true;
     }
@@ -174,15 +174,35 @@ bool Grid::battle(){
 
     while (thereAreHeroes() && thereAreMonsters(monsters,numOfMonsters)){
         for (int i=0; i<numofheroes; i++){
+            bool acceptableAction = false;
+            while (!acceptableAction){
             int action = battleMenu(i);
-            switch (action){
-                case 1:
-                    heroes[i]->attack(monsters[rand()%3]);
-                    break;
-                case 2:
-                    if (int index = heroes[i]->castSpell() > -1){
-                        
-                    }
+                switch (action){
+
+                    case 1:
+                        acceptableAction = true;
+                        heroes[i]->attack(monsters[rand()%3]);      
+                        break;
+
+                    case 2:
+                        if (int spellIndex = heroes[i]->castSpell() > -1){
+                            acceptableAction = true;
+                            int damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
+                            int monsterIndex = chooseMonster(monsters,numOfMonsters);
+                            if (monsters[monsterIndex]->takeDamage(damage))
+                                monsterFainted(monsters,numOfMonsters,monsterIndex);
+
+                        }
+                        break;
+
+                    case 3:
+                        if (int potionIndex = heroes[i]->usePotion() > -1){
+                            acceptableAction = true;
+                            heroes[i]->use(heroes[i]->getInventory().getPotion(potionIndex));
+                            //remove potion
+                        }
+                        break;
+                }
             }
         }
     }
@@ -203,7 +223,7 @@ bool Grid::thereAreHeroes(){
     bool thereAre = false;
     int index = 0;
     while (index < numofheroes){
-    if (heroes[index]->getHP() == 0)
+    if (heroes[index]->getHP() == 0) //Thelei allagh
         index++;
     else
         thereAre = true;
@@ -215,7 +235,7 @@ bool Grid::thereAreMonsters(Monster** monsters, const int numofmonsters){
     bool thereAre = false;
     int index = 0;
     while (index < numofmonsters){
-    if (monsters[index]->getHP() == 0)
+    if (monsters[index]->getHP() == 0) //Thelei allagh
         index++;
     else
         thereAre = true;

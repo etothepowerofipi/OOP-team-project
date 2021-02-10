@@ -16,9 +16,8 @@ class Monster: public LivingBeing
         virtual ~Monster();
 
         int attack(); //Epistrefei tuxaio arithmo anamesa sto minAttack kai to maxAttack.
-        void takeDamage(int);
+        bool takeDamage(int);
         bool dodge();
-        int defend(const int); //Epistrefei to damage pou tha parei to teras meta th meiwsh tou incoming damage apo to defense.
         void faint();
 };
 
