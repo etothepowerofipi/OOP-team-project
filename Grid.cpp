@@ -57,25 +57,25 @@ bool Grid::canPlace(int i,int j){
 }
 
 void Grid::move(){
-    int answer;
+    char answer;
     do{
         print();
         cout << "Would you like to move? n=no / a=left / d =right / w = up / s = down" << endl;
-        answer = inputMenu();
+        answer = inputMove();
         switch (answer){
-            case 1:
+            case 'a':
                 moveLeft();
                 break;
-            case 2:
+            case 'd':
                 moveRight();
                 break;
-            case 3:
+            case 'w':
                 moveUp();
                 break;
-            case 4:
+            case 's':
                 moveDown();
         }
-    } while(answer != 5);
+    } while(answer != 'n');
 }
 
 void Grid::moveRight(){
@@ -150,12 +150,12 @@ bool Grid::checkBlock(int i,int j){
     else if(map[i][j] == '+'){
         int prob=rand()%100;
         if(prob <= 30){
-            battle();
+            cout << "Battle\n";
+            // battle();
         }
         return true;
     }
     else{
-        cout << "You can go there!" << endl;
         return false;
     }
 }
@@ -181,6 +181,7 @@ bool Grid::battle(){
             }
         }
     }
+    return true; //Na to bgaloume sto telos
 }
 
 int Grid::battleMenu(int index){
@@ -266,33 +267,30 @@ Marketplace::Marketplace(Hero** h,int noh){
     Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
     for(int i=0;i<numofheroes;i++){ // pw = new Weapon klp /.../ w[i] = &pw;
-        stock.addWeapon(w[i]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) );
-        stock.addWeapon(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) );
+        stock.addWeapon( *(w[i]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
+        stock.addWeapon( *(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
 
-        stock.addArmor(a[i]=new Armor( heroes[i]->getLevel() , genName("armor") ) );
-        stock.addArmor(a[i+numofheroes]=new Armor( heroes[i]->getLevel() , genName("armor") ) );
+        stock.addArmor( *(a[i]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
+        stock.addArmor( *(a[i+numofheroes]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
     }
     //Arxikopoihsh spell
     //To prwto spell einai analogo tou level tou prwtou xarakthra
-    stock.addSpell(s[0]=new Spell(heroes[0]->getLevel() , genName("firespell") ) );
+    stock.addSpell( s[0]=new FireSpell(heroes[0]->getLevel().getRL() , genName("firespell") ) );
 
     //To deutero spell einai analogo tou level tou deuterou xarakthra, an uparxei
-    if(numofheroes >= 2) stock.addSpell(s[1]=new Spell(heroes[1]->getLevel() , genName("icespell") ) );
-    else stock.addSpell(s[1]=new Spell(heroes[0]->getLevel() , genName("icespell") ) );
+    if(numofheroes >= 2) stock.addSpell( s[1]=new IceSpell(heroes[1]->getLevel().getRL() , genName("icespell") ) );
+    else stock.addSpell( s[1]=new IceSpell(heroes[0]->getLevel().getRL() , genName("icespell") ) );
 
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
-    if(numofheroes == 3) 
-        stock.addSpell(s[2]=new Spell(heroes[2]->getLevel().getRL() , genName("lightningspell")) );
-    //Mallon prepei na einai s[2] = new LightningSpell
-    else 
-        spells[0]=new Spell(heroes[2]->getLevel().getRL() , genName("lightningspell"));
+    if(numofheroes == 3) stock.addSpell( s[2]=new LightningSpell(heroes[2]->getLevel().getRL() , genName("lightningspell")) );
+    else stock.addSpell( s[2]=new LightningSpell( heroes[2]->getLevel().getRL() , genName("lightningspell") ) );
 
     //Arxikopoihsh potion
     for(int i=0;i<numofheroes; i++){
-        stock.addPotion(p[i]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"HP") );
-        stock.addPotion(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"MP" );
+        stock.addPotion( *(p[i]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"HP") ) );
+        stock.addPotion( *(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"MP" ) ) );
     }
-    stock.addPotion(p[i+numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) );
+    stock.addPotion( *(p[i+numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) ) );
 
 }
 
@@ -313,12 +311,12 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the weapon?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i].getMoney() << " to buy the weapon." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " to buy the weapon." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the weapon you would like to buy." << endl;
                     input=inputNumber(stock.getWeaponsSize());
-                    if( heroes[inputH].buy(stock.getWeapon(input)) == true ) stock.removeWeapon(input);
+                    if( heroes[inputH]->buy(stock.getWeapon(input)) == true ) stock.removeWeapon(input);
                     cout << "Would you like to buy another weapon? y/n" << endl;
                 }while(inputAnswer() != false);
             }
@@ -330,12 +328,12 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the armor?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i].getMoney() << " to buy the armor." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " to buy the armor." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the armor you would like to buy." << endl;
                     input=inputNumber(stock.getArmorsSize());
-                    if( heroes[inputH].buy(stock.getArmor(input)) == true ) stock.removeArmor(input);
+                    if( heroes[inputH]->buy(stock.getArmor(input)) == true ) stock.removeArmor(input);
                     cout << "Would you like to buy another armor? y/n" << endl;
                 }while(inputAnswer() != false);
             }
@@ -347,12 +345,12 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the spell?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i].getMoney() << " to buy the spell." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " to buy the spell." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the spell you would like to buy." << endl;
                     input=inputNumber(stock.getSpellsSize());
-                    if( heroes[inputH].buy(stock.getSpell(input)) == true ) stock.removeSpell(input);
+                    if( heroes[inputH]->buy(stock.getSpell(input)) == true ) stock.removeSpell(input);
                     cout << "Would you like to buy another spell? y/n" << endl;
                 }while(inputAnswer() != false);
             }
@@ -364,12 +362,12 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the potion?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i].getMoney() << " to buy the potion." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " to buy the potion." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the potion you would like to buy." << endl;
                     input=inputNumber(stock.getPotionsSize());
-                    if( heroes[inputH].buy(stock.getPotion(input)) == true ) stock.removePotion(input);
+                    if( heroes[inputH]->buy(stock.getPotion(input)) == true ) stock.removePotion(input);
                     cout << "Would you like to buy another potion? y/n" << endl;
                 }while(inputAnswer() != false);
             }

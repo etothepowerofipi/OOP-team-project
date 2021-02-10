@@ -22,6 +22,19 @@ bool inputAnswer()
     return (input == 'y' || input == 'Y');   
 }
 
+char inputMove(){
+    char input;
+    cin >> input;
+    bool acceptable = input == 'n' || input == 'w' || input == 'a' || input == 's' || input == 'd';
+    while (acceptable == false){
+        cout << "Wrong input. Try again." << endl;
+        cin >> input;
+        acceptable = input == 'n' || input == 'w' || input == 'a' || input == 's' || input == 'd';
+    }
+
+    return input;   
+}
+
 int inputNumber(const int max)
 {
     unsigned input;
