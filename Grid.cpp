@@ -179,6 +179,7 @@ bool Grid::battle(){
                 case 1:
                     heroes[i]->attack(monsters[rand()%3]);
             }
+        }
     }
 }
 
@@ -260,13 +261,13 @@ bool Grid::menu(){
 Marketplace::Marketplace(Hero** h,int noh){
     int i;
     heroes=h;
-    Weapon* w[2*numofheroes];   //To market periexei 2 opla gia ka8e xarakthra
-    Armor* a[2*numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
-    Spell* s[3];              //To market periexei 1 spell gia ka8e eidous spell
-    Potion* p[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
-    for(int i=0;i<numofheroes;i++){
-        stock.addWeapon(w[i]=new Weapon( heroes[i]->getLevel() , genName("weapon") ) );
-        stock.addWeapon(w[i+numofheroes]=new Weapon( heroes[i]->getLevel() , genName("weapon") ) );
+    Weapon** w = new Weapon*[2*numofheroes];   //To market periexei 2 opla gia ka8e xarakthra 
+    Armor** a = new Armor*[2*numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
+    Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
+    Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
+    for(int i=0;i<numofheroes;i++){ // pw = new Weapon klp /.../ w[i] = &pw;
+        stock.addWeapon(w[i]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) );
+        stock.addWeapon(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) );
 
         stock.addArmor(a[i]=new Armor( heroes[i]->getLevel() , genName("armor") ) );
         stock.addArmor(a[i+numofheroes]=new Armor( heroes[i]->getLevel() , genName("armor") ) );
@@ -282,13 +283,14 @@ Marketplace::Marketplace(Hero** h,int noh){
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
     if(numofheroes == 3) 
         stock.addSpell(s[2]=new Spell(heroes[2]->getLevel().getRL() , genName("lightningspell")) );
+    //Mallon prepei na einai s[2] = new LightningSpell
     else 
         spells[0]=new Spell(heroes[2]->getLevel().getRL() , genName("lightningspell"));
 
     //Arxikopoihsh potion
     for(int i=0;i<numofheroes; i++){
         stock.addPotion(p[i]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"HP") );
-        stock.addPotion(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL(),"MP") );
+        stock.addPotion(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"MP" );
     }
     stock.addPotion(p[i+numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) );
 
