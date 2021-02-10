@@ -23,6 +23,8 @@ class Spell
         int getPrice() const;
         int getLevelReq() const;
         int getMP() const;
+        int getMin() const;
+        int getMax() const;
 
         virtual int getReduction() const=0;
         virtual void print() const=0;

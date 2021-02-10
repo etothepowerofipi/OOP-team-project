@@ -178,6 +178,11 @@ bool Grid::battle(){
             switch (action){
                 case 1:
                     heroes[i]->attack(monsters[rand()%3]);
+                    break;
+                case 2:
+                    if (int index = heroes[i]->castSpell() > -1){
+                        
+                    }
             }
         }
     }

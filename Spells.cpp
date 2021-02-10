@@ -143,6 +143,14 @@ int Spell::getMP() const
     return mpRequired;
 }
 
+int Spell::getMin() const {
+    return minDamage;
+}
+
+int Spell::getMax() const {
+    return maxDamage;
+}
+
 //PRINT
 //PRINT
 //PRINT

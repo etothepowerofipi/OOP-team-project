@@ -90,8 +90,13 @@ class Hero: public LivingBeing
 
         int attack(Monster*);
         void takeDamage(int);
-        int use(Spell&);
+
+        int castSpell();
+        int cast(Spell&);
+
+        int usePotion();    
         void use(Potion&);
+        
         virtual void levelUp() = 0;
         void addXP(const int);
         bool dodge();

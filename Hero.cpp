@@ -131,7 +131,6 @@ void Hero::addXP(const int xpToAdd)
 
 void Hero::checkInventory()
 {
-
     cout << "Here is the current inventory for " << getName() << endl;
     inventory.print(*this);
 
@@ -225,17 +224,31 @@ PlayerInventory Hero::getInventory() const {return inventory;}
 int Hero::getAgility() const {return agility;}
 int Hero::getMoney(){return money;}
 
-// int Hero::use(Spell& s)
-// {
-//     if (s.getLevelReq() <= level.getRL())
-//     {
-//         int damage = rand() % 
 
-//         return damage;
-//     }
-//     cout << "Hero's level is not high enough to use this spell." << endl;
-//     return 0;
-// }
+int Hero::castSpell(){
+    if (getInventory().getSpellsSize() > 0){
+        cout << "Choose which spell to use" << endl;
+        for (int i=0; i<getInventory().getSpellsSize(); i++){
+            getInventory().getSpell(i)->print();
+        }
+        return inputNumber(getInventory().getSpellsSize()) - 1;
+    }
+    else
+        cout << "This hero has no spells available" << endl;
+    return -1;
+}
+
+int Hero::cast(Spell& s)
+{
+    if (s.getLevelReq() <= level.getRL())
+    {
+        int damage = rand() % (s.getMax() - s.getMin());
+        damage += s.getMin();
+        return damage;
+    }
+    cout << "Hero's level is not high enough to use this spell." << endl;
+    return 0;
+}
 
 void Hero::use(Potion& p)
 {
