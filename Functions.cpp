@@ -35,17 +35,17 @@ char inputMove(){
     return input;   
 }
 
-int inputNumber(const int max)
+int inputNumber(const int m)
 {
-    unsigned input;
+    char max=m+48; //O kwdikos ascii pou antistoixei ston ari8mo m einai o 48+m
+    char input;
     cin >> input;
-    bool acceptable = input <= max;
-    while (acceptable == false){
+    while (input < 0 || input > max){
         cout << "Wrong input. Try again." << endl;
         cin >> input;
-        acceptable = input <= max;
     }
-    return input;
+    int rinput=input-48;
+    return rinput;
 }
 
 int randomLevel(const int heroAverage){
