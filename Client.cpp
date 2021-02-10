@@ -21,7 +21,7 @@ int main(void){
         cout << "Warriors have increased damage and agility. To make " << name << " a warrior press '1'\n" << endl;
         cout << "Paladins have increased damage and dexterity. To make " << name << " a paladin press '2'\n" << endl;
         cout << "Sorcerers have increased dexterity and agility. To make " << name << " a sorcerer press '3'\n" << endl;
-        cin >> intAnswer;
+        intAnswer=inputNumber(3);
         switch(intAnswer){
             case 1 :
                 heroes[i]=new Warrior(name);
