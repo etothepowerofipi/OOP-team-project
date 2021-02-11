@@ -149,7 +149,7 @@ void Weapon::starterWeapon(){
     name="Basic dagger";
     price=0;
     minLevel=1;
-    damage=1;
+    damage=15;
     twoHanded=false;
 }
 
@@ -157,5 +157,5 @@ void Armor::starterArmor(){
     name="Basic shield";
     price=0;
     minLevel=1;
-    protection=1;
+    protection=5;
 }

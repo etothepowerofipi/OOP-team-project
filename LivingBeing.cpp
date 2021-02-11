@@ -29,6 +29,7 @@ bool LivingBeing::takeDamage(const int damage)
 {
     if (damage < healthPower){
         healthPower-= damage;
+        cout << name << " takes " << damage << " damage!" << endl;
         return false;
     }
     else{
@@ -37,16 +38,11 @@ bool LivingBeing::takeDamage(const int damage)
     }
 }
 
-void LivingBeing::faint(){
-
-}
-
 
 string LivingBeing::getName() const{return name;}
 int LivingBeing::getHP() const{return healthPower;}
 int LivingBeing::getLevel() const{return level;}
 
 void LivingBeing::print() const{
-    cout << "\tName: " + name << endl;
-    cout << "\tHP: " << healthPower << endl;
+    cout << "\tName: " + name + "\tHP: " << healthPower << endl;
 }

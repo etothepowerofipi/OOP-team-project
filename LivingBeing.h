@@ -11,19 +11,19 @@ class LivingBeing
         int healthPower;
         int level;
 
+        virtual bool dodge() = 0;
+        virtual void faint() = 0;
+
     public:
         LivingBeing(const std::string,const int);
         virtual ~LivingBeing();
 
         bool takeDamage(int);
-        void faint();
+        virtual bool defend(int) = 0;
 
-        void printName();
         std::string getName() const;
         int getHP() const;
         int getLevel() const;
 
-        void print() const;
-
-        virtual bool dodge() = 0;
+        virtual void print() const;
 };

@@ -10,15 +10,20 @@ class Monster: public LivingBeing
         int maxAttack;
         int defense;
         int dodgeChance;
+
+        bool dodge();
+        void faint();
         
     public:
         Monster(const std::string,const int);
         virtual ~Monster();
 
         int attack(); //Epistrefei tuxaio arithmo anamesa sto minAttack kai to maxAttack.
-        bool takeDamage(int);
-        bool dodge();
-        void faint();
+        bool defend(int);
+
+
+        virtual std::string type() const = 0;
+        void print() const;
 };
 
 class Dragon: public Monster
@@ -26,6 +31,8 @@ class Dragon: public Monster
     public:
         Dragon(const std::string,const int);
         ~Dragon();
+
+        std::string type() const;
 };
 
 class Exosceleton: public Monster
@@ -33,6 +40,8 @@ class Exosceleton: public Monster
     public:
         Exosceleton(const std::string,const int);
         ~Exosceleton();
+
+        std::string type() const;
 };
 
 class Spirit: public Monster
@@ -40,6 +49,8 @@ class Spirit: public Monster
     public:
         Spirit(const std::string,const int);
         ~Spirit();
+
+        std::string type() const;
 };
 
 Monster* monsterGenerator(const int);

@@ -53,13 +53,13 @@ int Monster::attack(){
     return damage;
 }
 
-bool Monster::takeDamage(int damage){
+bool Monster::defend(int damage){
     if(dodge()){
         cout << name + " dodges the attack!" << endl;
-        return false;
+        return 0;
     }
     damage -= defense;
-    return LivingBeing::takeDamage(max(damage,0));
+    return takeDamage(max(damage,0));
 }
 
 bool Monster::dodge(){
@@ -70,6 +70,27 @@ bool Monster::dodge(){
 void Monster::faint(){
     cout << name + " has fainted! It's out of the battle!" << endl;
 }
+
+void Monster::print() const{
+    cout << type();
+    LivingBeing::print();
+}
+
+
+//type
+
+string Dragon::type() const{
+    return "\tType: Dragon";
+}
+
+string Exosceleton::type() const{
+    return "\tType: Exosceleton";
+}
+
+string Spirit::type() const{
+    return "\tType: Spirit";
+}
+
 
 Monster* monsterGenerator(const int heroAverage){
     int type = rand() % 3;
@@ -86,4 +107,19 @@ Monster* monsterGenerator(const int heroAverage){
             break;
     }
     return monster;
+}
+
+void monsterFainted(Monster** monsterArray, int& size, const int index){
+    Monster* monster = monsterArray[index];
+    monsterArray[index] = monsterArray[size-1];
+    monsterArray[--size] = monster;
+}
+
+int chooseMonster(Monster** monsterArray, const int monsters){
+    cout << "Which monster would you like to attack?" << endl;
+    for (int i=0; i<monsters; i++){
+        cout << (i+1) << ". ";
+        monsterArray[i]->print();
+    }
+    return inputNumber(monsters)-1;
 }

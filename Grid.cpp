@@ -148,7 +148,6 @@ bool Grid::checkBlock(int i,int j){
     else if(map[i][j] == '+'){
         int prob=rand()%100;
         if(prob <= 30){
-            cout << "Battle\n";
             battle();
         }
         return true;
@@ -159,38 +158,39 @@ bool Grid::checkBlock(int i,int j){
 }
 
 bool Grid::battle(){
-    int numOfMonsters = rand()%2 + numofheroes;
-    if (numOfMonsters == 1)
+    int heroesInBattle = numofheroes;
+    const int initialMonsters =  heroesInBattle + rand()%2;
+    int monstersInBattle = initialMonsters;
+    if (monstersInBattle == 1)
         cout << "A monster has appeared!\nPrepare to battle!" << endl;
     else
         cout << "Monsters have appeared!\nPrepare to battle!" << endl;
 
-    Monster** monsters = new Monster*[numOfMonsters];
-    cout << "Monster array declared" << endl;
-    for (int i=0; i< numOfMonsters; i++){
+    Monster** monsters = new Monster*[monstersInBattle];
+    for (int i=0; i< monstersInBattle; i++)
         monsters[i] = monsterGenerator(level());
-    }
 
-    while (thereAreHeroes() && thereAreMonsters(monsters,numOfMonsters)){
-        for (int i=0; i<numofheroes; i++){
+    while (heroesInBattle>0 && monstersInBattle>0){
+        for (int i=0; i<heroesInBattle; i++){
+            heroes[i]->gainMP();
             bool acceptableAction = false;
             while (!acceptableAction){
+            battleStats(monsters,monstersInBattle,heroesInBattle);
             int action = battleMenu(i);
                 switch (action){
 
                     case 1:
                         acceptableAction = true;
-                        heroes[i]->attack(monsters[rand()%3]);      
+                        heroes[i]->attack(monsters[chooseMonster(monsters,monstersInBattle)]);      
                         break;
 
                     case 2:
                         if (int spellIndex = heroes[i]->castSpell() > -1){
                             acceptableAction = true;
                             int damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
-                            int monsterIndex = chooseMonster(monsters,numOfMonsters);
+                            int monsterIndex = chooseMonster(monsters,monstersInBattle);
                             if (monsters[monsterIndex]->takeDamage(damage))
-                                monsterFainted(monsters,numOfMonsters,monsterIndex);
-
+                                monsterFainted(monsters,monstersInBattle,monsterIndex);
                         }
                         break;
 
@@ -198,17 +198,47 @@ bool Grid::battle(){
                         if (int potionIndex = heroes[i]->usePotion() > -1){
                             acceptableAction = true;
                             heroes[i]->use(heroes[i]->getInventory().getPotion(potionIndex));
-                            //remove potion
+                            heroes[i]->removePotion(potionIndex);
                         }
                         break;
+
+                    case 4:
+                        acceptableAction = true;
+                        heroes[i]->checkInventory();
                 }
             }
         }
+        for (int i=0; i<monstersInBattle; i++){
+            int randomHero = rand() % heroesInBattle;
+            int damage = monsters[i]->attack();
+            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;
+            if (heroes[randomHero]->defend(damage))
+                heroFainted(heroes,heroesInBattle,randomHero);
+        }
     }
-    return true; //Na to bgaloume sto telos
+    if (heroesInBattle>0){
+        cout << "The heroes have won!" << endl;
+        for (int i=0; i<heroesInBattle; i++){
+            heroes[i]->gainXP(initialMonsters);
+            heroes[i]->gainGold(initialMonsters);
+        }
+    }
+    else {
+        cout << "The heroes have lost!" << endl;
+    }
+    return (heroesInBattle>0);
 }
 
-int Grid::battleMenu(int index){
+void Grid::battleStats(Monster** monsterArray, const int monsters, const int heroes) const{
+    cout << "Heroes:" << endl;
+    for (int i=0; i<heroes; i++)
+        this->heroes[i]->print();
+    cout << "Monsters:" << endl;
+    for (int i=0; i<monsters; i++)
+        monsterArray[i]->print();
+}
+
+int Grid::battleMenu(const int index) const{
     cout << "What would you like " + heroes[index]->getName() + " to do?" << endl;
     cout << "To attack normally, type 1." << endl;
     cout << "To cast a spell, type 2." << endl;
@@ -216,30 +246,6 @@ int Grid::battleMenu(int index){
     cout << "To change equipment, type 4." << endl;
 
     return inputNumber(4);
-}
-
-bool Grid::thereAreHeroes(){
-    bool thereAre = false;
-    int index = 0;
-    while (index < numofheroes){
-    if (heroes[index]->getHP() == 0) //Thelei allagh
-        index++;
-    else
-        thereAre = true;
-    }
-    return thereAre;
-}
-
-bool Grid::thereAreMonsters(Monster** monsters, const int numofmonsters){
-    bool thereAre = false;
-    int index = 0;
-    while (index < numofmonsters){
-    if (monsters[index]->getHP() == 0) //Thelei allagh
-        index++;
-    else
-        thereAre = true;
-    }
-    return thereAre;
 }
 
 int Grid::level() const{
@@ -335,7 +341,7 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the weapon?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " money to buy the weapon." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the weapon you would like to buy." << endl;
@@ -352,7 +358,7 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the armor?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " money to buy the armor." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the armor." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the armor you would like to buy." << endl;
@@ -369,7 +375,7 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the spell?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " money to buy the spell." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the spell." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the spell you would like to buy." << endl;
@@ -386,7 +392,7 @@ void Marketplace::menu(){
                     if(numofheroes >= 2){
                         cout << "Which hero to buy the potion?" << endl;
                         for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getMoney() << " to money buy the potion." << endl;
+                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " to money buy the potion." << endl;
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the potion you would like to buy." << endl;

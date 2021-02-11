@@ -39,7 +39,6 @@ public:
     bool checkBlock(int,int);
 
     bool battle();
-    int battleMenu(int);
-    bool thereAreHeroes();
-    bool thereAreMonsters(Monster**,const int);
+    void battleStats(Monster**,const int, const int) const;
+    int battleMenu(const int) const;
 };

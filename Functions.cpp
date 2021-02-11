@@ -57,20 +57,12 @@ int max(const int a, const int b){
     else return b;
 }
 
-void monsterFainted(Monster** monsterArray, int& size, const int index){
-    Monster* deadMonster = monsterArray[index];
-    monsterArray[index] = monsterArray[size-1];
-    monsterArray[--size] = deadMonster;
+int min(const int a, const int b){
+    if (a<=b) return a;
+    else return b;
 }
 
-int chooseMonster(Monster** monsterArray, const int max){
-    cout << "Which monster would you like to attack?" << endl;
-    for (int i=0; i<max; i++){
-        cout << (i+1) << ". ";
-        monsterArray[i]->print();
-    }
-    return inputNumber(max);
-}
+
 
 //Random Name Generator
 

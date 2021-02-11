@@ -10,12 +10,12 @@ using namespace std;
 //CONSTRUCTORS
 //CONSTRUCTORS
 
-Level::Level(const int lvl= 1): realLevel(lvl), currentXp(0), levelUpXp(realLevel*100 + realLevel*(realLevel-1)) {}
+Level::Level(const int lvl= 1): realLevel(lvl), currentXp(0) {}
 
 Hero::Hero(const string s) : LivingBeing(s,1) {
     healthPower=100;
     MP=100;
-    money=0;
+    gold=0;
     weapon.starterWeapon();
     armor.starterArmor();
 }
@@ -61,7 +61,7 @@ int Level::addXp(int xptoadd)
 {
     int levelUps = 0;
     currentXp+=xptoadd;
-    while(currentXp >= levelUpXp)
+    while(currentXp >= levelUpXp())
     {
         levelUp();
         levelUps++;
@@ -71,18 +71,29 @@ int Level::addXp(int xptoadd)
 
 void Level::levelUp()
 {
+    currentXp -= levelUpXp();
     realLevel++;
-    currentXp -= levelUpXp;
-    levelUpXp = realLevel*100 + realLevel*(realLevel-1);
+}
+
+int Level::levelUpXp() const{
+    return realLevel*100 + realLevel*(realLevel-1);
 }
 
 int Level::getRL() const {return realLevel;}
 int Level::getXP() const {return currentXp;}
-int Level::getLvlUpXP() const {return levelUpXp;}
+
+void Level::print() const{
+    cout << "\tCurrent level: " << realLevel << endl;
+    cout << "\tCurrent experience " << currentXp << "/"  << levelUpXp() << endl;
+}
 
 //HERO
 //HERO
 //HERO
+
+int Hero::maxHP() const{return 100+5*(level.getRL()-1);}
+int Hero::maxMP() const{return 100+5*(level.getRL()-1);}
+
 
 void Hero::showStats(){
     cout << "Printing stats for " << getName() << "." << endl;
@@ -92,25 +103,19 @@ void Hero::showStats(){
     cout << "Strength : " << strength << endl;
     cout << "Agility : " << agility << endl;
     cout << "Dexterity : " << dexterity << endl;
-    cout << "Money : " << money << endl;
+    cout << "Gold : " << gold << endl;
     cout << endl;
 }
 
-int Hero::maxHP() const{return 100+5*(level.getRL()-1);}
-int Hero::maxMP() const{return 100+5*(level.getRL()-1);}
-
-int Hero::attack(Monster* monster){
-    int damage = weapon.getDamage()+strength;
-    monster->takeDamage(damage);
-    return 42069;
+//BATTLE
+void Hero::gainMP(){
+    MP += 5*level.getRL();
+    MP = min(MP,maxMP());
 }
 
-void Hero::takeDamage(int damage){
-    damage-=armor.getProtection();
-    if(dodge()){cout << "Attack has been dodged!" << endl; return;}
-    if(damage < 0) damage=0;
-    healthPower-=damage;
-    cout << name << " takes " << damage << " damage!" << endl;
+void Hero::attack(Monster* monster){
+    int damage = weapon.getDamage()+strength;
+    monster->takeDamage(damage);
 }
 
 bool Hero::dodge(){
@@ -118,17 +123,32 @@ bool Hero::dodge(){
     return (temp <= agility );
 }
 
+bool Hero::defend(int damage){
+    if(dodge()){
+        cout << name + " dodges the attack!" << endl; 
+        return 0;
+    }
+    damage -= armor.getProtection();
+    return takeDamage(max(damage,0));
+}
 
-void Hero::addXP(const int xpToAdd) 
-{
-    const int levelUps = level.addXp(xpToAdd);
+void Hero::gainXP(const int monsters){
+    int expGained = 10*monsters*level.getRL();
+    cout << name + " gained " << expGained << " experience!" << endl;
+    const int levelUps = level.addXp(expGained);
     for (int i=0; i<levelUps; i++)
-        levelUp();
+        levelUp();;
+}
+
+void Hero::gainGold(const int monsters){
+    int goldGained = 2*monsters*level.getRL();
+    cout << name + " gained " << goldGained << " gold!" << endl;
+    addGold(goldGained);
 }
 
 void Hero::checkInventory()
 {
-    cout << "Here is the current inventory for " << getName() << endl;
+    cout << "Here is the current inventory for " + name << endl;
     inventory.print(*this);
 
     char yes;
@@ -160,15 +180,12 @@ void Hero::checkInventory()
     getArmor().print();
 }
 
-int Inventory::getWeaponsSize() const{return weapons.size();}
-int Inventory::getArmorsSize() const{return armors.size();}
-int Inventory::getPotionsSize() const{return potions.size();}
-int Inventory::getSpellsSize() const{return spells.size();}
 
-void Hero::addMoney(int a){money+=a;}
+
+void Hero::addGold(int a){gold+=a;}
 bool Hero::buy(Weapon w){
-    if(money >= w.getPrice()){
-        money-= w.getPrice();
+    if(gold >= w.getPrice()){
+        gold-= w.getPrice();
         inventory.addWeapon(w);
         return true;
     }
@@ -178,8 +195,8 @@ bool Hero::buy(Weapon w){
     }
 }
 bool Hero::buy(Armor a){
-    if(money >= a.getPrice()){
-        money-= a.getPrice();
+    if(gold >= a.getPrice()){
+        gold-= a.getPrice();
         inventory.addArmor(a);
         return true;
     }
@@ -189,8 +206,8 @@ bool Hero::buy(Armor a){
     }
 }
 bool Hero::buy(Potion p){
-    if(money >= p.getPrice()){
-        money-= p.getPrice();
+    if(gold >= p.getPrice()){
+        gold-= p.getPrice();
         inventory.addPotion(p);
         return true;
     }
@@ -200,8 +217,8 @@ bool Hero::buy(Potion p){
     }
 }
 bool Hero::buy(Spell* s){
-    if(money >= s->getPrice()){
-        money-= s->getPrice();
+    if(gold >= s->getPrice()){
+        gold-= s->getPrice();
         inventory.addSpell(s);
         return true;
     }
@@ -219,7 +236,12 @@ Armor Hero::getArmor() const {return armor;}
 Level Hero::getLevel() const {return level;}
 PlayerInventory Hero::getInventory() const {return inventory;}
 int Hero::getAgility() const {return agility;}
-int Hero::getMoney(){return money;}
+int Hero::getGold(){return gold;}
+
+void Hero::print() const{
+    cout << type();
+    LivingBeing::print();
+}
 
 
 int Hero::castSpell(){
@@ -284,8 +306,12 @@ void Hero::removePotion(const int index){
 }
 
 void Hero::faint(){
-    money /=2;
     cout << name + " has fainted and is out of the battle!" << endl;
+    const int initialGold = gold;
+    gold /=2;
+    cout << name + " lost " << initialGold - gold << " gold!" << endl;
+    healthPower = maxHP()/2;
+    MP = maxMP()/2;
 }
 
 //SubClasses Hero
@@ -293,6 +319,7 @@ void Hero::faint(){
 void Warrior::levelUp()
 {
     LivingBeing::level++;
+    level.levelUp();
     healthPower += 50;
     MP =+ 50;
 
@@ -300,10 +327,15 @@ void Warrior::levelUp()
     agility += 0.05* 1.5;
     dexterity += 5;
 }
+string Warrior::type() const{
+    return "\tType: Warrior";
+}
+
 
 void Sorcerer::levelUp()
 {
     LivingBeing::level++;
+    level.levelUp();
     healthPower += 50;
     MP =+ 50;
 
@@ -311,10 +343,14 @@ void Sorcerer::levelUp()
     agility += 0.05* 1.5;
     dexterity += 5* 1.5;
 }
+string Sorcerer::type() const{
+    return "\tType: Sorcerer";
+}
 
 void Paladin::levelUp()
 {
     LivingBeing::level++; // = level.reallevel
+    level.levelUp();
     healthPower += 50;
     MP =+ 50;
 
@@ -322,29 +358,21 @@ void Paladin::levelUp()
     agility += 0.05;
     dexterity += 5* 1.5;
 }
+string Paladin::type() const{
+    return "\tType: Paladin";
+}
 
 //INVENTORY
+int Inventory::getWeaponsSize() const{return weapons.size();}
+int Inventory::getArmorsSize() const{return armors.size();}
+int Inventory::getPotionsSize() const{return potions.size();}
+int Inventory::getSpellsSize() const{return spells.size();}
+int Inventory::getSize() const{return (weapons.size() + armors.size() + potions.size() + spells.size());}
 
-Weapon Inventory::getWeapon(int i){
-    return weapons[i];
-}
-
-Armor Inventory::getArmor(int i){
-    return armors[i];
-}
-
-Potion Inventory::getPotion(int i){
-    return potions[i];
-}
-
-Spell* Inventory::getSpell(int i){
-    return spells[i];
-}
-
-int Inventory::getSize() const{
-    return (weapons.size() + armors.size() + potions.size() + spells.size());
-}
-
+Weapon Inventory::getWeapon(int i){return weapons[i];}
+Armor Inventory::getArmor(int i){return armors[i];}
+Potion Inventory::getPotion(int i){return potions[i];}
+Spell* Inventory::getSpell(int i){return spells[i];}
 
 void Inventory::print() const
 {
@@ -385,43 +413,35 @@ void Inventory::print() const
     }
 }
 
-void Inventory::removeWeapon(int i)
-{
+void Inventory::removeWeapon(int i){
     weapons.erase(weapons.begin() + i);
 }
 
-void Inventory::removeArmor(int i)
-{
+void Inventory::removeArmor(int i){
     armors.erase(armors.begin() + i);
 }
 
-void Inventory::removePotion(int i)
-{
+void Inventory::removePotion(int i){
     potions.erase(potions.begin() + i);
 }
 
-void Inventory::removeSpell(int i)
-{
+void Inventory::removeSpell(int i){
     spells.erase(spells.begin() + i);
 }
 
-void Inventory::addWeapon(Weapon w)
-{
+void Inventory::addWeapon(Weapon w){
     weapons.push_back(w);
 }
 
-void Inventory::addArmor(Armor a)
-{
+void Inventory::addArmor(Armor a){
     armors.push_back(a);
 }
 
-void Inventory::addPotion(Potion p)
-{
+void Inventory::addPotion(Potion p){
     potions.push_back(p);
 }
 
-void Inventory::addSpell(Spell* s)
-{
+void Inventory::addSpell(Spell* s){
     spells.push_back(s);
 }
 
@@ -432,34 +452,29 @@ void Inventory::addSpell(Spell* s)
 //PLAYERINVENTORY
 //PLAYERINVENTORY
 
-Weapon PlayerInventory::equipWeapon(const int index, Weapon currentWeapon)
-{
+Weapon PlayerInventory::equipWeapon(const int index, Weapon currentWeapon){
     Weapon returnWeapon = weapons[index];
     weapons[index] = currentWeapon;
     return returnWeapon;
 }
 
-Armor PlayerInventory::equipArmor(const int index, Armor currentArmor)
-{
+Armor PlayerInventory::equipArmor(const int index, Armor currentArmor){
     Armor returnArmor = armors[index];
     armors[index] = currentArmor;
     return returnArmor;
 }
 
 
-bool PlayerInventory::isFull(const Hero& h) const
-{
+bool PlayerInventory::isFull(const Hero& h) const{
     if(weapons.size() + armors.size() + potions.size() + spells.size() < Capacity(h.getLevel().getRL())) return false;
     return true;
 }
 
-int PlayerInventory::Capacity(const int level) const
-{
+int PlayerInventory::Capacity(const int level) const{
     return (10 + level/3);
 }
 
-void PlayerInventory::print(const Hero& h) const
-{
+void PlayerInventory::print(const Hero& h) const{
     cout << getSize() << '/' << Capacity(h.getLevel().getRL()) << " slots are in use." << endl;
     
     Inventory::print();
@@ -475,4 +490,10 @@ int level(Hero** heroes, const int numOfHeroes){
         sum += heroes[i]->getLevel().getRL();
     int average = sum / numOfHeroes;
     return randomLevel(average);
+}
+
+void heroFainted(Hero** heroArray, int& size, const int index){
+    Hero* hero = heroArray[index];
+    heroArray[index] = heroArray[size-1];
+    heroArray[--size] = hero;
 }
