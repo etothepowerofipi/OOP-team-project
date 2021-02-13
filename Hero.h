@@ -124,6 +124,7 @@ class Hero: public LivingBeing
 
 
         void checkInventory();
+        void printInventory();
         void printWeapons();
         void printArmors();
         void printSpells();
