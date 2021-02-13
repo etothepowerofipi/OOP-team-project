@@ -140,8 +140,8 @@ void Hero::gainXP(const int monsters){
 
 void Hero::gainGold(const int monsters){
     int goldGained = 2*monsters*level.getRL();
-    cout << name + " gained " << goldGained << " gold! Current gold is : " << gold << endl;
     addGold(goldGained);
+    cout << name + " gained " << goldGained << " gold! Current gold is : " << gold << endl;
 }
 
 void Hero::checkInventory(){

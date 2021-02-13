@@ -147,7 +147,7 @@ bool Grid::checkBlock(int i,int j){
     }
     else if(map[i][j] == '+'){
         int prob=rand()%100;
-        if(prob <= 30)    
+        if(prob < 30)    
             return battle();
     }
     return false;
@@ -412,7 +412,7 @@ void Marketplace::menu(){
 
         }
         else if(input == 2){
-            for(i=0;i<numofheroes;i++){
+            for(int i=0; i<numofheroes; i++){
                 cout << "Inventory of hero " << heroes[i]->getName() << " is :" << endl;
                 do{
                     cout << "What type of item would you like to sell? Input w/a/s/p/b (weapon/armor/spell/potion/go back)" << endl;
