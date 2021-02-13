@@ -16,11 +16,30 @@ Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(1+lvl/2+l
     if(price<=0) price=100;
 }
 Weapon::Weapon(){starterWeapon();}
+Weapon::Weapon(const Weapon& w)
+{
+    if(this!=&w){
+        name = w.name;
+        price = w.price;
+        minLevel = w.minLevel;
+        damage = w.damage;
+        twoHanded =  w.twoHanded;
+    }
+}
 Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(lvl+1+lvl*rand()%4) {
     if(protection <=0) protection=1;
     if(price<=0) price=100;
 }
 Armor::Armor() : Item() {starterArmor();}
+Armor::Armor(const Armor& arm)
+{
+    if(this!=&arm){
+        name = arm.name;
+        price = arm.price;
+        minLevel = arm.minLevel;
+        protection = arm.protection;
+    }
+}
 Potion::Potion(int lvl,string name) : Item(lvl,name,"potion") , effectPoints(10+10*(lvl-2+rand()%4)) {}
 
 //printers

@@ -157,7 +157,7 @@ void Hero::checkInventory(){
         if (yes){
             cout << "Which weapon to equip? Input a number" << endl;
             index = inputNumber(inventory.getWeaponsSize())-1;
-            weapon=inventory.equipWeapon(index,weapon);
+            weapon= inventory.equipWeapon(index,weapon);
         }
     }
 

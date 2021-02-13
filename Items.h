@@ -26,6 +26,7 @@ class Weapon : public Item{
 public:
     Weapon(int ,std::string );
     Weapon();
+    Weapon(const Weapon&);
     ~Weapon();
     Weapon& operator=(const Weapon& );
 
@@ -40,6 +41,7 @@ class Armor : public Item{
 public:
     Armor(int ,std::string );
     Armor();
+    Armor(const Armor&);
     ~Armor();
     Armor& operator=(const Armor& );
     
