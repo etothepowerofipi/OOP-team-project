@@ -146,6 +146,7 @@ bool Grid::checkBlock(int i,int j){
         return true;
     }
     else if(map[i][j] == '+'){
+        return true;
         int prob=rand()%100;
         if(prob < 30) return battle();
         else return true;
@@ -355,7 +356,11 @@ void Marketplace::menu(){
                     cout << "Enter the number of the weapon you would like to buy." << endl;
                     input=inputNumber(stock.getWeaponsSize())-1;
                     if( heroes[inputH]->buy(stock.getWeapon(input)) == true ) stock.removeWeapon(input);
-                    cout << "Would you like to buy another weapon? y/n" << endl;
+                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
+                    stock.print();
+                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                    if(stock.getWeaponsSize() != 0) cout << "Would you like to buy another weapon? y/n" << endl;
+                    else break;
                 }while(inputAnswer() != false);
             }
 
@@ -372,7 +377,11 @@ void Marketplace::menu(){
                     cout << "Enter the number of the armor you would like to buy." << endl;
                     input=inputNumber(stock.getArmorsSize())-1;
                     if( heroes[inputH]->buy(stock.getArmor(input)) == true ) stock.removeArmor(input);
-                    cout << "Would you like to buy another armor? y/n" << endl;
+                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
+                    stock.print();
+                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                    if(stock.getArmorsSize() != 0) cout << "Would you like to buy another armor? y/n" << endl;
+                    else break;
                 }while(inputAnswer() != false);
             }
 
@@ -387,9 +396,13 @@ void Marketplace::menu(){
                         inputH=inputNumber(numofheroes)-1;
                     }
                     cout << "Enter the number of the spell you would like to buy." << endl;
-                    input=inputNumber(3)-1;
+                    input=inputNumber(stock.getSpellsSize())-1;
                     if( heroes[inputH]->buy(stock.getSpell(input)) == true ) stock.removeSpell(input);
-                    cout << "Would you like to buy another spell? y/n" << endl;
+                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
+                    stock.print();
+                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                    if(stock.getSpellsSize() != 0) cout << "Would you like to buy another spell? y/n" << endl;
+                    else break;
                 }while(inputAnswer() != false);
             }
 
@@ -406,7 +419,11 @@ void Marketplace::menu(){
                     cout << "Enter the number of the potion you would like to buy." << endl;
                     input=inputNumber(stock.getPotionsSize())-1;
                     if( heroes[inputH]->buy(stock.getPotion(input)) == true ) stock.removePotion(input);
-                    cout << "Would you like to buy another potion? y/n" << endl;
+                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
+                    stock.print();
+                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                    if(stock.getPotionsSize() != 0) cout << "Would you like to buy another potion? y/n" << endl;
+                    else break;
                 }while(inputAnswer() != false);
             }
 
@@ -414,6 +431,7 @@ void Marketplace::menu(){
         else if(input == 2){
             for(int i=0;i<numofheroes;i++){
                 cout << "Inventory of hero " << heroes[i]->getName() << " is :" << endl;
+                heroes[i]->printInventory();
                 do{
                     cout << "What type of item would you like to sell? Input w/a/s/p/b (weapon/armor/spell/potion/go back)" << endl;
                     switch(inputS=inputSell()){

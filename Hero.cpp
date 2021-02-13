@@ -96,7 +96,7 @@ int Hero::maxMP() const{return 80+5*(level.getRL()-1);}
 
 
 void Hero::showStats(){
-    cout << "Printing stats for " << getName() << "." << endl;
+    cout << "\n\nPrinting stats for " << getName() << "." << endl;
     cout << "Health points : " << healthPower << "/" << maxHP() << endl;
     cout << "Magical points : " << MP << "/" << maxMP() << endl;
     level.print();
@@ -145,7 +145,7 @@ void Hero::gainGold(const int monsters){
 }
 
 void Hero::checkInventory(){
-    cout << "Here is the current inventory for " + name << endl;
+    cout << "\n\nHere is the current inventory for " + name << endl;
     inventory.print(*this);
 
     char yes;
@@ -170,13 +170,9 @@ void Hero::checkInventory(){
             equip(inventory.equipArmor(index,armor));
         }
     }
-
-    cout << "Current weapon is: " << endl;
-    getWeapon().print();
-    cout << "Current armor is: " << endl;
-    getArmor().print();
 }
 
+void Hero::printInventory(){ inventory.Inventory::print(); }
 void Hero::printWeapons(){ inventory.printWeapons(); }
 void Hero::printArmors(){ inventory.printArmors(); }
 void Hero::printSpells(){ inventory.printSpells(); }
@@ -189,6 +185,8 @@ void Hero::sell(string type){
         cout << "Weapons on inventory of " << getName() << " are :" << endl;
         inventory.printWeapons();
         if(inventory.getWeaponsSize() != 0){
+            cout << "Are you sure you want to sell a weapon?" << endl;
+            if(inputAnswer() == false) return;
             cout << "Input the number of the weapon you would like to sell." << endl;
             inputI=inputNumber(inventory.getWeaponsSize()) - 1;
             addGold(inventory.getWeapon(inputI).getPrice()/2);
@@ -200,6 +198,8 @@ void Hero::sell(string type){
         cout << "Armors on inventory of " << getName() << " are :" << endl;
         inventory.printArmors();
         if(inventory.getArmorsSize() != 0){
+            cout << "Are you sure you want to sell an armor?" << endl;
+            if(inputAnswer() == false) return;
             cout << "Input the number of the armor you would like to sell." << endl;
             inputI=inputNumber(inventory.getArmorsSize()) - 1;
             addGold(inventory.getArmor(inputI).getPrice()/2);
@@ -211,6 +211,8 @@ void Hero::sell(string type){
         cout << "Spells on inventory of " << getName() << " are :" << endl;
         inventory.printSpells();
         if(inventory.getSpellsSize() != 0){
+            cout << "Are you sure you want to sell a spell?" << endl;
+            if(inputAnswer() == false) return;
             cout << "Input the number of the spell you would like to sell." << endl;
             inputI=inputNumber(inventory.getSpellsSize()) - 1;
             addGold(inventory.getSpell(inputI)->getPrice()/2);
@@ -222,6 +224,8 @@ void Hero::sell(string type){
         cout << "Potions on inventory of " << getName() << " are :" << endl;
         inventory.printPotions();
         if(inventory.getPotionsSize() != 0){
+            cout << "Are you sure you want to sell a potion?" << endl;
+            if(inputAnswer() == false) return;
             cout << "Input the number of the potion you would like to sell." << endl;
             inputI=inputNumber(inventory.getPotionsSize()) - 1;
             addGold(inventory.getPotion(inputI).getPrice()/2);
@@ -466,13 +470,13 @@ void Inventory::print()
     cout << "Weapons:" << endl;
     printWeapons();
 
-    cout << "Armors:" << endl;
+    cout << "\nArmors:" << endl;
     printArmors();
 
-    cout << "Spells:" << endl;
+    cout << "\nSpells:" << endl;
     printSpells();
 
-    cout << "Potions:" << endl;
+    cout << "\nPotions:" << endl;
     printPotions();
 }
 
@@ -542,9 +546,12 @@ void PlayerInventory::print(const Hero& h){
     
     Inventory::print();
 
-    cout << "Current equipment:" << endl;
+    cout << "\nCurrent weapon is :" << endl;
     h.getWeapon().print();
-    h.getArmor().print();
+    if(h.getWeapon().getTwoHanded() == false){
+        cout << "\nCurrent armor is :" << endl; 
+        h.getArmor().print();
+    }
 }
 
 int level(Hero** heroes, const int numOfHeroes){
