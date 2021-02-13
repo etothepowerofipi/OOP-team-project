@@ -157,7 +157,7 @@ void Hero::checkInventory(){
         if (yes){
             cout << "Which weapon to equip? Input a number" << endl;
             index = inputNumber(inventory.getWeaponsSize())-1;
-            equip(inventory.equipWeapon(index,weapon));
+            weapon=inventory.equipWeapon(index,weapon);
         }
     }
 
@@ -167,7 +167,7 @@ void Hero::checkInventory(){
         if (yes){
             cout << "Which armor to equip? Input a number" << endl;
             index = inputNumber(inventory.getArmorsSize())-1;
-            equip(inventory.equipArmor(index,armor));
+            armor=inventory.equipArmor(index,armor);
         }
     }
 }
@@ -520,14 +520,16 @@ void Inventory::addSpell(Spell* s){
 //PLAYERINVENTORY
 
 Weapon PlayerInventory::equipWeapon(const int index, Weapon currentWeapon){
-    Weapon returnWeapon = weapons[index];
-    weapons[index] = currentWeapon;
+    Weapon returnWeapon=weapons[index];
+    removeWeapon(index);
+    addWeapon(currentWeapon);
     return returnWeapon;
 }
 
 Armor PlayerInventory::equipArmor(const int index, Armor currentArmor){
-    Armor returnArmor = armors[index];
-    armors[index] = currentArmor;
+    Armor returnArmor=armors[index];
+    removeArmor(index);
+    addArmor(currentArmor);
     return returnArmor;
 }
 
