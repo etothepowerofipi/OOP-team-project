@@ -179,9 +179,59 @@ void Hero::checkInventory()
     getArmor().print();
 }
 
-
+void Hero::printWeapons(){ inventory.printWeapons(); }
+void Hero::printArmors(){ inventory.printArmors(); }
+void Hero::printSpells(){ inventory.printSpells(); }
+void Hero::printPotions(){ inventory.printPotions(); }
 
 void Hero::addGold(int a){gold+=a;}
+void Hero::sell(string type){
+    int inputI;
+    if(type == "weapon"){
+        cout << "Weapons on inventory of " << getName() << " are :" << endl;
+        inventory.printWeapons();
+        if(inventory.getWeaponsSize() != 0){
+            cout << "Input the number of the weapon you would like to sell." << endl;
+            inputI=inputNumber(inventory.getWeaponsSize()) - 1;
+            addGold(inventory.getWeapon(inputI).getPrice()/2);
+            removeWeapon(inputI);
+            cout << "New currency for " << getName() << " is :" << getGold() << endl;
+        }
+    }
+    else if(type == "armor"){
+        cout << "Armors on inventory of " << getName() << " are :" << endl;
+        inventory.printArmors();
+        if(inventory.getArmorsSize() != 0){
+            cout << "Input the number of the armor you would like to sell." << endl;
+            inputI=inputNumber(inventory.getArmorsSize()) - 1;
+            addGold(inventory.getArmor(inputI).getPrice()/2);
+            removeArmor(inputI);
+            cout << "New currency for " << getName() << " is :" << getGold() << endl;
+        }
+    }
+    else if(type == "spell"){
+        cout << "Spells on inventory of " << getName() << " are :" << endl;
+        inventory.printSpells();
+        if(inventory.getSpellsSize() != 0){
+            cout << "Input the number of the spell you would like to sell." << endl;
+            inputI=inputNumber(inventory.getSpellsSize()) - 1;
+            addGold(inventory.getSpell(inputI)->getPrice()/2);
+            removeSpell(inputI);
+            cout << "New currency for " << getName() << " is :" << getGold() << endl;
+        }
+    }
+    else{
+        cout << "Potions on inventory of " << getName() << " are :" << endl;
+        inventory.printPotions();
+        if(inventory.getPotionsSize() != 0){
+            cout << "Input the number of the potion you would like to sell." << endl;
+            inputI=inputNumber(inventory.getPotionsSize()) - 1;
+            addGold(inventory.getPotion(inputI).getPrice()/2);
+            removePotion(inputI);
+            cout << "New currency for " << getName() << " is :" << getGold() << endl;
+        }
+    }
+}
 bool Hero::buy(Weapon w){
     if(gold >= w.getPrice()){
         gold-= w.getPrice();
@@ -189,10 +239,11 @@ bool Hero::buy(Weapon w){
         return true;
     }
     else{
-        cout << "Too poor lmao!" << endl;
+        cout << "Not enough money!" << endl;
         return false;
     }
 }
+
 bool Hero::buy(Armor a){
     if(gold >= a.getPrice()){
         gold-= a.getPrice();
@@ -200,7 +251,7 @@ bool Hero::buy(Armor a){
         return true;
     }
     else{
-        cout << "Too poor lmao!" << endl;
+        cout << "Not enough money!" << endl;
         return false;
     }
 }
@@ -211,7 +262,7 @@ bool Hero::buy(Potion p){
         return true;
     }
     else{
-        cout << "Too poor lmao!" << endl;
+        cout << "Not enough money!" << endl;
         return false;
     }
 }
@@ -222,7 +273,7 @@ bool Hero::buy(Spell* s){
         return true;
     }
     else{
-        cout << "Too poor lmao!" << endl;
+        cout << "Not enough money!" << endl;
         return false;
     }
 }
@@ -368,48 +419,64 @@ int Inventory::getPotionsSize() const{return potions.size();}
 int Inventory::getSpellsSize() const{return spells.size();}
 int Inventory::getSize() const{return (weapons.size() + armors.size() + potions.size() + spells.size());}
 
-Weapon Inventory::getWeapon(int i){return weapons[i];}
-Armor Inventory::getArmor(int i){return armors[i];}
-Potion Inventory::getPotion(int i){return potions[i];}
-Spell* Inventory::getSpell(int i){return spells[i];}
-
-void Inventory::print() const
-{
+void Inventory::printWeapons() {
     if(weapons.size() == 0) cout << "No weapons currently on inventory!" << endl;
     else{
-        cout << "Weapons:" << endl;
         for (int i=0; i<weapons.size(); i++){
             cout << (i+1) << ".";
             weapons[i].print();
         }
     }
+}
 
+void Inventory::printArmors(){
     if(armors.size() == 0) cout << "No armors currently on inventory!" << endl;
     else{
-        cout << "Armors:" << endl;
         for (int i=0; i<armors.size(); i++){
             cout << (i+1) << ".";
             armors[i].print();
         }
     }
+}
 
-    if(potions.size() == 0) cout << "No potions currently on inventory!" << endl;
-    else{
-        cout << "Potions:" << endl;
-        for (int i=0; i<potions.size(); i++){
-            cout << (i+1) << ".";            
-            potions[i].print();
-        }
-    }
-
+void Inventory::printSpells(){
     if(spells.size() == 0) cout << "No spells currently on inventory!" << endl;
     else{
-        cout << "Spells:" << endl;
         for (int i=0; i<spells.size(); i++){
             cout << (i+1) << ".";
             spells[i]->print();
         }
     }
+}
+
+void Inventory::printPotions(){
+    if(potions.size() == 0) cout << "No potions currently on inventory!" << endl;
+    else{
+        for (int i=0; i<potions.size(); i++){
+            cout << (i+1) << ".";            
+            potions[i].print();
+        }
+    }
+}
+
+Weapon Inventory::getWeapon(int i){return weapons[i];}
+Armor Inventory::getArmor(int i){return armors[i];}
+Potion Inventory::getPotion(int i){return potions[i];}
+Spell* Inventory::getSpell(int i){return spells[i];}
+
+void Inventory::print()
+{
+    cout << "Weapons:" << endl;
+    printWeapons();
+
+    cout << "Armors:" << endl;
+    printArmors();
+
+    cout << "Spells:" << endl;
+    printSpells();
+
+    cout << "Potions:" << endl;
+    printPotions();
 }
 
 void Inventory::removeWeapon(int i){
@@ -473,7 +540,7 @@ int PlayerInventory::Capacity(const int level) const{
     return (10 + level/3);
 }
 
-void PlayerInventory::print(const Hero& h) const{
+void PlayerInventory::print(const Hero& h){
     cout << getSize() << '/' << Capacity(h.getLevel().getRL()) << " slots are in use." << endl;
     
     Inventory::print();

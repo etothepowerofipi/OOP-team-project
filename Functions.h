@@ -1,6 +1,7 @@
 bool inputAnswer();
 int inputNumber(const int);
 char inputMove();
+char inputSell();
 int randomLevel(const int);
 void InitializeNameArrays();
 std::string genName(std::string);
