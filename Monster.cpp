@@ -10,7 +10,7 @@ using namespace std;
 //CONSTRUCTORS
 
 Monster::Monster(const string s, const int lvl=1):  LivingBeing(s,lvl) {
-    healthPower=50+lvl*15;
+    healthPower= 50 + lvl*15;
 }
 
 Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
@@ -20,14 +20,14 @@ Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
     dodgeChance=10+2*lvl;
 }
 Exosceleton::Exosceleton(const string n,int lvl) : Monster(n,lvl) {
-    minAttack=3+3*lvl;
-    maxAttack=3+3*lvl;
+    minAttack=4+3*lvl;
+    maxAttack=5+4*lvl;
     defense=20+5*lvl;
     dodgeChance=10+2*lvl;
 }
 Spirit::Spirit(const string n,int lvl) : Monster(n,lvl) {
-    minAttack=3+3*lvl;
-    maxAttack=3+3*lvl;
+    minAttack=4+3*lvl;
+    maxAttack=5+4*lvl;
     defense=10+4*lvl;
     dodgeChance=20+3*lvl;
 }
@@ -48,7 +48,7 @@ Spirit::~Spirit() {}
 //MONSTER
 //MONSTER
 int Monster::attack(){
-    int damage=rand()%(maxAttack - minAttack);
+    int damage = rand() % (maxAttack - minAttack);
     damage += minAttack;
     return damage;
 }
@@ -113,6 +113,7 @@ void monsterFainted(Monster** monsterArray, int& size, const int index){
     monsterArray[index] = monsterArray[size-1];
     monsterArray[--size] = monster;
     cout << size << " monsters remaining!" << endl;
+    for (int i=0; i<size; i++) cout << monsterArray[i]->getName() << endl; //test
 }
 
 int chooseMonster(Monster** monsterArray, const int monsters){

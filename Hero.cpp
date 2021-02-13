@@ -22,20 +22,20 @@ Hero::Hero(const string s) : LivingBeing(s,1) {
 
 Warrior::Warrior(const string s): Hero(s) 
 {
-    strength = 2;
+    strength = 5;
     agility = 2;
     dexterity = 1;
 }
 Sorcerer::Sorcerer(const string s): Hero(s) 
 {
-    strength = 1;
+    strength = 3;
     agility = 2;
     dexterity = 2;
 }
 
 Paladin::Paladin(const string s): Hero(s)
 {
-    strength = 2;
+    strength = 5;
     agility = 1;
     dexterity = 2;
 }

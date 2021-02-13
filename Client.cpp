@@ -11,7 +11,7 @@ int main(void){
 
     cout << "Choose a difficulty :\nHard mode : You only have 1 hero!(press '1')\nMedium mode : You have 2 heroes!(press '2')\nEasy mode : You have 3 heroes!(press '3')" << endl;
     int dif,intAnswer;
-    cin >> dif;
+    dif = inputNumber(3);
     Hero** heroes=new Hero*[dif];
     string name;
     for(int i=0;i<dif;i++){

@@ -182,7 +182,7 @@ bool Grid::battle(){
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
                             damage = heroes[i]->attack();
-                            if (monsters[monsterIndex]->takeDamage(damage))
+                            if (monsters[monsterIndex]->defend(damage))
                                 monsterFainted(monsters,monstersInBattle,monsterIndex);
                             break;
                         
@@ -192,7 +192,7 @@ bool Grid::battle(){
                                 acceptableAction = true;
                                 damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
                                 monsterIndex = chooseMonster(monsters,monstersInBattle);
-                                if (monsters[monsterIndex]->takeDamage(damage))
+                                if (monsters[monsterIndex]->defend(damage))
                                     monsterFainted(monsters,monstersInBattle,monsterIndex);
                             }
                             break;
@@ -216,6 +216,7 @@ bool Grid::battle(){
             }
         }
         for (int i=0; i<monstersInBattle; i++){
+            cout << "\n" << endl;
             int randomHero = rand() % heroesInBattle;
             int damage = monsters[i]->attack();
             cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;

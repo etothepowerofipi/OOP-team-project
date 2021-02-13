@@ -25,7 +25,7 @@ bool LivingBeing::takeDamage(const int damage)
 {
     if (damage < healthPower){
         healthPower-= damage;
-        cout << name << " takes " << damage << " damage!" << endl;
+        cout << '\n' + name + " takes " << damage << " damage!\n" << endl;
         return false;
     }
     else{

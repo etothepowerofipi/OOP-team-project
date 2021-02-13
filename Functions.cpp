@@ -56,6 +56,10 @@ char inputChar(const char a, const char b, const char c, const char d, const cha
     return input;
 }
 */
+// bool letter(char input, char lowercase){
+//     return (input == lowercase) || (input == lowercase - 32);
+// }
+
 char inputSell(){
     char input;
     cin >> input;
