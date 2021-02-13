@@ -113,9 +113,8 @@ void Hero::gainMP(){
     MP = min(MP,maxMP());
 }
 
-void Hero::attack(Monster* monster){
-    int damage = weapon.getDamage()+strength;
-    monster->takeDamage(damage);
+int Hero::attack(){
+    return weapon.getDamage()+strength;
 }
 
 bool Hero::dodge(){
@@ -159,7 +158,7 @@ void Hero::checkInventory()
         yes = inputAnswer();
         if (yes){
             cout << "Which weapon to equip? Input a number" << endl;
-            index = inputNumber(inventory.getWeaponsSize());
+            index = inputNumber(inventory.getWeaponsSize())-1;
             equip(inventory.equipWeapon(index,weapon));
         }
     }
@@ -169,7 +168,7 @@ void Hero::checkInventory()
         yes = inputAnswer();
         if (yes){
             cout << "Which armor to equip? Input a number" << endl;
-            index = inputNumber(inventory.getArmorsSize());
+            index = inputNumber(inventory.getArmorsSize())-1;
             equip(inventory.equipArmor(index,armor));
         }
     }

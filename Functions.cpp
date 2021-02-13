@@ -40,7 +40,7 @@ int inputNumber(const int m)
     char max=m+48; //O kwdikos ascii pou antistoixei ston ari8mo m einai o 48+m
     char input;
     cin >> input;
-    while (input < 0 || input > max){
+    while (input < 49 || input > max){
         cout << "Wrong input. Try again." << endl;
         cin >> input;
     }
@@ -48,6 +48,11 @@ int inputNumber(const int m)
     return rinput;
 }
 
+/*
+int inputNumber(const int max){
+
+}
+*/
 int randomLevel(const int heroAverage){
     return heroAverage + rand()%5 - 2; // ==return heroAverage +/- 2;
 }

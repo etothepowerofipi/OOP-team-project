@@ -147,14 +147,11 @@ bool Grid::checkBlock(int i,int j){
     }
     else if(map[i][j] == '+'){
         int prob=rand()%100;
-        if(prob <= 30){
-            battle();
-        }
-        return true;
+        if(prob <= 30)    
+            return battle();
     }
-    else{
+    else
         return false;
-    }
 }
 
 bool Grid::battle(){
@@ -181,7 +178,10 @@ bool Grid::battle(){
 
                     case 1:
                         acceptableAction = true;
-                        heroes[i]->attack(monsters[chooseMonster(monsters,monstersInBattle)]);      
+                        int monsterIndex = chooseMonster(monsters,monstersInBattle);
+                        int damage = heroes[i]->attack();
+                        if (monsters[monsterIndex]->takeDamage(damage))
+                            monsterFainted(monsters,monstersInBattle,monsterIndex);
                         break;
 
                     case 2:

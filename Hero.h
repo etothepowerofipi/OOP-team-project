@@ -99,7 +99,7 @@ class Hero: public LivingBeing
         //Battle
         void gainMP();
         void showStats();
-        void attack(Monster*);
+        int attack();
         bool defend(int);
         int castSpell();
         int cast(Spell*);
