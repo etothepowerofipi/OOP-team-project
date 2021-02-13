@@ -35,6 +35,12 @@ char inputMove(){
     return input;   
 }
 
+/*
+int inputChar(const int size, const char a, const char b, const char c, const char d, const char e){
+    char* character = new char[size];
+}
+*/
+
 int inputNumber(const int m)
 {
     char max=m+48; //O kwdikos ascii pou antistoixei ston ari8mo m einai o 48+m
@@ -48,11 +54,7 @@ int inputNumber(const int m)
     return rinput;
 }
 
-/*
-int inputNumber(const int max){
 
-}
-*/
 int randomLevel(const int heroAverage){
     return heroAverage + rand()%5 - 2; // ==return heroAverage +/- 2;
 }

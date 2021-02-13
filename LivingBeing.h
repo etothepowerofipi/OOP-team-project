@@ -25,5 +25,5 @@ class LivingBeing
         int getHP() const;
         int getLevel() const;
 
-        virtual void print() const;
+        virtual void print() const = 0;
 };

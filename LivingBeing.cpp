@@ -9,11 +9,7 @@ using namespace std;
 //CONSTRUCTORS
 //CONSTRUCTORS
 
-LivingBeing::LivingBeing(const string s, const int lvl=1)
-{
-    name=s;
-    level=lvl;
-}
+LivingBeing::LivingBeing(const string s, const int lvl=1):name(s),level(lvl) {}
 
 //DESTRUCTORS
 //DESTRUCTORS
@@ -43,6 +39,3 @@ string LivingBeing::getName() const{return name;}
 int LivingBeing::getHP() const{return healthPower;}
 int LivingBeing::getLevel() const{return level;}
 
-void LivingBeing::print() const{
-    cout << "\tName: " + name + "\tHP: " << healthPower << endl;
-}

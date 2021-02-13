@@ -13,8 +13,8 @@ using namespace std;
 Level::Level(const int lvl= 1): realLevel(lvl), currentXp(0) {}
 
 Hero::Hero(const string s) : LivingBeing(s,1) {
-    healthPower=100;
-    MP=100;
+    healthPower=maxHP();
+    MP=maxMP();
     gold=0;
     weapon.starterWeapon();
     armor.starterArmor();
@@ -57,10 +57,10 @@ PlayerInventory::~PlayerInventory() {}
 //LEVEL
 //LEVEL
 //LEVEL
-int Level::addXp(int xptoadd)
+int Level::addXp(int xpToAdd)
 {
     int levelUps = 0;
-    currentXp+=xptoadd;
+    currentXp += xpToAdd;
     while(currentXp >= levelUpXp())
     {
         levelUp();
@@ -92,19 +92,18 @@ void Level::print() const{
 //HERO
 
 int Hero::maxHP() const{return 100+5*(level.getRL()-1);}
-int Hero::maxMP() const{return 100+5*(level.getRL()-1);}
+int Hero::maxMP() const{return 80+5*(level.getRL()-1);}
 
 
 void Hero::showStats(){
     cout << "Printing stats for " << getName() << "." << endl;
     cout << "Health points : " << healthPower << "/" << maxHP() << endl;
     cout << "Magical points : " << MP << "/" << maxMP() << endl;
-    cout << "Level : " << level.getRL() << endl;
+    level.print();
     cout << "Strength : " << strength << endl;
     cout << "Agility : " << agility << endl;
     cout << "Dexterity : " << dexterity << endl;
-    cout << "Gold : " << gold << endl;
-    cout << endl;
+    cout << "Gold : " << gold << '\n' << endl;
 }
 
 //BATTLE
@@ -119,7 +118,7 @@ int Hero::attack(){
 
 bool Hero::dodge(){
     int temp = rand() % 100;
-    return (temp <= agility );
+    return (agility < temp );
 }
 
 bool Hero::defend(int damage){
@@ -136,17 +135,16 @@ void Hero::gainXP(const int monsters){
     cout << name + " gained " << expGained << " experience!" << endl;
     const int levelUps = level.addXp(expGained);
     for (int i=0; i<levelUps; i++)
-        levelUp();;
+        levelUp();
 }
 
 void Hero::gainGold(const int monsters){
     int goldGained = 2*monsters*level.getRL();
-    cout << name + " gained " << goldGained << " gold!" << endl;
+    cout << name + " gained " << goldGained << " gold! Current gold is : " << gold << endl;
     addGold(goldGained);
 }
 
-void Hero::checkInventory()
-{
+void Hero::checkInventory(){
     cout << "Here is the current inventory for " + name << endl;
     inventory.print(*this);
 
@@ -238,8 +236,7 @@ int Hero::getAgility() const {return agility;}
 int Hero::getGold(){return gold;}
 
 void Hero::print() const{
-    cout << type();
-    LivingBeing::print();
+    cout << type() + "\tHP:" << healthPower << "\tMP:" << MP << "\tName: " + name << endl;
 }
 
 
@@ -327,7 +324,7 @@ void Warrior::levelUp()
     dexterity += 5;
 }
 string Warrior::type() const{
-    return "\tType: Warrior";
+    return "\tType: Warrior    ";
 }
 
 
@@ -343,7 +340,7 @@ void Sorcerer::levelUp()
     dexterity += 5* 1.5;
 }
 string Sorcerer::type() const{
-    return "\tType: Sorcerer";
+    return "\tType: Sorcerer   ";
 }
 
 void Paladin::levelUp()
@@ -358,7 +355,7 @@ void Paladin::levelUp()
     dexterity += 5* 1.5;
 }
 string Paladin::type() const{
-    return "\tType: Paladin";
+    return "\tType: Paladin    ";
 }
 
 //INVENTORY

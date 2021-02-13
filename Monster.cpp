@@ -48,8 +48,8 @@ Spirit::~Spirit() {}
 //MONSTER
 //MONSTER
 int Monster::attack(){
-    int damage=rand()%(maxAttack+1);
-    if(damage < minAttack) damage+=minAttack;
+    int damage=rand()%(maxAttack - minAttack);
+    damage += minAttack;
     return damage;
 }
 
@@ -64,7 +64,7 @@ bool Monster::defend(int damage){
 
 bool Monster::dodge(){
     int temp = rand()%100;
-    return (temp <= dodgeChance);
+    return (temp < dodgeChance);
 }
 
 void Monster::faint(){
@@ -72,15 +72,14 @@ void Monster::faint(){
 }
 
 void Monster::print() const{
-    cout << type();
-    LivingBeing::print();
+    cout << type() + "\tHP:" << healthPower << "\tName: " + name << endl;
 }
 
 
 //type
 
 string Dragon::type() const{
-    return "\tType: Dragon";
+    return "\tType: Dragon     ";
 }
 
 string Exosceleton::type() const{
@@ -88,7 +87,7 @@ string Exosceleton::type() const{
 }
 
 string Spirit::type() const{
-    return "\tType: Spirit";
+    return "\tType: Spirit     ";
 }
 
 
@@ -113,6 +112,7 @@ void monsterFainted(Monster** monsterArray, int& size, const int index){
     Monster* monster = monsterArray[index];
     monsterArray[index] = monsterArray[size-1];
     monsterArray[--size] = monster;
+    cout << size << " monsters remaining!" << endl;
 }
 
 int chooseMonster(Monster** monsterArray, const int monsters){

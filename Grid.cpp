@@ -16,7 +16,7 @@ Grid::Grid(Hero** h,int numofh){
             map[i][j]='+';
     }
 
-    int numofmarkets=10+rand()%6;  //Paragw enan tuxaio ari8mo anamesa sto Min marketplaces=10 kai max marketplaces=15
+    int numofmarkets=15+rand()%6;  //Paragw enan tuxaio ari8mo anamesa sto min marketplaces=15 kai max marketplaces=21
     int i,j;
     while(numofmarkets > 0){
         i=rand()%maxi;
@@ -25,14 +25,14 @@ Grid::Grid(Hero** h,int numofh){
         numofmarkets--;
     }
 
-    int numofunreachable=30+rand()%11;  //Paragw enan tuxaio ari8mo anamesa sto Min unreachable=30 kai max unreachable=40
-    while(numofunreachable > 0){
+    int unreachables=30+rand()%11;  //Paragw enan tuxaio ari8mo anamesa sto min unreachables=30 kai max unreachables=40
+    while(unreachables > 0){
         do{
             i=rand()%maxi;
             j=rand()%maxj;
         }while( canPlace(i,j) == false );
         map[i][j]='X';
-        numofunreachable--;
+        unreachables--;
     }
 
     //Initializing hero's position at (0,0)
@@ -58,7 +58,7 @@ void Grid::move(){
     char answer;
     do{
         print();
-        cout << "Would you like to move? n=no / a=left / d =right / w = up / s = down" << endl;
+        cout << "Would you like to move? n = no / a = left / d = right / w = up / s = down" << endl;
         answer = inputMove();
         switch (answer){
             case 'a':
@@ -150,8 +150,7 @@ bool Grid::checkBlock(int i,int j){
         if(prob <= 30)    
             return battle();
     }
-    else
-        return false;
+    return false;
 }
 
 bool Grid::battle(){
@@ -167,44 +166,52 @@ bool Grid::battle(){
     for (int i=0; i< monstersInBattle; i++)
         monsters[i] = monsterGenerator(level());
 
-    while (heroesInBattle>0 && monstersInBattle>0){
+    while ( (heroesInBattle>0) && (monstersInBattle>0) ){
+        cout << "\n\n" << endl;
         for (int i=0; i<heroesInBattle; i++){
             heroes[i]->gainMP();
-            bool acceptableAction = false;
-            while (!acceptableAction){
-            battleStats(monsters,monstersInBattle,heroesInBattle);
-            int action = battleMenu(i);
-                switch (action){
-
-                    case 1:
-                        acceptableAction = true;
-                        int monsterIndex = chooseMonster(monsters,monstersInBattle);
-                        int damage = heroes[i]->attack();
-                        if (monsters[monsterIndex]->takeDamage(damage))
-                            monsterFainted(monsters,monstersInBattle,monsterIndex);
-                        break;
-
-                    case 2:
-                        if (int spellIndex = heroes[i]->castSpell() > -1){
+            if (monstersInBattle>0){
+                bool acceptableAction = false;
+                while (!acceptableAction){
+                battleStats(monsters,monstersInBattle,heroesInBattle);
+                int action = battleMenu(i);
+                    switch (action){
+                        int monsterIndex;
+                        int damage;
+                        case 1:
                             acceptableAction = true;
-                            int damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
-                            int monsterIndex = chooseMonster(monsters,monstersInBattle);
+                            monsterIndex = chooseMonster(monsters,monstersInBattle);
+                            damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->takeDamage(damage))
                                 monsterFainted(monsters,monstersInBattle,monsterIndex);
-                        }
-                        break;
+                            break;
+                        
 
-                    case 3:
-                        if (int potionIndex = heroes[i]->usePotion() > -1){
+                        case 2:
+                            if (int spellIndex = heroes[i]->castSpell() > -1){
+                                acceptableAction = true;
+                                damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
+                                monsterIndex = chooseMonster(monsters,monstersInBattle);
+                                if (monsters[monsterIndex]->takeDamage(damage))
+                                    monsterFainted(monsters,monstersInBattle,monsterIndex);
+                            }
+                            break;
+                        
+
+                        case 3:
+                            if (int potionIndex = heroes[i]->usePotion() > -1){
+                                acceptableAction = true;
+                                heroes[i]->use(heroes[i]->getInventory().getPotion(potionIndex));
+                                heroes[i]->removePotion(potionIndex);
+                            }
+                            break;
+                        
+
+                        case 4:
                             acceptableAction = true;
-                            heroes[i]->use(heroes[i]->getInventory().getPotion(potionIndex));
-                            heroes[i]->removePotion(potionIndex);
-                        }
-                        break;
-
-                    case 4:
-                        acceptableAction = true;
-                        heroes[i]->checkInventory();
+                            heroes[i]->checkInventory();
+                        
+                    }
                 }
             }
         }
@@ -293,16 +300,16 @@ Marketplace::Marketplace(Hero** h,int noh){
     int i;
     heroes=h;
     numofheroes=noh;
-    Weapon** w = new Weapon*[2*numofheroes];   //To market periexei 2 opla gia ka8e xarakthra 
-    Armor** a = new Armor*[2*numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
+    Weapon** w = new Weapon*[numofheroes];   //To market periexei 2 opla gia ka8e xarakthra 
+    Armor** a = new Armor*[numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
     Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
     for(int i=0;i<numofheroes;i++){
         stock.addWeapon( *(w[i]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
-        stock.addWeapon( *(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
+        // stock.addWeapon( *(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
 
         stock.addArmor( *(a[i]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
-        stock.addArmor( *(a[i+numofheroes]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
+        // stock.addArmor( *(a[i+numofheroes]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
     }
     //Arxikopoihsh spell
     //To prwto spell einai analogo tou level tou prwtou xarakthra
