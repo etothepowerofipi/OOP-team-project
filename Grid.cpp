@@ -429,7 +429,7 @@ void Marketplace::menu(){
 
         }
         else if(input == 2){
-            for(int i=0;i<numofheroes;i++){
+            for(int i=0; i<numofheroes; i++){
                 cout << "Inventory of hero " << heroes[i]->getName() << " is :" << endl;
                 heroes[i]->printInventory();
                 do{
