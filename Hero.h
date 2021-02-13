@@ -70,8 +70,8 @@ class PlayerInventory : public Inventory
         PlayerInventory();
         ~PlayerInventory();
 
-        Weapon equipWeapon(const int,Weapon);
-        Armor equipArmor(const int,Armor);
+        Weapon* equipWeapon(const int,Weapon);
+        Armor* equipArmor(const int,Armor);
 
         int Capacity(const int) const;
         bool isFull(const Hero&) const;
@@ -86,8 +86,8 @@ class Hero: public LivingBeing
         int dexterity;
         int agility;
         int gold;
-        Weapon weapon;
-        Armor armor;
+        Weapon* weapon;
+        Armor* armor;
         Level level;
         PlayerInventory inventory;
 
@@ -130,9 +130,6 @@ class Hero: public LivingBeing
         void printSpells();
         void printPotions();
 
-        void equip(const int);
-        void equip(const Weapon&);
-        void equip(const Armor&);
         void removeWeapon(const int);
         void removeArmor(const int);
         void removeSpell(const int);
