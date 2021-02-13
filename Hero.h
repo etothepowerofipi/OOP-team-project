@@ -35,6 +35,11 @@ class Inventory
         Inventory();
         virtual ~Inventory();
 
+        void printWeapons();
+        void printArmors();
+        void printSpells();
+        void printPotions();
+
         void addWeapon(Weapon);
         void addArmor(Armor);
         void addPotion(Potion);
@@ -56,7 +61,7 @@ class Inventory
         int getSpellsSize() const;
         int getSize() const;
 
-        void print() const;
+        void print();
 };
 
 class PlayerInventory : public Inventory
@@ -70,7 +75,7 @@ class PlayerInventory : public Inventory
 
         int Capacity(const int) const;
         bool isFull(const Hero&) const;
-        void print(const Hero&) const;
+        void print(const Hero&);
 };
 
 class Hero: public LivingBeing
@@ -114,13 +119,21 @@ class Hero: public LivingBeing
         bool buy(Armor);
         bool buy(Potion);
         bool buy(Spell*);
+        void sell(std::string );
         void addGold(int);
 
 
         void checkInventory();
+        void printWeapons();
+        void printArmors();
+        void printSpells();
+        void printPotions();
+
         void equip(const int);
         void equip(const Weapon&);
         void equip(const Armor&);
+        void removeWeapon(const int);
+        void removeArmor(const int);
         void removeSpell(const int);
         void removePotion(const int);
 

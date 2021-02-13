@@ -40,6 +40,18 @@ int inputChar(const int size, const char a, const char b, const char c, const ch
     char* character = new char[size];
 }
 */
+char inputSell(){
+    char input;
+    cin >> input;
+    bool acceptable = input == 'w' || input == 'a' || input == 's' || input == 'p' || input == 'b';
+    while (acceptable == false){
+        cout << "Wrong input. Try again." << endl;
+        cin >> input;
+        acceptable = input == 'w' || input == 'a' || input == 's' || input == 'p' || input == 'b';
+    }
+
+    return input;   
+}
 
 int inputNumber(const int m)
 {

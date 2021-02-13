@@ -334,6 +334,7 @@ Marketplace::Marketplace(Hero** h,int noh){
 void Marketplace::menu(){
     cout << "What would you like to do?\n" << endl;
     unsigned int input,inputH;
+    char inputS;
     do{
         cout << "To buy items press 1\nTo sell items press 2\nTo leave press 3\n" << endl;
         input=inputNumber(3);
@@ -411,7 +412,26 @@ void Marketplace::menu(){
 
         }
         else if(input == 2){
-            cout << "Which item to sell?" << endl;
+            for(i=0;i<numofheroes;i++){
+                cout << "Inventory of hero " << heroes[i]->getName() << " is :" << endl;
+                do{
+                    cout << "What type of item would you like to sell? Input w/a/s/p/b (weapon/armor/spell/potion/go back)" << endl;
+                    switch(inputS=inputSell()){
+                        case 'w' :
+                            heroes[i]->sell("weapon");
+                            break;
+                        case 'a' :
+                            heroes[i]->sell("armor");
+                            break;
+                        case 's' :
+                            heroes[i]->sell("spell");
+                            break;
+                        case 'p' :
+                            heroes[i]->sell("potion");
+                            break;
+                    }
+                } while(inputS != 'b');
+            }
         }
     } while(input != 3);
 }
