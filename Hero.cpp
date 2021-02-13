@@ -192,7 +192,7 @@ void Hero::sell(string type){
             cout << "Input the number of the weapon you would like to sell." << endl;
             inputI=inputNumber(inventory.getWeaponsSize()) - 1;
             addGold(inventory.getWeapon(inputI).getPrice()/2);
-            removeWeapon(inputI);
+            inventory.removeWeapon(inputI);
             cout << "New currency for " << getName() << " is :" << getGold() << endl;
         }
     }
@@ -203,7 +203,7 @@ void Hero::sell(string type){
             cout << "Input the number of the armor you would like to sell." << endl;
             inputI=inputNumber(inventory.getArmorsSize()) - 1;
             addGold(inventory.getArmor(inputI).getPrice()/2);
-            removeArmor(inputI);
+            inventory.removeArmor(inputI);
             cout << "New currency for " << getName() << " is :" << getGold() << endl;
         }
     }
@@ -214,7 +214,7 @@ void Hero::sell(string type){
             cout << "Input the number of the spell you would like to sell." << endl;
             inputI=inputNumber(inventory.getSpellsSize()) - 1;
             addGold(inventory.getSpell(inputI)->getPrice()/2);
-            removeSpell(inputI);
+            inventory.removeSpell(inputI);
             cout << "New currency for " << getName() << " is :" << getGold() << endl;
         }
     }
@@ -225,7 +225,7 @@ void Hero::sell(string type){
             cout << "Input the number of the potion you would like to sell." << endl;
             inputI=inputNumber(inventory.getPotionsSize()) - 1;
             addGold(inventory.getPotion(inputI).getPrice()/2);
-            removePotion(inputI);
+            inventory.removePotion(inputI);
             cout << "New currency for " << getName() << " is :" << getGold() << endl;
         }
     }
