@@ -50,8 +50,10 @@ class Inventory
         void removePotion(int);
         void removeSpell(int);
 
-        Weapon getWeapon(int );
-        Armor getArmor(int );
+        Weapon getWeapon(int);
+        Weapon* getPWeapon(int);
+        Armor getArmor(int);
+        Armor* getPArmor(int);
         Potion getPotion(int );
         Spell* getSpell(int );
 
@@ -70,12 +72,9 @@ class PlayerInventory : public Inventory
         PlayerInventory();
         ~PlayerInventory();
 
-        Weapon* equipWeapon(const int,Weapon);
-        Armor* equipArmor(const int,Armor);
-
         int Capacity(const int) const;
         bool isFull(const Hero&) const;
-        void print(const Hero&);
+        void print(Hero&);
 };
 
 class Hero: public LivingBeing
@@ -138,7 +137,9 @@ class Hero: public LivingBeing
 
         //accessors
         Weapon getWeapon() const;
+        Weapon* getPWeapon();
         Armor getArmor() const;
+        Armor* getPArmor();
         Level getLevel() const;
         PlayerInventory getInventory() const;
         int getAgility() const; 
