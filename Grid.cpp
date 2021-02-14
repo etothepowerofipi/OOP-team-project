@@ -167,7 +167,6 @@ bool Grid::battle(){
         monsters[i] = monsterGenerator(level());
 
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
-        cout << "\n\n" << endl;
         for (int i=0; i<heroesInBattle; i++){
             heroes[i]->gainMP();
             if (monstersInBattle>0){
@@ -181,6 +180,7 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
+                            cout << heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a normal attack!" << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage))
                                 monsterFainted(monsters,monstersInBattle,monsterIndex);
@@ -192,6 +192,7 @@ bool Grid::battle(){
                                 acceptableAction = true;
                                 damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
                                 monsterIndex = chooseMonster(monsters,monstersInBattle);
+                                cout << heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a spell!" << endl;
                                 if (monsters[monsterIndex]->defend(damage))
                                     monsterFainted(monsters,monstersInBattle,monsterIndex);
                             }
@@ -219,7 +220,7 @@ bool Grid::battle(){
             cout << "\n" << endl;
             int damage = monsters[i]->attack();
             int randomHero = rand() % heroesInBattle;
-            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;
+            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() << "!" << endl;
             if (heroes[randomHero]->defend(damage))
                 heroFainted(heroes,heroesInBattle,randomHero);
         }
@@ -238,6 +239,7 @@ bool Grid::battle(){
 }
 
 void Grid::battleStats(Monster** monsterArray, const int monsters, const int heroes) const{
+    cout << "\n\n\n\n" << endl;
     cout << "Heroes:" << endl;
     for (int i=0; i<heroes; i++)
         this->heroes[i]->print();
@@ -351,8 +353,7 @@ void Marketplace::menu(){
                         cout << "Which hero to buy the weapon?" << endl;
                         for(int i=0;i<numofheroes;i++)
                             cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
-                        cout << "To go back press " << numofheroes+1 << endl;
-                        inputH=inputNumber(numofheroes+1) - 1;
+                        inputH=inputNumber(numofheroes) - 1;
                         if (inputH == numofheroes) break;
                     }
                     cout << "Enter the number of the weapon you would like to buy." << endl;

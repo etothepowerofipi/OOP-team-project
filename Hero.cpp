@@ -341,15 +341,26 @@ int Hero::usePotion(){
 
 void Hero::use(const Potion& p){
     if (p.getMinLevel() <= level.getRL()){
-        if (p.getUse() == "HP") healthPower += p.getEffectPoints(); //TOBECHANGED
-        
-        else if (p.getUse() == "MP") MP += p.getEffectPoints();
-        
-        else if (p.getUse() == "Strength") strength += p.getEffectPoints();
-        
-        else if (p.getUse() == "Agility") agility += p.getEffectPoints();
-        
-        else dexterity += p.getEffectPoints();
+        if (p.getUse() == "HP"){
+            healthPower += p.getEffectPoints();
+            cout << getName() << " used a potion of HP to restore " << p.getEffectPoints() << " health!" << endl;
+        }
+        else if (p.getUse() == "MP"){
+            MP += p.getEffectPoints();
+            cout << getName() << " used a potion of MP to restore " << p.getEffectPoints() << " magical power!" << endl;
+        }
+        else if (p.getUse() == "Strength"){
+            strength += p.getEffectPoints();
+            cout << getName() << " used a potion of strength to boost their strength by " << p.getEffectPoints() << " points!" << endl;
+        }
+        else if (p.getUse() == "Agility"){
+            agility += p.getEffectPoints();
+            cout << getName() << " used a potion of agility to boost their agility by " << p.getEffectPoints() << " points!" << endl;
+        }
+        else{
+            dexterity += p.getEffectPoints();
+            cout << getName() << " used a potion of dexterity to boost their dexterity by " << p.getEffectPoints() << " points!" << endl;
+        }
     }
     else
         cout << "Hero's level is not high enough to use this potion." << endl;
