@@ -24,4 +24,4 @@ Functions.o : Functions.cpp
 	g++ -c Functions.cpp
 
 clean	:
-	rm Client *.o
+	rm Client Client.exe *.o
