@@ -217,14 +217,14 @@ bool Grid::battle(){
         }
         for (int i=0; i<monstersInBattle; i++){
             cout << "\n" << endl;
-            int randomHero = rand() % heroesInBattle;
             int damage = monsters[i]->attack();
+            int randomHero = rand() % heroesInBattle;
             cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;
             if (heroes[randomHero]->defend(damage))
                 heroFainted(heroes,heroesInBattle,randomHero);
         }
     }
-    if (heroesInBattle>0){
+    if (heroesInBattle > 0){
         cout << "The heroes have won!" << endl;
         for (int i=0; i<heroesInBattle; i++){
             heroes[i]->gainXP(initialMonsters);
@@ -351,7 +351,9 @@ void Marketplace::menu(){
                         cout << "Which hero to buy the weapon?" << endl;
                         for(int i=0;i<numofheroes;i++)
                             cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
-                        inputH=inputNumber(numofheroes)-1;
+                        cout << "To go back press " << numofheroes+1 << endl;
+                        inputH=inputNumber(numofheroes+1) - 1;
+                        if (inputH == numofheroes) break;
                     }
                     cout << "Enter the number of the weapon you would like to buy." << endl;
                     input=inputNumber(stock.getWeaponsSize())-1;

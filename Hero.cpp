@@ -121,8 +121,8 @@ int Hero::attack(){
 }
 
 bool Hero::dodge(){
-    int temp = rand() % 100;
-    return (agility < temp );
+    int temp = rand()%100 + 1; // 1 <= temp <= 100
+    return (temp <= agility );
 }
 
 bool Hero::defend(int damage){
