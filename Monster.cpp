@@ -10,26 +10,26 @@ using namespace std;
 //CONSTRUCTORS
 
 Monster::Monster(const string s, const int lvl=1):  LivingBeing(s,lvl) {
-    healthPower= 50 + lvl*15;
+    healthPower = 50 + lvl*15;
 }
 
 Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
-    minAttack=5+6*lvl;
-    maxAttack=10+6*lvl;
-    defense=10+4*lvl;
-    dodgeChance=10+2*lvl;
+    minAttack=5+3*lvl;
+    maxAttack=10+4*lvl;
+    defense=5+2*lvl;
+    dodgeChance=5+2*lvl;
 }
 Exosceleton::Exosceleton(const string n,int lvl) : Monster(n,lvl) {
     minAttack=4+3*lvl;
     maxAttack=5+4*lvl;
-    defense=20+5*lvl;
-    dodgeChance=10+2*lvl;
+    defense=10+4*lvl;
+    dodgeChance=5+2*lvl;
 }
 Spirit::Spirit(const string n,int lvl) : Monster(n,lvl) {
     minAttack=4+3*lvl;
     maxAttack=5+4*lvl;
     defense=10+4*lvl;
-    dodgeChance=20+3*lvl;
+    dodgeChance=10+3*lvl;
 }
 
 //DESTRUCTORS
@@ -63,8 +63,8 @@ bool Monster::defend(int damage){
 }
 
 bool Monster::dodge(){
-    int temp = rand()%100;
-    return (temp < dodgeChance);
+    int temp = rand()%100 + 1; // 1 <= temp <= 100
+    return (temp <= dodgeChance);
 }
 
 void Monster::faint(){
