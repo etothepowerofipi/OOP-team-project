@@ -14,22 +14,22 @@ Monster::Monster(const string s, const int lvl=1):  LivingBeing(s,lvl) {
 }
 
 Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
-    minAttack=5+3*lvl;
-    maxAttack=10+4*lvl;
-    defense=5+2*lvl;
-    dodgeChance=5+2*lvl;
+    minAttack=5+3*level;
+    maxAttack=10+4*level;
+    defense=5+2*level;
+    dodgeChance=5+2*level;
 }
 Exosceleton::Exosceleton(const string n,int lvl) : Monster(n,lvl) {
-    minAttack=4+3*lvl;
-    maxAttack=5+4*lvl;
-    defense=10+4*lvl;
-    dodgeChance=5+2*lvl;
+    minAttack=4+3*level;
+    maxAttack=5+4*level;
+    defense=6+4*level;
+    dodgeChance=5+2*level;
 }
 Spirit::Spirit(const string n,int lvl) : Monster(n,lvl) {
-    minAttack=4+3*lvl;
-    maxAttack=5+4*lvl;
-    defense=10+4*lvl;
-    dodgeChance=10+3*lvl;
+    minAttack=4+3*level;
+    maxAttack=5+4*level;
+    defense=10+4*level;
+    dodgeChance=10+3*level;
 }
 
 //DESTRUCTORS

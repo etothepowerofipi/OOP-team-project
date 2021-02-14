@@ -12,34 +12,31 @@ using namespace std;
 
 Level::Level(const int lvl= 1): realLevel(lvl), currentXp(0) {}
 
-Hero::Hero(const string s) : LivingBeing(s,1) {
-    healthPower=maxHP();
-    MP=maxMP();
-    gold=0;
-    weapon=new Weapon();
+Hero::Hero(const string s) : LivingBeing(s,1), level(Level()) {
+    healthPower = maxHP();
+    MP = maxMP();
+    gold = 0;
+    weapon = new Weapon();
     weapon->starterWeapon();
     inventory.addWeapon(*weapon);
-    armor=new Armor();
+    armor = new Armor();
     armor->starterArmor();
     inventory.addArmor(*armor);
 }
 
-Warrior::Warrior(const string s): Hero(s) 
-{
-    strength = 8;
+Warrior::Warrior(const string s): Hero(s) {
+    strength = 18;
     agility = 5;
     dexterity = 3;
 }
-Sorcerer::Sorcerer(const string s): Hero(s) 
-{
-    strength = 5;
+Sorcerer::Sorcerer(const string s): Hero(s) {
+    strength = 15;
     agility = 5;
     dexterity = 5;
 }
 
-Paladin::Paladin(const string s): Hero(s)
-{
-    strength = 8;
+Paladin::Paladin(const string s): Hero(s){
+    strength = 18;
     agility = 2;
     dexterity = 5;
 }
@@ -87,8 +84,8 @@ int Level::getRL() const {return realLevel;}
 int Level::getXP() const {return currentXp;}
 
 void Level::print() const{
-    cout << "\tCurrent level: " << realLevel << endl;
-    cout << "\tCurrent experience " << currentXp << "/"  << levelUpXp() << endl;
+    cout << "Current level: " << realLevel << endl;
+    cout << "Current experience " << currentXp << "/"  << levelUpXp() << endl;
 }
 
 //HERO
@@ -310,8 +307,10 @@ void Hero::print() const{
 int Hero::castSpell(){
     if (inventory.getSpellsSize() > 0){
         cout << "Choose which spell to use" << endl;
-        for (int i=0; i<inventory.getSpellsSize(); i++)
+        for (int i=0; i<inventory.getSpellsSize(); i++){
+            cout << i+1 << '.';
             inventory.getSpell(i)->print();
+        }
         return inputNumber(inventory.getSpellsSize()) - 1;
     }
     else
@@ -334,8 +333,10 @@ int Hero::cast(Spell* s)
 int Hero::usePotion(){
     if (getInventory().getPotionsSize() > 0){
         cout << "Choose which potion to use" << endl;
-        for (int i=0; i<getInventory().getPotionsSize(); i++)
+        for (int i=0; i<getInventory().getPotionsSize(); i++){
+            cout << i+1 << '.';
             getInventory().getPotion(i).print();
+        }
         return inputNumber(getInventory().getPotionsSize()) - 1;
     }
     else

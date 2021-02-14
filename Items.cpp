@@ -37,7 +37,9 @@ Armor::Armor(const Armor& arm)
         protection = arm.protection;
     }
 }
-Potion::Potion(int lvl,string name) : Item(lvl,name,"potion") , effectPoints(10+10*(lvl-2+rand()%4)) {}
+Potion::Potion(int lvl,string name) : Item(lvl,name,"potion"){
+    effectPoints = 20 + 10*(minLevel + rand()%2);
+}
 
 //printers
 
