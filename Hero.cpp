@@ -16,8 +16,10 @@ Hero::Hero(const string s) : LivingBeing(s,1) {
     healthPower=maxHP();
     MP=maxMP();
     gold=0;
-    weapon.starterWeapon();
-    armor.starterArmor();
+    weapon=new Weapon();
+    weapon->starterWeapon();
+    armor=new Armor();
+    armor->starterArmor();
 }
 
 Warrior::Warrior(const string s): Hero(s) 
@@ -113,7 +115,7 @@ void Hero::gainMP(){
 }
 
 int Hero::attack(){
-    return weapon.getDamage()+strength;
+    return weapon->getDamage()+strength;
 }
 
 bool Hero::dodge(){
@@ -126,7 +128,7 @@ bool Hero::defend(int damage){
         cout << name + " dodges the attack!" << endl; 
         return 0;
     }
-    damage -= armor.getProtection();
+    damage -= armor->getProtection();
     return takeDamage(max(damage,0));
 }
 
@@ -157,7 +159,7 @@ void Hero::checkInventory(){
         if (yes){
             cout << "Which weapon to equip? Input a number" << endl;
             index = inputNumber(inventory.getWeaponsSize())-1;
-            weapon = inventory.equipWeapon(index,weapon);
+            weapon = inventory.equipWeapon(index,*weapon);
         }
     }
 
@@ -167,7 +169,7 @@ void Hero::checkInventory(){
         if (yes){
             cout << "Which armor to equip? Input a number" << endl;
             index = inputNumber(inventory.getArmorsSize())-1;
-            armor = inventory.equipArmor(index,armor);
+            armor = inventory.equipArmor(index,*armor);
         }
     }
 }
@@ -280,11 +282,8 @@ bool Hero::buy(Spell* s){
     }
 }
 
-void Hero::equip(const Weapon& w) {weapon = w;}
-void Hero::equip(const Armor& a) {armor = a;}
-
-Weapon Hero::getWeapon() const {return weapon;}
-Armor Hero::getArmor() const {return armor;}
+Weapon Hero::getWeapon() const {return *weapon;}
+Armor Hero::getArmor() const {return *armor;}
 Level Hero::getLevel() const {return level;}
 PlayerInventory Hero::getInventory() const {return inventory;}
 int Hero::getAgility() const {return agility;}
@@ -519,15 +518,17 @@ void Inventory::addSpell(Spell* s){
 //PLAYERINVENTORY
 //PLAYERINVENTORY
 
-Weapon PlayerInventory::equipWeapon(const int index, Weapon currentWeapon){
-    Weapon returnWeapon=weapons[index];
+Weapon* PlayerInventory::equipWeapon(const int index, Weapon currentWeapon){
+    Weapon* returnWeapon=new Weapon();
+    returnWeapon=&(weapons[index]);
     removeWeapon(index);
     addWeapon(currentWeapon);
     return returnWeapon;
 }
 
-Armor PlayerInventory::equipArmor(const int index, Armor currentArmor){
-    Armor returnArmor=armors[index];
+Armor* PlayerInventory::equipArmor(const int index, Armor currentArmor){
+    Armor* returnArmor=new Armor();
+    returnArmor=&(armors[index]);
     removeArmor(index);
     addArmor(currentArmor);
     return returnArmor;
