@@ -10,7 +10,7 @@ using namespace std;
 //CONSTRUCTORS
 
 Monster::Monster(const string s, const int lvl=1):  LivingBeing(s,lvl) {
-    healthPower = 50 + lvl*15;
+    healthPower = maxHP();
 }
 
 Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
@@ -73,6 +73,10 @@ void Monster::faint(){
 
 void Monster::print() const{
     cout << type() + "\tHP:" << healthPower << "\tName: " + name << endl;
+}
+
+int Monster::maxHP() const{
+    return 50 + level*15;
 }
 
 

@@ -11,9 +11,10 @@ class Monster: public LivingBeing
         int defense;
         int dodgeChance;
 
+        int maxHP() const;
         bool dodge();
         void faint();
-        
+                
     public:
         Monster(const std::string,const int);
         virtual ~Monster();

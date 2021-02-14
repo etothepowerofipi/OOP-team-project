@@ -87,8 +87,8 @@ int inputNumber(const int m)
 }
 
 
-int randomLevel(const int heroAverage){
-    return heroAverage + rand()%5 - 2; // ==return heroAverage +/- 2;
+int randomLevel(const int heroLevel){
+    return heroLevel + rand()%5 - 2; // ==return heroLevel +/- 2;
 }
 
 int max(const int a, const int b){

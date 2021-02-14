@@ -4,11 +4,8 @@ using namespace std;
 //constructors
 
 //Na kanoume common(0-50),uncommon(50-75),rare(75-90) kai epic(90-100) me ena tuxaio pososto ths 100
-Item::Item(int lvl,string nam,string type) : name(nam) {
-    int base=rand()%4;
-    minLevel=lvl-2+base;
-    if(minLevel <= 0) minLevel=1;
-    price=100+50*base;
+Item::Item(int lvl,string nam,string type) : name(nam), minLevel(lvl) {
+    price= 100 + 50*(minLevel-1);
 }
 Item::Item(){}
 Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(1+lvl/2+lvl*rand()%4) , twoHanded( (rand()%2 == 0) ? true : false ) {

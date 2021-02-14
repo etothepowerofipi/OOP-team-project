@@ -158,9 +158,9 @@ bool Grid::battle(){
     const int initialMonsters =  heroesInBattle + rand()%2;
     int monstersInBattle = initialMonsters;
     if (monstersInBattle == 1)
-        cout << "A monster has appeared!\nPrepare to battle!" << endl;
+        cout << "\nA monster has appeared!\nPrepare to battle!" << endl;
     else
-        cout << "Monsters have appeared!\nPrepare to battle!" << endl;
+        cout << "\nMonsters have appeared!\nPrepare to battle!" << endl;
 
     Monster** monsters = new Monster*[monstersInBattle];
     for (int i=0; i< monstersInBattle; i++)
@@ -247,7 +247,7 @@ void Grid::battleStats(Monster** monsterArray, const int monsters, const int her
 }
 
 int Grid::battleMenu(const int index) const{
-    cout << "What would you like " + heroes[index]->getName() + " to do?" << endl;
+    cout << "\nWhat would you like " + heroes[index]->getName() + " to do?" << endl;
     cout << "To attack normally, type 1." << endl;
     cout << "To cast a spell, type 2." << endl;
     cout << "To use a potion, type 3." << endl;
@@ -306,22 +306,22 @@ Marketplace::Marketplace(Hero** h,int noh){
     Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
     for(int i=0;i<numofheroes;i++){
-        stock.addWeapon( *(w[i]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
+        stock.addWeapon( *(w[i]=new Weapon( randomLevel(heroes[i]->getLevel().getRL()) , genName("weapon") ) ) );
         // stock.addWeapon( *(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
 
-        stock.addArmor( *(a[i]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
+        stock.addArmor( *(a[i]=new Armor( randomLevel(heroes[i]->getLevel().getRL()) , genName("armor") ) ) );
         // stock.addArmor( *(a[i+numofheroes]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
     }
     //Arxikopoihsh spell
     //To prwto spell einai analogo tou level tou prwtou xarakthra
-    stock.addSpell( s[0]=new FireSpell(heroes[0]->getLevel().getRL() , genName("firespell") ) );
+    stock.addSpell( s[0]=new FireSpell(randomLevel(heroes[0]->getLevel().getRL()) , genName("firespell") ) );
     //To deutero spell einai analogo tou level tou deuterou xarakthra, an uparxei
-    if(numofheroes >= 2) stock.addSpell( s[1]=new IceSpell(heroes[1]->getLevel().getRL() , genName("icespell") ) );
-    else stock.addSpell( s[1]=new IceSpell(heroes[0]->getLevel().getRL() , genName("icespell") ) );
+    if(numofheroes >= 2) stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[1]->getLevel().getRL()) , genName("icespell") ) );
+    else stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[0]->getLevel().getRL()) , genName("icespell") ) );
 
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
-    if(numofheroes == 3) stock.addSpell( s[2]=new LightningSpell(heroes[2]->getLevel().getRL() , genName("lightningspell")) );
-    else stock.addSpell( s[2]=new LightningSpell( heroes[0]->getLevel().getRL() , genName("lightningspell") ) );
+    if(numofheroes == 3) stock.addSpell( s[2]=new LightningSpell(randomLevel(heroes[2]->getLevel().getRL()) , genName("lightningspell")) );
+    else stock.addSpell( s[2]=new LightningSpell( randomLevel(heroes[0]->getLevel().getRL()) , genName("lightningspell") ) );
 
     //Arxikopoihsh potion
     for(int i=0;i<numofheroes; i++){

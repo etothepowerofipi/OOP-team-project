@@ -11,6 +11,7 @@ class LivingBeing
         int healthPower;
         int level;
 
+        virtual int maxHP() const = 0;
         virtual bool dodge() = 0;
         virtual void faint() = 0;
 
