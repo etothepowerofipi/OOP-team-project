@@ -102,6 +102,7 @@ class Hero: public LivingBeing
 
         //Battle
         void gainMP();
+        void gainHP();
         void showStats();
         int attack();
         bool defend(int);

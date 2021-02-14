@@ -14,8 +14,8 @@ class Spell
 
     public:
         Spell(int ,const std::string);
-        Spell(const Spell& );
-        Spell& operator=(const Spell& );
+        Spell(const Spell&);
+        Spell& operator=(const Spell&);
         ~Spell();
 
         //accessors
@@ -26,8 +26,8 @@ class Spell
         int getMin() const;
         int getMax() const;
 
-        virtual int getReduction() const=0;
-        virtual void print() const=0;
+        virtual int getReduction() const =0;
+        virtual void print() const ;
 };
 
 class IceSpell: public Spell

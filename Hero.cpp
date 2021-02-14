@@ -26,22 +26,22 @@ Hero::Hero(const string s) : LivingBeing(s,1) {
 
 Warrior::Warrior(const string s): Hero(s) 
 {
-    strength = 5;
-    agility = 2;
-    dexterity = 1;
+    strength = 8;
+    agility = 5;
+    dexterity = 3;
 }
 Sorcerer::Sorcerer(const string s): Hero(s) 
 {
-    strength = 3;
-    agility = 2;
-    dexterity = 2;
+    strength = 5;
+    agility = 5;
+    dexterity = 5;
 }
 
 Paladin::Paladin(const string s): Hero(s)
 {
-    strength = 5;
-    agility = 1;
-    dexterity = 2;
+    strength = 8;
+    agility = 2;
+    dexterity = 5;
 }
 
 Inventory::Inventory() {} 
@@ -100,7 +100,7 @@ int Hero::maxMP() const{return 80+5*(level.getRL()-1);}
 
 
 void Hero::showStats(){
-    cout << "\n\nPrinting stats for " << getName() << "." << endl;
+    cout << "\nPrinting stats for " << getName() << "." << endl;
     cout << "Health points : " << healthPower << "/" << maxHP() << endl;
     cout << "Magical points : " << MP << "/" << maxMP() << endl;
     level.print();
@@ -114,6 +114,11 @@ void Hero::showStats(){
 void Hero::gainMP(){
     MP += 5*level.getRL();
     MP = min(MP,maxMP());
+}
+
+void Hero::gainHP(){
+    healthPower += 5*level.getRL();
+    healthPower = min(healthPower,maxHP());
 }
 
 int Hero::attack(){
@@ -303,11 +308,11 @@ void Hero::print() const{
 
 
 int Hero::castSpell(){
-    if (getInventory().getSpellsSize() > 0){
+    if (inventory.getSpellsSize() > 0){
         cout << "Choose which spell to use" << endl;
-        for (int i=0; i<getInventory().getSpellsSize(); i++)
-            getInventory().getSpell(i)->print();
-        return inputNumber(getInventory().getSpellsSize()) - 1;
+        for (int i=0; i<inventory.getSpellsSize(); i++)
+            inventory.getSpell(i)->print();
+        return inputNumber(inventory.getSpellsSize()) - 1;
     }
     else
         cout << "This hero has no spells available" << endl;
@@ -341,9 +346,15 @@ int Hero::usePotion(){
 
 void Hero::use(const Potion& p){
     if (p.getMinLevel() <= level.getRL()){
-        if (p.getUse() == "HP") healthPower += p.getEffectPoints(); //TOBECHANGED
+        if (p.getUse() == "HP") {
+            healthPower += p.getEffectPoints();
+            healthPower = min(healthPower,maxHP());
+        } 
         
-        else if (p.getUse() == "MP") MP += p.getEffectPoints();
+        else if (p.getUse() == "MP") {
+            MP += p.getEffectPoints();
+            MP = min(MP,maxMP());
+        }
         
         else if (p.getUse() == "Strength") strength += p.getEffectPoints();
         
@@ -556,6 +567,9 @@ void PlayerInventory::print(Hero& h){
     }
 }
 
+
+
+//MISCELLANEOUS
 int level(Hero** heroes, const int numOfHeroes){
     int sum = 0;
     for (int i=0; i<numOfHeroes; i++)

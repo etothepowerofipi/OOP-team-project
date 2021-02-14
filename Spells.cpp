@@ -28,7 +28,7 @@ FireSpell::FireSpell(int lvl,const string s): Spell(lvl,s)
 
 LightningSpell::LightningSpell(int lvl,const string s): Spell(lvl,s)
 {
-    dodgeReduction = 0.1; //TOBECHANGED
+    dodgeReduction = 1; //TOBECHANGED
 }
 
 
@@ -154,32 +154,31 @@ int Spell::getMax() const {
 //PRINT
 //PRINT
 //PRINT
+void Spell::print() const{
+    cout << "Name: " + name + "\nPrice: " << price << endl;
+    cout << "Minimum Damage: " << minDamage << ".\t" << "Maximum Damage: " << maxDamage << endl;
+    cout << "Required level: " << levelRequired << ".\t" << "Required MP: " << mpRequired << endl;
+}
 
 void IceSpell::print() const
 {
     cout << "This is an IceSpell" << endl;
-    cout << "Name: " << name << '\n' << "Price: " << price << endl;
-    cout << "Minimum Damage: " << minDamage << ".\t" << "Maximum Damage: " << maxDamage << endl;
-    cout << "Required level: " << levelRequired << ".\t" << "Required MP: " << mpRequired << endl;
+    Spell::print();
     cout << "It also reduces enemy damage by " << damageReduction << endl << endl;
 }
 
 void FireSpell::print() const
 {
     cout << "This is a FireSpell" << endl;
-    cout << "Name: " << name << '\n' << "Price: " << price << endl;
-    cout << "Minimum Damage: " << minDamage << ".\t" << "Maximum Damage: " << maxDamage << endl;
-    cout << "Required level: " << levelRequired << ".\t" << "Required MP: " << mpRequired << endl;
+    Spell::print();
     cout << "It also reduces enemy defense by " << defenseReduction << endl << endl;
 }
 
 void LightningSpell::print() const
 {
     cout << "This is a LightningSpell" << endl;
-    cout << "Name: " << name << '\n' << "Price: " << price << endl;
-    cout << "Minimum Damage: " << minDamage << ".\t" << "Maximum Damage: " << maxDamage << endl;
-    cout << "Required level: " << levelRequired << ".\t" << "Required MP: " << mpRequired << endl;
-    cout << "It also reduces enemy dodge chance by " << dodgeReduction << endl << endl;
+    Spell::print();
+    cout << "It also reduces enemy dodge chance by " << dodgeReduction << "%" << endl << endl;
 }
 
 

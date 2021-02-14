@@ -21,6 +21,7 @@ class Monster: public LivingBeing
 
         int attack(); //Epistrefei tuxaio arithmo anamesa sto minAttack kai to maxAttack.
         bool defend(int);
+        void gainHP();
 
 
         virtual std::string type() const = 0;

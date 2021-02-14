@@ -47,6 +47,11 @@ Spirit::~Spirit() {}
 //MONSTER
 //MONSTER
 //MONSTER
+void Monster::gainHP(){
+    healthPower += 4*level;
+    healthPower = min(healthPower,maxHP());
+}
+
 int Monster::attack(){
     int damage = rand() % (maxAttack - minAttack);
     damage += minAttack;
