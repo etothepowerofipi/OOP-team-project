@@ -60,7 +60,7 @@ int Monster::attack(){
 
 bool Monster::defend(int damage){
     if(dodge()){
-        cout << name + " dodges the attack!" << endl;
+        cout << getName() + " dodges the attack!" << endl;
         return 0;
     }
     damage -= defense;
@@ -73,7 +73,7 @@ bool Monster::dodge(){
 }
 
 void Monster::faint(){
-    cout << name + " has fainted! It's out of the battle!" << endl;
+    cout << getName() + " has fainted! It's out of the battle!" << endl;
 }
 
 void Monster::print() const{
