@@ -146,6 +146,7 @@ bool Grid::checkBlock(int i,int j){
         return true;
     }
     else if(map[i][j] == '+'){
+        return true;
         int prob=rand()%100;
         if(prob < 30) return battle();
         else return true;
@@ -180,7 +181,7 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
-                            cout << heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a normal attack!" << endl;
+                            cout << "" <<  heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a normal attack!" << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage))
                                 monsterFainted(monsters,monstersInBattle,monsterIndex);
@@ -336,100 +337,168 @@ Marketplace::Marketplace(Hero** h,int noh){
 
 void Marketplace::menu(){
     cout << "What would you like to do?\n" << endl;
-    unsigned int input,inputH;
+    unsigned int input,inputH,inputSwitch;
     char inputS;
+    bool answer;
     do{
         cout << "To buy items press 1\nTo sell items press 2\nTo leave press 3\n" << endl;
         input=inputNumber(3);
         if(input == 1){
-            cout << "This marketplace currently has the following items on stock :" << endl;
-            stock.print();
+            do{
+                cout << "To browse weapons press 1\nTo browse armors press 2\nTo browse spells press 3\nTo browse potions press 4\nTo go back press 5\n" << endl;
+                inputSwitch=inputNumber(5);
+                switch(inputSwitch){
+                    case 1 :
+                        if(stock.getWeaponsSize() > 0){
+                            cout << "\n\nThis marketplace now has the following weapons on stock :" << endl;
+                            stock.printWeapons();
+                            cout << "Would you like to buy a weapon? y/n" << endl;
+                            answer=inputAnswer();
+                            while(answer == true){
+                                inputH=0;
+                                if(numofheroes >= 2){
+                                    cout << "Which hero to buy the weapon?" << endl;
+                                    for(int i=0;i<numofheroes;i++)
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
+                                    inputH=inputNumber(numofheroes) - 1;
+                                }
+                                cout << "Enter the number of the weapon you would like to buy." << endl;
+                                input=inputNumber(stock.getWeaponsSize())-1;
+                                cout << "Buying :\n" << endl; stock.getWeapon(input).print(); cout << "Continue? y/n" << endl;
+                                if(inputAnswer() == true){
+                                    if( heroes[inputH]->buy(stock.getWeapon(input)) == true ){
+                                        cout << "Succesfuly bought "; stock.getWeapon(input).print();
+                                        stock.removeWeapon(input);
+                                        cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                                    }
+                                }
+                                if(stock.getWeaponsSize() > 0){
+                                    cout << "Would you like to buy a weapon? y/n" << endl;
+                                    answer=inputAnswer();
+                                    if(answer == true){
+                                        cout << "\n\nThis marketplace now has the following weapons on stock :" << endl;
+                                        stock.printWeapons();
+                                    }
+                                }
+                                else break;
+                            }
+                        }
+                        else cout << "No weapons on stock" << endl;
+                        break;
 
-            cout << "Would you like to buy a weapon? y/n" << endl;
-            if(inputAnswer() == true){
-                do{
-                    inputH=0;
-                    if(numofheroes >= 2){
-                        cout << "Which hero to buy the weapon?" << endl;
-                        for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
-                        inputH=inputNumber(numofheroes) - 1;
-                        if (inputH == numofheroes) break;
-                    }
-                    cout << "Enter the number of the weapon you would like to buy." << endl;
-                    input=inputNumber(stock.getWeaponsSize())-1;
-                    if( heroes[inputH]->buy(stock.getWeapon(input)) == true ) stock.removeWeapon(input);
-                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
-                    stock.print();
-                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
-                    if(stock.getWeaponsSize() != 0) cout << "Would you like to buy another weapon? y/n" << endl;
-                    else break;
-                }while(inputAnswer() != false);
-            }
-
-            cout << "Would you like to buy an armor? y/n" << endl;
-            if(inputAnswer() == true){
-                do{
-                    inputH=0;
-                    if(numofheroes >= 2){
-                        cout << "Which hero to buy the armor?" << endl;
-                        for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the armor." << endl;
-                        inputH=inputNumber(numofheroes)-1;
-                    }
-                    cout << "Enter the number of the armor you would like to buy." << endl;
-                    input=inputNumber(stock.getArmorsSize())-1;
-                    if( heroes[inputH]->buy(stock.getArmor(input)) == true ) stock.removeArmor(input);
-                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
-                    stock.print();
-                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
-                    if(stock.getArmorsSize() != 0) cout << "Would you like to buy another armor? y/n" << endl;
-                    else break;
-                }while(inputAnswer() != false);
-            }
-
-            cout << "Would you like to buy a spell? y/n" << endl;
-            if(inputAnswer() == true){
-                do{
-                    inputH=0;
-                    if(numofheroes >= 2){
-                        cout << "Which hero to buy the spell?" << endl;
-                        for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the spell." << endl;
-                        inputH=inputNumber(numofheroes)-1;
-                    }
-                    cout << "Enter the number of the spell you would like to buy." << endl;
-                    input=inputNumber(stock.getSpellsSize())-1;
-                    if( heroes[inputH]->buy(stock.getSpell(input)) == true ) stock.removeSpell(input);
-                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
-                    stock.print();
-                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
-                    if(stock.getSpellsSize() != 0) cout << "Would you like to buy another spell? y/n" << endl;
-                    else break;
-                }while(inputAnswer() != false);
-            }
-
-            cout << "Would you like to buy a potion? y/n" << endl;
-            if(inputAnswer() == true){
-                do{
-                    inputH=0;
-                    if(numofheroes >= 2){
-                        cout << "Which hero to buy the potion?" << endl;
-                        for(int i=0;i<numofheroes;i++)
-                            cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " to money buy the potion." << endl;
-                        inputH=inputNumber(numofheroes)-1;
-                    }
-                    cout << "Enter the number of the potion you would like to buy." << endl;
-                    input=inputNumber(stock.getPotionsSize())-1;
-                    if( heroes[inputH]->buy(stock.getPotion(input)) == true ) stock.removePotion(input);
-                    cout << "\n\nThis marketplace now has the following items on stock :" << endl;
-                    stock.print();
-                    cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
-                    if(stock.getPotionsSize() != 0) cout << "Would you like to buy another potion? y/n" << endl;
-                    else break;
-                }while(inputAnswer() != false);
-            }
-
+                    case 2 :
+                        if(stock.getArmorsSize() > 0){
+                            cout << "\n\nThis marketplace now has the following armors on stock :" << endl;
+                            stock.printArmors();
+                            cout << "Would you like to buy an armor? y/n" << endl;
+                            answer=inputAnswer();
+                            while(answer == true){
+                                inputH=0;
+                                if(numofheroes >= 2){
+                                    cout << "Which hero to buy the armor?" << endl;
+                                    for(int i=0;i<numofheroes;i++)
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the armor." << endl;
+                                    inputH=inputNumber(numofheroes)-1;
+                                }
+                                cout << "Enter the number of the armor you would like to buy." << endl;
+                                input=inputNumber(stock.getArmorsSize())-1;
+                                cout << "Buying :\n"; stock.getArmor(input).print(); cout << "Continue? y/n" << endl;
+                                if(inputAnswer() == true){
+                                    if( heroes[inputH]->buy(stock.getArmor(input)) == true ){
+                                        cout << "Succesfuly bought "; stock.getArmor(input).print();
+                                        stock.removeArmor(input);
+                                        cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                                    }
+                                }
+                                if(stock.getArmorsSize() > 0){
+                                    cout << "Would you like to buy an armor? y/n" << endl;
+                                    answer=inputAnswer();
+                                    if(answer == true){
+                                        cout << "\n\nThis marketplace now has the following armors on stock :" << endl;
+                                        stock.printArmors();
+                                    }
+                                }
+                                else break;
+                            }
+                        }
+                        else cout << "No armors on stock" << endl;
+                        break;
+                    case 3 :
+                        if(stock.getSpellsSize() > 0){
+                            cout << "\n\nThis marketplace now has the following spells on stock :" << endl;
+                            stock.printSpells();
+                            cout << "Would you like to buy a spell? y/n" << endl;
+                            answer=inputAnswer();
+                            while(answer == true){
+                                inputH=0;
+                                if(numofheroes >= 2){
+                                    cout << "Which hero to buy the spell?" << endl;
+                                    for(int i=0;i<numofheroes;i++)
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the spell." << endl;
+                                    inputH=inputNumber(numofheroes)-1;
+                                }
+                                cout << "Enter the number of the spell you would like to buy." << endl;
+                                input=inputNumber(stock.getSpellsSize())-1;
+                                cout << "Buying :\n"; stock.getSpell(input)->print(); cout << "Continue? y/n" << endl;
+                                if(inputAnswer() == true){
+                                    if( heroes[inputH]->buy(stock.getSpell(input)) == true ){
+                                        cout << "Succesfuly bought "; stock.getSpell(input)->print();
+                                        stock.removeSpell(input);
+                                        cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                                    }
+                                }
+                                if(stock.getSpellsSize() > 0){
+                                    cout << "Would you like to buy a spell? y/n" << endl;
+                                    answer=inputAnswer();
+                                    if(answer == true){
+                                        cout << "\n\nThis marketplace now has the following spells on stock :" << endl;
+                                        stock.printSpells();
+                                    }
+                                }
+                                else break;
+                            }
+                        }
+                        else cout << "No spells on stock" << endl;
+                        break;
+                    case 4 :
+                        if(stock.getPotionsSize() > 0){
+                            cout << "\n\nThis marketplace now has the following potions on stock :" << endl;
+                            stock.printPotions();
+                            cout << "Would you like to buy a potion? y/n" << endl;
+                            answer=inputAnswer();
+                            while(answer == true){
+                                inputH=0;
+                                if(numofheroes >= 2){
+                                    cout << "Which hero to buy the potion?" << endl;
+                                    for(int i=0;i<numofheroes;i++)
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " to money buy the potion." << endl;
+                                    inputH=inputNumber(numofheroes)-1;
+                                }
+                                cout << "Enter the number of the potion you would like to buy." << endl;
+                                input=inputNumber(stock.getPotionsSize())-1;
+                                cout << "Buying :\n"; stock.getPotion(input).print(); cout << "Continue? y/n" << endl;
+                                if(inputAnswer() == true){
+                                    if( heroes[inputH]->buy(stock.getPotion(input)) == true ){
+                                        cout << "Succesfuly bought "; stock.getPotion(input).print();
+                                        stock.removePotion(input);
+                                        cout << "New balance for " << heroes[inputH]->getName() << " is " << heroes[inputH]->getGold() << endl;
+                                    }
+                                }
+                                if(stock.getPotionsSize() > 0){
+                                    cout << "Would you like to buy a potion? y/n" << endl;
+                                    answer=inputAnswer();
+                                    if(answer == true){
+                                        cout << "\n\nThis marketplace now has the following potions on stock :" << endl;
+                                        stock.printPotions();
+                                    }
+                                }
+                                else break;
+                            }
+                        }
+                        else cout << "No potions on stock" << endl;
+                        break;
+                }
+            }while(inputSwitch != 5);
         }
         else if(input == 2){
             for(int i=0; i<numofheroes; i++){

@@ -18,7 +18,7 @@ bool inputAnswer()
         cin >> input;
         acceptable = input == 'y' || input == 'Y' || input == 'n' || input == 'N';
     }
-
+    cout << endl;
     return (input == 'y' || input == 'Y');   
 }
 
@@ -31,7 +31,7 @@ char inputMove(){
         cin >> input;
         acceptable = input == 'n' || input == 'w' || input == 'a' || input == 's' || input == 'd';
     }
-
+    cout << endl;
     return input;   
 }
 
@@ -69,7 +69,7 @@ char inputSell(){
         cin >> input;
         acceptable = input == 'w' || input == 'a' || input == 's' || input == 'p' || input == 'b';
     }
-
+    cout << endl;
     return input;   
 }
 
@@ -83,6 +83,7 @@ int inputNumber(const int m)
         cin >> input;
     }
     int rinput=input-48;
+    cout << endl;
     return rinput;
 }
 
