@@ -146,9 +146,8 @@ bool Grid::checkBlock(int i,int j){
         return true;
     }
     else if(map[i][j] == '+'){
-        return true;
         int prob=rand()%100;
-        if(prob < 30) return battle();
+        if(prob < 10) return battle();
         else return true;
     }
     return false;
@@ -168,6 +167,7 @@ bool Grid::battle(){
         monsters[i] = monsterGenerator(level());
 
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
+        cout << "\n\n" << endl;
         for (int i=0; i<heroesInBattle; i++){
             heroes[i]->gainMP();
             if (monstersInBattle>0){
@@ -181,7 +181,6 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
-                            cout << "" <<  heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a normal attack!" << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage))
                                 monsterFainted(monsters,monstersInBattle,monsterIndex);
@@ -193,7 +192,6 @@ bool Grid::battle(){
                                 acceptableAction = true;
                                 damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
                                 monsterIndex = chooseMonster(monsters,monstersInBattle);
-                                cout << heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a spell!" << endl;
                                 if (monsters[monsterIndex]->defend(damage))
                                     monsterFainted(monsters,monstersInBattle,monsterIndex);
                             }
@@ -221,7 +219,7 @@ bool Grid::battle(){
             cout << "\n" << endl;
             int damage = monsters[i]->attack();
             int randomHero = rand() % heroesInBattle;
-            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() << "!" << endl;
+            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;
             if (heroes[randomHero]->defend(damage))
                 heroFainted(heroes,heroesInBattle,randomHero);
         }
@@ -240,7 +238,6 @@ bool Grid::battle(){
 }
 
 void Grid::battleStats(Monster** monsterArray, const int monsters, const int heroes) const{
-    cout << "\n\n\n\n" << endl;
     cout << "Heroes:" << endl;
     for (int i=0; i<heroes; i++)
         this->heroes[i]->print();
