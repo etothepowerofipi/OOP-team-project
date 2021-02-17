@@ -197,7 +197,8 @@ void Hero::sell(string type){
             if(inputAnswer() == false) return;
             cout << "Input the number of the weapon you would like to sell." << endl;
             inputI=inputNumber(inventory.getWeaponsSize()) - 1;
-            if(weapon == inventory.getPWeapon(inputI)) weapon=NULL;
+
+            if( weapon->areTheSame( *weapon,inventory.getWeapon(inputI) ) ) weapon=NULL;
             addGold(inventory.getWeapon(inputI).getPrice()/2);
             inventory.removeWeapon(inputI);
             cout << "New currency for " << getName() << " is :" << getGold() << endl;
@@ -211,7 +212,8 @@ void Hero::sell(string type){
             if(inputAnswer() == false) return;
             cout << "Input the number of the armor you would like to sell." << endl;
             inputI=inputNumber(inventory.getArmorsSize()) - 1;
-            if(armor == inventory.getPArmor(inputI)) armor=NULL;
+
+            if( armor->areTheSame( *armor,inventory.getArmor(inputI) ) ) armor=NULL;
             addGold(inventory.getArmor(inputI).getPrice()/2);
             inventory.removeArmor(inputI);
             cout << "New currency for " << getName() << " is :" << getGold() << endl;

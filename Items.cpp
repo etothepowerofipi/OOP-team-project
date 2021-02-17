@@ -73,40 +73,6 @@ Armor::~Armor() {}
 
 Potion::~Potion() {}
 
-
-//copy-constructors
-
-/* Item::Item(const Item& i)
-{
-    if (this!=&i)
-    {
-        name = i.name;
-        price = i.price;
-        minLevel = i.minLevel;
-    }
-}
-
-Weapon::Weapon(const Weapon& w):Item(w)
-{
-    if (this!=&w)
-    {
-        damage = w.damage;
-        twoHanded = w.twoHanded;
-    }
-} 
-
-Armor::Armor(const Armor& a):Item(a)
-{
-    if (this!=&a)
-        protection = a.protection;
-} 
-
-Potion::Potion(const Potion& p):Item(p)
-{
-    if (this!=&p)
-        effectPoints = p.effectPoints;
-} */
-
 //assignment operator overloads
 
 Item& Item::operator=(const Item& i)
@@ -162,6 +128,18 @@ int Weapon::getDamage() const{return damage;}
 bool Weapon::getTwoHanded() const{return twoHanded;}
 
 //mutators
+
+bool Weapon::areTheSame(Weapon w1,Weapon w2){
+    if(w1.getDamage() == w2.getDamage() && w1.getMinLevel() == w2.getMinLevel() && w1.getName() == w2.getName() && w1.getPrice() == w2.getPrice() && w1.getTwoHanded() == w2.getTwoHanded())
+        return true;
+    return false;
+}
+
+bool Armor::areTheSame(Armor a1,Armor a2){
+    if( a1.getProtection() == a2.getProtection() && a1.getMinLevel() == a2.getMinLevel() && a1.getName() == a2.getName() && a1.getPrice() == a2.getPrice())
+        return true;
+    return false;
+}
 
 void Weapon::starterWeapon(){
     name="Basic dagger";
