@@ -200,7 +200,7 @@ void Hero::sell(string type){
         cout << "Weapons on inventory of " << getName() << " are :" << endl;
         inventory.printWeapons();
         if(inventory.getWeaponsSize() != 0){
-            cout << "Are you sure you want to sell a weapon?" << endl;
+            cout << "Are you sure you want to sell a weapon? y/n" << endl;
             if(inputAnswer() == false) return;
             cout << "Input the number of the weapon you would like to sell." << endl;
             inputI=inputNumber(inventory.getWeaponsSize()) - 1;
@@ -214,7 +214,7 @@ void Hero::sell(string type){
         cout << "Armors on inventory of " << getName() << " are :" << endl;
         inventory.printArmors();
         if(inventory.getArmorsSize() != 0){
-            cout << "Are you sure you want to sell an armor?" << endl;
+            cout << "Are you sure you want to sell an armor? y/n" << endl;
             if(inputAnswer() == false) return;
             cout << "Input the number of the armor you would like to sell." << endl;
             inputI=inputNumber(inventory.getArmorsSize()) - 1;
@@ -228,7 +228,7 @@ void Hero::sell(string type){
         cout << "Spells on inventory of " << getName() << " are :" << endl;
         inventory.printSpells();
         if(inventory.getSpellsSize() != 0){
-            cout << "Are you sure you want to sell a spell?" << endl;
+            cout << "Are you sure you want to sell a spell? y/n" << endl;
             if(inputAnswer() == false) return;
             cout << "Input the number of the spell you would like to sell." << endl;
             inputI=inputNumber(inventory.getSpellsSize()) - 1;
@@ -241,7 +241,7 @@ void Hero::sell(string type){
         cout << "Potions on inventory of " << getName() << " are :" << endl;
         inventory.printPotions();
         if(inventory.getPotionsSize() != 0){
-            cout << "Are you sure you want to sell a potion?" << endl;
+            cout << "Are you sure you want to sell a potion? y/n" << endl;
             if(inputAnswer() == false) return;
             cout << "Input the number of the potion you would like to sell." << endl;
             inputI=inputNumber(inventory.getPotionsSize()) - 1;
@@ -327,6 +327,7 @@ int Hero::castSpell(){
 
 int Hero::cast(Spell* s)
 {
+    cout << "Inside castSpell" << endl;
     if (s->getLevelReq() <= level.getRL())
     {
         int damage = rand() % (s->getMax() - s->getMin());
@@ -494,19 +495,39 @@ void Inventory::print()
 }
 
 void Inventory::removeWeapon(int i){
-    weapons.erase(weapons.begin() + i);
+    vector<Weapon> temp;
+    for(int j=0;j<weapons.size();j++){
+        if(j != i) temp.push_back(weapons[j]);
+    }
+    weapons.clear();
+    weapons=temp;
 }
 
 void Inventory::removeArmor(int i){
-    armors.erase(armors.begin() + i);
-}
-
-void Inventory::removePotion(int i){
-    potions.erase(potions.begin() + i);
+    vector<Armor> temp;
+    for(int j=0;j<armors.size();j++){
+        if(j != i) temp.push_back(armors[j]);
+    }
+    armors.clear();
+    armors=temp;
 }
 
 void Inventory::removeSpell(int i){
-    spells.erase(spells.begin() + i);
+    vector<Spell*> temp;
+    for(int j=0;j<spells.size();j++){
+        if(j != i) temp.push_back(spells[j]);
+    }
+    spells.clear();
+    spells=temp;
+}
+
+void Inventory::removePotion(int i){
+    vector<Potion> temp;
+    for(int j=0;j<potions.size();j++){
+        if(j != i) temp.push_back(potions[j]);
+    }
+    potions.clear();
+    potions=temp;
 }
 
 void Inventory::addWeapon(Weapon w){

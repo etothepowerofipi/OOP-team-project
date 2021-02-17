@@ -334,7 +334,7 @@ Marketplace::Marketplace(Hero** h,int noh){
 
 void Marketplace::menu(){
     cout << "What would you like to do?\n" << endl;
-    unsigned int input,inputH,inputSwitch;
+    int input,inputH,inputSwitch;
     char inputS;
     bool answer;
     do{
