@@ -20,7 +20,7 @@ Weapon::Weapon(const Weapon& w)
         twoHanded =  w.twoHanded;
     }
 }
-Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(15+minLevel*(rand()%4)) {}
+Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(15+minLevel*rand()%4) {}
 Armor::Armor() : Item() {starterArmor();}
 Armor::Armor(const Armor& arm)
 {
