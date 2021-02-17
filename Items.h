@@ -21,8 +21,8 @@ public:
 };
 
 class Weapon : public Item{
-    int damage;
-    bool twoHanded;
+    const int damage;
+    const bool twoHanded;
 public:
     Weapon(int ,std::string );
     Weapon();
@@ -38,7 +38,7 @@ public:
 };
 
 class Armor : public Item{
-    int protection;
+    const int protection;
 public:
     Armor(int ,std::string );
     Armor();
@@ -53,7 +53,7 @@ public:
 };
 
 class Potion : public Item{
-    int effectPoints;
+    const int effectPoints;
 public:
     Potion(int ,std::string );
     ~Potion();

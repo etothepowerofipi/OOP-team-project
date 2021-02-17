@@ -8,10 +8,7 @@ Item::Item(int lvl,string nam,string type) : name(nam), minLevel(lvl) {
     price= 100 + 50*(minLevel-1);
 }
 Item::Item(){}
-Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(1+lvl/2+lvl*rand()%4) , twoHanded( (rand()%2 == 0) ? true : false ) {
-    if(damage<=0) damage=1;
-    if(price<=0) price=100;
-}
+Weapon::Weapon(int lvl,string name) : Item(lvl,name,"weapon") , damage(15+minLevel*(rand()%4)) , twoHanded( (rand()%2 == 0) ? true : false ) {}
 Weapon::Weapon(){starterWeapon();}
 Weapon::Weapon(const Weapon& w)
 {
@@ -23,10 +20,7 @@ Weapon::Weapon(const Weapon& w)
         twoHanded =  w.twoHanded;
     }
 }
-Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(lvl+1+lvl*rand()%4) {
-    if(protection <=0) protection=1;
-    if(price<=0) price=100;
-}
+Armor::Armor(int lvl,string name) : Item(lvl,name,"armor") , protection(15+minLevel*(rand()%4)) {}
 Armor::Armor() : Item() {starterArmor();}
 Armor::Armor(const Armor& arm)
 {
@@ -37,9 +31,7 @@ Armor::Armor(const Armor& arm)
         protection = arm.protection;
     }
 }
-Potion::Potion(int lvl,string name) : Item(lvl,name,"potion"){
-    effectPoints = 20 + 10*(minLevel + rand()%2);
-}
+Potion::Potion(int lvl,string name) : Item(lvl,name,"potion") , effectPoints(20 + 10*(minLevel + rand()%2)) {}
 
 //printers
 
