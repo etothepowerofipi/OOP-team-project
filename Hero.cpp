@@ -598,9 +598,15 @@ void PlayerInventory::print(Hero& h){
     }
     if(h.getPArmor() == NULL) cout << "No armor currently equiped" << endl;
     else{
-        if(h.getWeapon().getTwoHanded() == false){
-                cout << "\nCurrent armor is :" << endl; 
-                h.getArmor().print();
+        if(h.getPWeapon() != NULL){
+            if(h.getWeapon().getTwoHanded() == false){
+                    cout << "\nCurrent armor is :" << endl; 
+                    h.getArmor().print();
+            }
+        }
+        else{
+            cout << "\nCurrent armor is :" << endl; 
+            h.getArmor().print();
         }
     }
 }
