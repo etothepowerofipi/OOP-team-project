@@ -500,27 +500,37 @@ void Marketplace::menu(){
             }while(inputSwitch != 5);
         }
         else if(input == 2){
-            for(int i=0; i<numofheroes; i++){
-                cout << "Inventory of hero " << heroes[i]->getName() << " is :" << endl;
-                heroes[i]->printInventory();
+            do{
+                inputH=0;
+                if(numofheroes >= 2){
+                    cout << "Which hero to sell an item?" << endl;
+                    for(int i=0;i<numofheroes;i++)
+                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " to sell an item." << endl;
+                    cout << "To go back press " << numofheroes+1 << endl;
+                    inputH=inputNumber(numofheroes+1)-1;
+                    if(inputH == numofheroes) break;
+                }
+                cout << "Inventory of hero " << heroes[inputH]->getName() << " is :" << endl;
+                heroes[inputH]->printInventory();
                 do{
                     cout << "What type of item would you like to sell? Input w/a/s/p/b (weapon/armor/spell/potion/go back)" << endl;
                     switch(inputS=inputSell()){
                         case 'w' :
-                            heroes[i]->sell("weapon");
+                            heroes[inputH]->sell("weapon");
                             break;
                         case 'a' :
-                            heroes[i]->sell("armor");
+                            heroes[inputH]->sell("armor");
                             break;
                         case 's' :
-                            heroes[i]->sell("spell");
+                            heroes[inputH]->sell("spell");
                             break;
                         case 'p' :
-                            heroes[i]->sell("potion");
+                            heroes[inputH]->sell("potion");
                             break;
                     }
                 } while(inputS != 'b');
-            }
+                if(numofheroes == 1) break;
+            }while(inputH == numofheroes);
         }
     } while(input != 3);
 }
