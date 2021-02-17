@@ -16,6 +16,7 @@ class Spell
         Spell(int ,const std::string);
         virtual ~Spell();
         Spell(const Spell&);
+        Spell& operator=(const Spell&);
 
         //accessors
         std::string getName() const;
@@ -38,6 +39,7 @@ class IceSpell: public Spell
         IceSpell(int ,const std::string);
         ~IceSpell();
         IceSpell(const IceSpell&);
+        IceSpell& operator=(const IceSpell&);
 
         int getReduction() const;
         void print() const;
@@ -52,6 +54,7 @@ class FireSpell: public Spell
         FireSpell(int ,const std::string);
         ~FireSpell();
         FireSpell(const FireSpell&);
+        FireSpell& operator=(const FireSpell&);
 
         int getReduction() const;
         void print() const;
@@ -66,6 +69,7 @@ class LightningSpell: public Spell
         LightningSpell(int ,const std::string);
         ~LightningSpell();
         LightningSpell(const LightningSpell&);
+        LightningSpell& operator=(const LightningSpell&);
 
         int getReduction() const;
         void print() const;

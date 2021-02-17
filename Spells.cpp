@@ -99,6 +99,7 @@ Spell& Spell::operator=(const Spell& s)
 
 IceSpell& IceSpell::operator=(const IceSpell& i)
 {
+    Spell::operator=(i);
     if (this!=&i)
         damageReduction = i.damageReduction;
     return *this;
@@ -106,6 +107,7 @@ IceSpell& IceSpell::operator=(const IceSpell& i)
 
 FireSpell& FireSpell::operator=(const FireSpell& f)
 {
+    Spell::operator=(f);
     if (this!=&f)
         defenseReduction = f.defenseReduction;
     return *this;
@@ -113,6 +115,7 @@ FireSpell& FireSpell::operator=(const FireSpell& f)
 
 LightningSpell& LightningSpell::operator=(const LightningSpell& l)
 {
+    Spell::operator=(l);
     if (this!=&l)
         dodgeReduction = l.dodgeReduction;
     return *this;

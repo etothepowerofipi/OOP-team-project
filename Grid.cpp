@@ -16,7 +16,7 @@ Grid::Grid(Hero** h,int numofh){
             map[i][j]='+';
     }
 
-    int numofmarkets=15+rand()%6;  //Paragw enan tuxaio ari8mo anamesa sto min marketplaces=15 kai max marketplaces=21
+    int numofmarkets=65+rand()%6;  //Paragw enan tuxaio ari8mo anamesa sto min marketplaces=15 kai max marketplaces=21
     int i,j;
     while(numofmarkets > 0){
         i=rand()%maxi;
@@ -178,6 +178,7 @@ bool Grid::battle(){
                     switch (action){
                         int monsterIndex;
                         int damage;
+                        int index;
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
@@ -188,9 +189,10 @@ bool Grid::battle(){
                         
 
                         case 2:
-                            if (int spellIndex = heroes[i]->castSpell() > -1){
+                            index = heroes[i]->castSpell();
+                            if (index > -1){
                                 acceptableAction = true;
-                                damage = heroes[i]->cast(spellIndex);
+                                damage = heroes[i]->cast(index);
                                 monsterIndex = chooseMonster(monsters,monstersInBattle);
                                 if (monsters[monsterIndex]->defend(damage))
                                     monsterFainted(monsters,monstersInBattle,monsterIndex);
@@ -199,9 +201,10 @@ bool Grid::battle(){
                         
 
                         case 3:
-                            if (int potionIndex = heroes[i]->usePotion() > -1){
+                            index = heroes[i]->usePotion();
+                            if (index > -1){
                                 acceptableAction = true;
-                                heroes[i]->use(potionIndex);
+                                heroes[i]->use(index);
                             }
                             break;
                         

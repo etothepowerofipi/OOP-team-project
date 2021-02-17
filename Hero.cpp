@@ -320,7 +320,9 @@ int Hero::castSpell(){
             cout << i+1 << '.';
             inventory.getSpell(i)->print();
         }
-        return inputNumber(inventory.getSpellsSize()) - 1;
+        int returnint = inputNumber(inventory.getSpellsSize()) -1;
+        cout << "returnint is " << returnint << endl;
+        return (returnint);
     }
     else
         cout << "This hero has no spells available" << endl;
@@ -330,12 +332,11 @@ int Hero::castSpell(){
 
 int Hero::cast(const int index)
 {
-    Spell* s = inventory.getSpell(index);
-    if (s->getLevelReq() <= level.getRL())
+    if (inventory.getSpell(index)->getLevelReq() <= level.getRL())
     {
-        if (s->getMP() <= MP){
-            int damage = rand() % (s->getMax() - s->getMin());
-            damage += s->getMin();
+        if (inventory.getSpell(index)->getMP() <= MP){
+            int damage = rand() % (inventory.getSpell(index)->getMax() - inventory.getSpell(index)->getMin());
+            damage += inventory.getSpell(index)->getMin();
             return damage;
         }
         else{
@@ -343,7 +344,7 @@ int Hero::cast(const int index)
             return 0;
         }
     }
-    cout << "Hero's level " << level.getRL() << " is not high enough to use this spell." << s->getLevelReq() << endl;
+    cout << "Hero's level " << level.getRL() << " is not high enough to use this spell." << inventory.getSpell(index)->getLevelReq() << endl;
     return 0;
 }
 
