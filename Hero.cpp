@@ -325,16 +325,23 @@ int Hero::castSpell(){
     return -1;
 }
 
-int Hero::cast(Spell* s)
+
+int Hero::cast(const int index)
 {
-    cout << "Inside castSpell" << endl;
+    Spell* s = inventory.getSpell(index);
     if (s->getLevelReq() <= level.getRL())
     {
-        int damage = rand() % (s->getMax() - s->getMin());
-        damage += s->getMin();
-        return damage;
+        if (s->getMP() <= MP){
+            int damage = rand() % (s->getMax() - s->getMin());
+            damage += s->getMin();
+            return damage;
+        }
+        else{
+            cout << "Hero's Magic Power is not enough to use this spell." << endl;
+            return 0;
+        }
     }
-    cout << "Hero's level is not high enough to use this spell." << endl;
+    cout << "Hero's level " << level.getRL() << " is not high enough to use this spell." << s->getLevelReq() << endl;
     return 0;
 }
 
@@ -352,8 +359,8 @@ int Hero::usePotion(){
     return -1;
 }
 
-
-void Hero::use(const Potion& p){
+void Hero::use(const int index){
+    Potion p = inventory.getPotion(index);
     if (p.getMinLevel() <= level.getRL()){
         if (p.getUse() == "HP") {
             healthPower += p.getEffectPoints();
@@ -370,6 +377,8 @@ void Hero::use(const Potion& p){
         else if (p.getUse() == "Agility") agility += p.getEffectPoints();
         
         else dexterity += p.getEffectPoints();
+
+        removePotion(index);
     }
     else
         cout << "Hero's level " << level.getRL() << " is not high enough to use this potion. " << p.getMinLevel() << endl;
@@ -500,7 +509,7 @@ void Inventory::removeWeapon(int i){
         if(j != i) temp.push_back(weapons[j]);
     }
     weapons.clear();
-    weapons=temp;
+    weapons = temp;
 }
 
 void Inventory::removeArmor(int i){
@@ -509,7 +518,7 @@ void Inventory::removeArmor(int i){
         if(j != i) temp.push_back(armors[j]);
     }
     armors.clear();
-    armors=temp;
+    armors = temp;
 }
 
 void Inventory::removeSpell(int i){
@@ -518,7 +527,7 @@ void Inventory::removeSpell(int i){
         if(j != i) temp.push_back(spells[j]);
     }
     spells.clear();
-    spells=temp;
+    spells = temp;
 }
 
 void Inventory::removePotion(int i){
@@ -527,7 +536,7 @@ void Inventory::removePotion(int i){
         if(j != i) temp.push_back(potions[j]);
     }
     potions.clear();
-    potions=temp;
+    potions = temp;
 }
 
 void Inventory::addWeapon(Weapon w){

@@ -107,9 +107,9 @@ class Hero: public LivingBeing
         int attack();
         bool defend(int);
         int castSpell();
-        int cast(Spell*);
+        int cast(const int);
         int usePotion();    
-        void use(const Potion&);
+        void use(const int);
         virtual void levelUp();
         void gainXP(const int);
         void gainGold(const int);

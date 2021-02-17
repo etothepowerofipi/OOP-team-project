@@ -190,7 +190,7 @@ bool Grid::battle(){
                         case 2:
                             if (int spellIndex = heroes[i]->castSpell() > -1){
                                 acceptableAction = true;
-                                damage = heroes[i]->cast(heroes[i]->getInventory().getSpell(spellIndex));
+                                damage = heroes[i]->cast(spellIndex);
                                 monsterIndex = chooseMonster(monsters,monstersInBattle);
                                 if (monsters[monsterIndex]->defend(damage))
                                     monsterFainted(monsters,monstersInBattle,monsterIndex);
@@ -201,8 +201,7 @@ bool Grid::battle(){
                         case 3:
                             if (int potionIndex = heroes[i]->usePotion() > -1){
                                 acceptableAction = true;
-                                heroes[i]->use(heroes[i]->getInventory().getPotion(potionIndex));
-                                heroes[i]->removePotion(potionIndex);
+                                heroes[i]->use(potionIndex);
                             }
                             break;
                         
@@ -334,7 +333,7 @@ Marketplace::Marketplace(Hero** h,int noh){
 
 void Marketplace::menu(){
     cout << "What would you like to do?\n" << endl;
-    int input,inputH,inputSwitch;
+    unsigned int input,inputH,inputSwitch;
     char inputS;
     bool answer;
     do{
