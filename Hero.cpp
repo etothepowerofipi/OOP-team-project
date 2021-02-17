@@ -10,7 +10,7 @@ using namespace std;
 //CONSTRUCTORS
 //CONSTRUCTORS
 
-Level::Level(const int lvl= 1): realLevel(lvl), currentXp(0) {}
+Level::Level(): realLevel(1), currentXp(0) {}
 
 Hero::Hero(const string s) : LivingBeing(s,1), level(Level()) {
     healthPower = maxHP();
@@ -62,16 +62,14 @@ int Level::addXp(int xpToAdd)
 {
     int levelUps = 0;
     currentXp += xpToAdd;
-    while(currentXp >= levelUpXp())
-    {
+    while(currentXp >= levelUpXp()){
         levelUp();
         levelUps++;
     }
     return levelUps;
 }
 
-void Level::levelUp()
-{
+void Level::levelUp(){
     currentXp -= levelUpXp();
     realLevel++;
 }
@@ -142,6 +140,15 @@ void Hero::gainXP(const int monsters){
     const int levelUps = level.addXp(expGained);
     for (int i=0; i<levelUps; i++)
         levelUp();
+    LivingBeing::level += levelUps;
+}
+
+void Hero::levelUp(){
+    cout << name + " leveled up!" << endl;
+    LivingBeing::level++;
+    level.levelUp();
+    healthPower = maxHP();
+    MP = maxMP();
 }
 
 void Hero::gainGold(const int monsters){
@@ -320,16 +327,23 @@ int Hero::castSpell(){
     return -1;
 }
 
-int Hero::cast(Spell* s)
+
+int Hero::cast(const int index)
 {
-    cout << "Inside castSpell" << endl;
+    Spell* s = inventory.getSpell(index);
     if (s->getLevelReq() <= level.getRL())
     {
-        int damage = rand() % (s->getMax() - s->getMin());
-        damage += s->getMin();
-        return damage;
+        if (s->getMP() <= MP){
+            int damage = rand() % (s->getMax() - s->getMin());
+            damage += s->getMin();
+            return damage;
+        }
+        else{
+            cout << "Hero's Magic Power is not enough to use this spell." << endl;
+            return 0;
+        }
     }
-    cout << "Hero's level is not high enough to use this spell." << endl;
+    cout << "Hero's level " << level.getRL() << " is not high enough to use this spell." << s->getLevelReq() << endl;
     return 0;
 }
 
@@ -347,8 +361,8 @@ int Hero::usePotion(){
     return -1;
 }
 
-
-void Hero::use(const Potion& p){
+void Hero::use(const int index){
+    Potion p = inventory.getPotion(index);
     if (p.getMinLevel() <= level.getRL()){
         if (p.getUse() == "HP") {
             healthPower += p.getEffectPoints();
@@ -365,9 +379,11 @@ void Hero::use(const Potion& p){
         else if (p.getUse() == "Agility") agility += p.getEffectPoints();
         
         else dexterity += p.getEffectPoints();
+
+        removePotion(index);
     }
     else
-        cout << "Hero's level is not high enough to use this potion." << endl;
+        cout << "Hero's level " << level.getRL() << " is not high enough to use this potion. " << p.getMinLevel() << endl;
 }
 
 void Hero::removeSpell(const int index){
@@ -389,13 +405,8 @@ void Hero::faint(){
 
 //SubClasses Hero
 
-void Warrior::levelUp()
-{
-    LivingBeing::level++;
-    level.levelUp();
-    healthPower += 50;
-    MP =+ 50;
-
+void Warrior::levelUp(){
+    Hero::levelUp();
     strength += 10* 1.5; //TOBECHANGED
     agility += 0.05* 1.5;
     dexterity += 5;
@@ -405,13 +416,8 @@ string Warrior::type() const{
 }
 
 
-void Sorcerer::levelUp()
-{
-    LivingBeing::level++;
-    level.levelUp();
-    healthPower += 50;
-    MP =+ 50;
-
+void Sorcerer::levelUp(){
+    Hero::levelUp();
     strength += 10; //TOBECHANGED
     agility += 0.05* 1.5;
     dexterity += 5* 1.5;
@@ -420,13 +426,8 @@ string Sorcerer::type() const{
     return "\tType: Sorcerer   ";
 }
 
-void Paladin::levelUp()
-{
-    LivingBeing::level++; // = level.reallevel
-    level.levelUp();
-    healthPower += 50;
-    MP =+ 50;
-
+void Paladin::levelUp(){
+    Hero::levelUp();
     strength += 10* 1.5; //TOBECHANGED
     agility += 0.05;
     dexterity += 5* 1.5;
@@ -510,7 +511,7 @@ void Inventory::removeWeapon(int i){
         if(j != i) temp.push_back(weapons[j]);
     }
     weapons.clear();
-    weapons=temp;
+    weapons = temp;
 }
 
 void Inventory::removeArmor(int i){
@@ -519,7 +520,7 @@ void Inventory::removeArmor(int i){
         if(j != i) temp.push_back(armors[j]);
     }
     armors.clear();
-    armors=temp;
+    armors = temp;
 }
 
 void Inventory::removeSpell(int i){
@@ -528,7 +529,7 @@ void Inventory::removeSpell(int i){
         if(j != i) temp.push_back(spells[j]);
     }
     spells.clear();
-    spells=temp;
+    spells = temp;
 }
 
 void Inventory::removePotion(int i){
@@ -537,7 +538,7 @@ void Inventory::removePotion(int i){
         if(j != i) temp.push_back(potions[j]);
     }
     potions.clear();
-    potions=temp;
+    potions = temp;
 }
 
 void Inventory::addWeapon(Weapon w){
