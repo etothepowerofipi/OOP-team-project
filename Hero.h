@@ -11,7 +11,7 @@ class Level
         int levelUpXp() const;
 
     public:
-        Level(const int);
+        Level();
 
         int addXp(int); //Pros8etei XP = <orisma> sto currentXP, kai epistrefei to posa level anebhke o hrwas.
         void levelUp();
@@ -110,7 +110,7 @@ class Hero: public LivingBeing
         int cast(Spell*);
         int usePotion();    
         void use(const Potion&);
-        virtual void levelUp() = 0;
+        virtual void levelUp();
         void gainXP(const int);
         void gainGold(const int);
         
