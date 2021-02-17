@@ -170,7 +170,13 @@ void Hero::checkInventory(){
         if (yes){
             cout << "Which weapon to equip? Input a number" << endl;
             index = inputNumber(inventory.getWeaponsSize())-1;
-            weapon=inventory.getPWeapon(index);
+            if( getLevel().getRL() < inventory.getWeapon(index).getMinLevel() ){
+                cout << "Level requirement not met! Cannot equip weapon." << endl;
+            }
+            else{
+                weapon=inventory.getPWeapon(index);
+                cout << "Succesfuly equiped :" << endl; weapon->print();
+            }
         }
     }
     if(weapon->getTwoHanded() == true) armor=NULL;
@@ -181,7 +187,13 @@ void Hero::checkInventory(){
             if (yes){
                 cout << "Which armor to equip? Input a number" << endl;
                 index = inputNumber(inventory.getArmorsSize())-1;
-                armor=inventory.getPArmor(index);
+                if( getLevel().getRL() < inventory.getArmor(index).getMinLevel() ){
+                    cout << "Level requirement not met! Cannot equip armor." << endl;
+                }
+                else{
+                    armor=inventory.getPArmor(index);
+                    cout << "Succesfuly equiped :" << endl; armor->print();
+                }
             }
         }
     }
