@@ -93,6 +93,9 @@ class Hero: public LivingBeing
         int maxHP() const;
         int maxMP() const;
 
+        void gainHP(const int);
+        void gainMP(const int);
+
         bool dodge();
         void faint();
 

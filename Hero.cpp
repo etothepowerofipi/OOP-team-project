@@ -107,13 +107,35 @@ void Hero::showStats(){
 
 //BATTLE
 void Hero::gainMP(){
-    MP += 5*level.getRL();
+    MP += 4*level.getRL();
     MP = min(MP,maxMP());
 }
 
 void Hero::gainHP(){
     healthPower += 5*level.getRL();
     healthPower = min(healthPower,maxHP());
+}
+
+void Hero::gainHP(const int potionEffect){
+    const int initialHP = healthPower;
+    healthPower += potionEffect;
+    healthPower = min(healthPower,maxHP());
+    const int difference = healthPower - initialHP;
+    cout << name + " gained " << difference << " health!" << endl;
+    if (healthPower == maxHP()){
+        cout << name + "'s health has been fully restored!" << endl;
+    }
+}
+
+void Hero::gainMP(const int potionEffect){
+    const int initialMP = MP;
+    MP += potionEffect;
+    MP = min(MP,maxMP());
+    const int difference = MP - initialMP;
+    cout << name + " gained " << difference << " Magic Power!" << endl;
+    if (MP == maxMP()){
+        cout << name + "'s Magic Power has been fully restored!" << endl;
+    }
 }
 
 int Hero::attack(){
@@ -349,6 +371,7 @@ int Hero::cast(const int index)
         if (inventory.getSpell(index)->getMP() <= MP){
             int damage = rand() % (inventory.getSpell(index)->getMax() - inventory.getSpell(index)->getMin());
             damage += inventory.getSpell(index)->getMin();
+            MP -= inventory.getSpell(index)->getMP();
             return damage;
         }
         else{
@@ -378,13 +401,11 @@ void Hero::use(const int index){
     Potion p = inventory.getPotion(index);
     if (p.getMinLevel() <= level.getRL()){
         if (p.getUse() == "HP") {
-            healthPower += p.getEffectPoints();
-            healthPower = min(healthPower,maxHP());
+            gainHP(p.getEffectPoints());
         } 
         
         else if (p.getUse() == "MP") {
-            MP += p.getEffectPoints();
-            MP = min(MP,maxMP());
+            gainMP(p.getEffectPoints());
         }
         
         else if (p.getUse() == "Strength") strength += p.getEffectPoints();
