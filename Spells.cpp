@@ -190,17 +190,31 @@ void LightningSpell::print() const
 //GETREDUCTION
 //GETREDUCTION
 
-int IceSpell::getReduction() const
-{
+int IceSpell::getReduction() const{
     return damageReduction;
 }
 
-int FireSpell::getReduction() const
-{
+int FireSpell::getReduction() const{
     return defenseReduction;
 }
 
-int LightningSpell::getReduction() const
-{
+int LightningSpell::getReduction() const{
     return dodgeReduction;
+}
+
+
+//TYPE
+//TYPE
+//TYPE
+
+string IceSpell::type() const{
+    return "Ice";
+}
+
+string FireSpell::type() const{
+    return "Fire";
+}
+
+string LightningSpell::type() const{
+    return "Lightning";
 }

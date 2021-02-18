@@ -21,7 +21,9 @@ class Monster: public LivingBeing
 
         int attack(); //Epistrefei tuxaio arithmo anamesa sto minAttack kai to maxAttack.
         bool defend(int);
+        void takeSpell(Spell*);
         void gainHP();
+        void regainStats(const std::string, const int);
 
 
         virtual std::string type() const = 0;
@@ -56,5 +58,5 @@ class Spirit: public Monster
 };
 
 Monster* monsterGenerator(const int);
-void monsterFainted(Monster**, int&, const int);
+void removeMonster(Monster**, int&, const int);
 int chooseMonster(Monster**, const int);

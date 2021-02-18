@@ -67,9 +67,38 @@ bool Monster::defend(int damage){
     return takeDamage(max(damage,0));
 }
 
+void Monster::takeSpell(Spell* spell){
+    if (spell->type() == "Ice"){
+        minAttack -= spell->getReduction();
+        maxAttack -= spell->getReduction();
+        cout << name << "'s attack has been reduced by " << spell->getReduction() << "!" << endl;
+    }
+    else if (spell->type() == "Fire"){
+        defense -= spell->getReduction();
+        cout << name << "'s defense has been reduced by " << spell->getReduction() << "!" << endl;
+    }
+    else{
+        dodgeChance -= spell->getReduction();
+        cout << name << "'s dodge rate has been reduced by " << spell->getReduction() << "!" << endl;
+    }
+}
+
 bool Monster::dodge(){
     int temp = rand()%100 + 1; // 1 <= temp <= 100
     return (temp <= dodgeChance);
+}
+
+void Monster::regainStats(const string type, const int amount){
+    if (type == "Ice"){
+        minAttack += amount;
+        maxAttack += amount;
+    }
+    else if(type == "Fire"){
+        defense += amount;
+    }
+    else{
+        dodgeChance += amount;
+    }
 }
 
 void Monster::faint(){
@@ -117,12 +146,10 @@ Monster* monsterGenerator(const int heroAverage){
     return monster;
 }
 
-void monsterFainted(Monster** monsterArray, int& size, const int index){
+void removeMonster(Monster** monsterArray, int& size, const int index){
     Monster* monster = monsterArray[index];
     monsterArray[index] = monsterArray[size-1];
     monsterArray[--size] = monster;
-    cout << size << " monsters remaining!" << endl;
-    for (int i=0; i<size; i++) cout << monsterArray[i]->getName() << endl; //test
 }
 
 int chooseMonster(Monster** monsterArray, const int monsters){

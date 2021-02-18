@@ -70,7 +70,9 @@ int Level::addXp(int xpToAdd)
 }
 
 void Level::levelUp(){
+    cout << "Experience before: " << currentXp << endl;
     currentXp -= levelUpXp();
+    cout << "Experience after: " << currentXp << endl;
     realLevel++;
 }
 
@@ -168,7 +170,6 @@ void Hero::gainXP(const int monsters){
 void Hero::levelUp(){
     cout << name + " leveled up!" << endl;
     LivingBeing::level++;
-    level.levelUp();
     healthPower = maxHP();
     MP = maxMP();
 }
@@ -364,7 +365,7 @@ int Hero::castSpell(){
 }
 
 
-int Hero::cast(const int index)
+bool Hero::cast(const int index, Monster* monster)
 {
     if (inventory.getSpell(index)->getLevelReq() <= level.getRL())
     {
@@ -372,15 +373,20 @@ int Hero::cast(const int index)
             int damage = rand() % (inventory.getSpell(index)->getMax() - inventory.getSpell(index)->getMin());
             damage += inventory.getSpell(index)->getMin();
             MP -= inventory.getSpell(index)->getMP();
-            return damage;
+            cout << name << " casts " << inventory.getSpell(index)->getName() << "!" << endl;
+            bool monsterFainted = monster->defend(damage);
+            if (!monsterFainted){
+                monster->takeSpell(inventory.getSpell(index));
+            }
+            return monsterFainted;
         }
         else{
-            cout << "Hero's Magic Power is not enough to use this spell." << endl;
-            return 0;
+            cout << "Hero's Magic Power is not enough to cast this spell." << endl;
+            return false;
         }
     }
-    cout << "Hero's level " << level.getRL() << " is not high enough to use this spell." << inventory.getSpell(index)->getLevelReq() << endl;
-    return 0;
+    cout << "Hero's level " << level.getRL() << " is not high enough to cast this spell." << inventory.getSpell(index)->getLevelReq() << endl;
+    return false;
 }
 
 int Hero::usePotion(){
@@ -400,20 +406,22 @@ int Hero::usePotion(){
 void Hero::use(const int index){
     Potion p = inventory.getPotion(index);
     if (p.getMinLevel() <= level.getRL()){
-        if (p.getUse() == "HP") {
+        if (p.getUse() == "HP") 
             gainHP(p.getEffectPoints());
-        } 
-        
-        else if (p.getUse() == "MP") {
+        else if (p.getUse() == "MP")
             gainMP(p.getEffectPoints());
+        else if (p.getUse() == "Strength") {
+            strength += p.getEffectPoints();
+            cout << name << "'s strength has been increased by " << p.getEffectPoints() << "!" << endl;
         }
-        
-        else if (p.getUse() == "Strength") strength += p.getEffectPoints();
-        
-        else if (p.getUse() == "Agility") agility += p.getEffectPoints();
-        
-        else dexterity += p.getEffectPoints();
-
+        else if (p.getUse() == "Agility") {
+            agility += p.getEffectPoints();
+            cout << name << "'s agility has been increased by " << p.getEffectPoints() << "!" << endl;
+        }
+        else {
+            dexterity += p.getEffectPoints();
+            cout << name << "'s dexterity has been increased by " << p.getEffectPoints() << "!" << endl;
+        }
         removePotion(index);
     }
     else
