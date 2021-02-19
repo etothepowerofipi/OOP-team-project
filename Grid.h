@@ -3,10 +3,27 @@
 #include <ctime>
 #include "Hero.h"
 
+class Effects{
+    private:
+        std::vector <Monster*> monsters;
+        std::vector <std::string> type;
+        std::vector <int> amount;
+        std::vector <int> rounds;
+
+    public:
+        Effects();
+        ~Effects();
+
+        void addEffect(Monster*, std::string, const int);
+        void newRound();
+};
+
+
 class Marketplace{
+private:
     Inventory stock;
 public:
-    Marketplace(Hero** ,int );
+    Marketplace(Hero** ,int);
 
     void menu(Hero** ,int );
 };

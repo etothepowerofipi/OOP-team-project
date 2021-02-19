@@ -63,7 +63,7 @@ class Inventory
         int getSpellsSize() const;
         int getSize() const;
 
-        void print();
+        virtual void print();
 };
 
 class PlayerInventory : public Inventory
@@ -110,7 +110,7 @@ class Hero: public LivingBeing
         int attack();
         bool defend(int);
         int castSpell();
-        int cast(const int);
+        bool cast(const int, Monster*);
         int usePotion();    
         void use(const int);
         virtual void levelUp();
