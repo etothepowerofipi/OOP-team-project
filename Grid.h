@@ -25,7 +25,7 @@ private:
     Hero** heroes;
     int numofheroes;
 public:
-    Marketplace(Hero** ,int );
+    Marketplace(Hero** ,int);
 
     void menu();
 };
@@ -39,7 +39,7 @@ class Grid{
     int y; //y h sthlh pou einai o xarakthras ston xarth
     int numofheroes;
     Hero** heroes;
-    Marketplace* market;
+
 public:
     Grid(Hero** ,int );
     

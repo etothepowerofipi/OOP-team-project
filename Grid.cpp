@@ -140,9 +140,8 @@ bool Grid::checkBlock(int i,int j){
     if(map[i][j]== 'M'){
         cout << "You have reached a marketplace!\nWould you like to enter? y/n" << endl;
         if(inputAnswer() == true){
-            market=new Marketplace(heroes,numofheroes);
-            market->menu();
-            delete market;
+            Marketplace market(heroes,numofheroes);
+            market.menu();
         }
         return true;
     }
@@ -228,11 +227,13 @@ bool Grid::battle(){
         }
         for (int i=0; i<monstersInBattle; i++){
             cout << "\n" << endl;
-            int damage = monsters[i]->attack();
-            int randomHero = rand() % heroesInBattle;
-            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;
-            if (heroes[randomHero]->defend(damage))
-                heroFainted(heroes,heroesInBattle,randomHero);
+            if (heroesInBattle > 0){
+                int damage = monsters[i]->attack();
+                int randomHero = rand() % heroesInBattle;
+                cout << monsters[i]->getName() << " attacks " << heroes[randomHero]->getName() << endl;
+                if (heroes[randomHero]->defend(damage))
+                    heroFainted(heroes,heroesInBattle,randomHero);
+            }
         }
     }
     if (heroesInBattle > 0){
@@ -242,9 +243,8 @@ bool Grid::battle(){
             heroes[i]->gainGold(initialMonsters);
         }
     }
-    else {
+    else
         cout << "The heroes have lost!" << endl;
-    }
     for (int i=0; i<initialMonsters; i++){
         delete monsters[i];
     }
@@ -316,8 +316,8 @@ Marketplace::Marketplace(Hero** h,int noh){
     int i;
     heroes=h;
     numofheroes=noh;
-    Weapon** w = new Weapon*[numofheroes];   //To market periexei 2 opla gia ka8e xarakthra
-    Armor** a = new Armor*[numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
+    Weapon** w = new Weapon*[numofheroes];   //To market periexei 1 oplo gia ka8e xarakthra
+    Armor** a = new Armor*[numofheroes];   //To market periexei 1 panoplia gia ka8e xarakthra
     Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
     for(int i=0;i<numofheroes;i++){

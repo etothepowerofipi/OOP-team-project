@@ -158,27 +158,24 @@ int Spell::getMax() const {
 //PRINT
 //PRINT
 void Spell::print() const{
-    cout << "Name: " + name + "\nPrice: " << price << endl;
+    cout << "Name: " << name << "\nPrice: " << price << endl;
     cout << "Minimum Damage: " << minDamage << ".\t" << "Maximum Damage: " << maxDamage << endl;
     cout << "Required level: " << levelRequired << ".\t" << "Required MP: " << mpRequired << endl;
 }
 
-void IceSpell::print() const
-{
+void IceSpell::print() const{
     cout << "This is an IceSpell" << endl;
     Spell::print();
     cout << "It also reduces enemy damage by " << damageReduction << endl << endl;
 }
 
-void FireSpell::print() const
-{
+void FireSpell::print() const{
     cout << "This is a FireSpell" << endl;
     Spell::print();
     cout << "It also reduces enemy defense by " << defenseReduction << endl << endl;
 }
 
-void LightningSpell::print() const
-{
+void LightningSpell::print() const{
     cout << "This is a LightningSpell" << endl;
     Spell::print();
     cout << "It also reduces enemy dodge chance by " << dodgeReduction << "%" << endl << endl;

@@ -102,7 +102,7 @@ void Monster::regainStats(const string type, const int amount){
 }
 
 void Monster::faint(){
-    cout << getName() + " has fainted! It's out of the battle!" << endl;
+    cout << name << " has fainted! It's out of the battle!" << endl;
 }
 
 void Monster::print() const{

@@ -70,9 +70,7 @@ int Level::addXp(int xpToAdd)
 }
 
 void Level::levelUp(){
-    cout << "Experience before: " << currentXp << endl;
     currentXp -= levelUpXp();
-    cout << "Experience after: " << currentXp << endl;
     realLevel++;
 }
 
@@ -181,7 +179,7 @@ void Hero::gainGold(const int monsters){
 }
 
 void Hero::checkInventory(){
-    cout << "\n\nHere is the current inventory for " + name << endl;
+    cout << "\n\nHere is the current inventory for " << name << endl;
     inventory.print(*this);
 
     char yes;
@@ -620,12 +618,12 @@ void PlayerInventory::print(Hero& h){
     
     Inventory::print();
 
-    if(h.getPWeapon() == NULL) cout << "No weapon currently equiped" << endl;
+    if(h.getPWeapon() == NULL) cout << "No weapon currently equipped" << endl;
     else{
         cout << "\nCurrent weapon is :" << endl;
         h.getWeapon().print();
     }
-    if(h.getPArmor() == NULL) cout << "No armor currently equiped" << endl;
+    if(h.getPArmor() == NULL) cout << "No armor currently equipped" << endl;
     else{
         if(h.getPWeapon() != NULL){
             if(h.getWeapon().getTwoHanded() == false){
