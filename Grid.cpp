@@ -165,7 +165,7 @@ bool Grid::battle(){
     for (int i=0; i< monstersInBattle; i++)
         monsters[i] = monsterGenerator(level());
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
-        cout << "\n\n" << endl;
+        cout << endl << endl;
         effects.newRound();
         for (int i=0; i<heroesInBattle; i++){
             heroes[i]->gainMP();
@@ -182,7 +182,7 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
-                            cout << heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a normal attack." << endl;
+                            monsters[monsterIndex]->takeDamageMessage(heroes[i]->getName());
                             damage = heroes[i]->attack();
                             monsterFainted = monsters[monsterIndex]->defend(damage);
                             if (monsterFainted)
@@ -229,7 +229,7 @@ bool Grid::battle(){
             if (heroesInBattle > 0){
                 int damage = monsters[i]->attack();
                 int randomHero = rand() % heroesInBattle;
-                cout << monsters[i]->getName() << " attacks " << heroes[randomHero]->getName() << endl;
+                heroes[randomHero]->takeDamageMessage(monsters[i]->getName());
                 if (heroes[randomHero]->defend(damage))
                     heroFainted(heroes,heroesInBattle,randomHero);
             }

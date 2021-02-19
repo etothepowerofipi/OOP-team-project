@@ -22,6 +22,7 @@ class LivingBeing
         bool takeDamage(int);
         virtual bool defend(int) = 0;
 
+        void takeDamageMessage(std::string);
         std::string getName() const;
         int getHP() const;
         int getLevel() const;

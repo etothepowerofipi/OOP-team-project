@@ -36,6 +36,8 @@ char inputMove(){
     return input;   
 }
 
+void loseHpMessage(int damage,string name){cout <<  name << " takes " << damage << " damage!" << endl;}
+
 /*
 char inputChar(const char a, const char b, const char c, const char d, const char e){
     char* ch = new char[5];
