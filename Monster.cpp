@@ -60,7 +60,7 @@ int Monster::attack(){
 
 bool Monster::defend(int damage){
     if(dodge()){
-        cout << getName() + " dodges the attack!" << endl;
+        cout << getName() << " dodges the attack!" << endl;
         return 0;
     }
     damage -= defense;
@@ -106,7 +106,7 @@ void Monster::faint(){
 }
 
 void Monster::print() const{
-    cout << type() + "\tHP:" << healthPower << "\tName: " + name << endl;
+    cout << type() << "\tHP:" << healthPower << "\tName: " << name << endl;
 }
 
 int Monster::maxHP() const{

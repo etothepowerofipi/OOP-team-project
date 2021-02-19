@@ -73,7 +73,7 @@ class PlayerInventory : public Inventory
         ~PlayerInventory();
 
         int Capacity(const int) const;
-        bool isFull(const Hero&) const;
+        bool isFull(Hero*) const;
         void print(Hero&);
 };
 

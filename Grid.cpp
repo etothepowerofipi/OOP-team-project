@@ -285,7 +285,7 @@ void Grid::print(){
             cout << map[i][j] << " ";
         cout << endl;
     }
-    cout << endl << endl;
+    cout << '\n' << endl;
 }
 
 bool Grid::menu(){
@@ -367,7 +367,7 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the weapon." << endl;
                                     inputH=inputNumber(numofheroes) - 1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
@@ -409,14 +409,14 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the armor." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
                                 }
                                 cout << "Enter the number of the armor you would like to buy." << endl;
                                 input=inputNumber(stock.getArmorsSize())-1;
-                                cout << "Buying :\n"; stock.getArmor(input).print(); cout << "Continue? y/n" << endl;
+                                cout << "Buying :" << endl; stock.getArmor(input).print(); cout << "Continue? y/n" << endl;
                                 if(inputAnswer() == true){
                                     if( heroes[inputH]->buy(stock.getArmor(input)) == true ){
                                         cout << "Succesfuly bought "; stock.getArmor(input).print();
@@ -450,14 +450,14 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the spell." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
                                 }
                                 cout << "Enter the number of the spell you would like to buy." << endl;
                                 input=inputNumber(stock.getSpellsSize())-1;
-                                cout << "Buying :\n"; stock.getSpell(input)->print(); cout << "Continue? y/n" << endl;
+                                cout << "Buying :" << endl; stock.getSpell(input)->print(); cout << "Continue? y/n" << endl;
                                 if(inputAnswer() == true){
                                     if( heroes[inputH]->buy(stock.getSpell(input)) == true ){
                                         cout << "Succesfuly bought "; stock.getSpell(input)->print();
@@ -491,14 +491,14 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the potion." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
                                 }
                                 cout << "Enter the number of the potion you would like to buy." << endl;
                                 input=inputNumber(stock.getPotionsSize())-1;
-                                cout << "Buying :\n"; stock.getPotion(input).print(); cout << "Continue? y/n" << endl;
+                                cout << "Buying :" << endl; stock.getPotion(input).print(); cout << "Continue? y/n" << endl;
                                 if(inputAnswer() == true){
                                     if( heroes[inputH]->buy(stock.getPotion(input)) == true ){
                                         cout << "Succesfuly bought "; stock.getPotion(input).print();
@@ -614,45 +614,5 @@ void Effects::newRound(){
         }
     }
 }
-
-
-// Effects::~Effects(){
-//     for (int i=0; i<affectedMonsters; i++)
-//         delete monsters[i];
-//     delete monsters;
-//     delete type;
-//     delete amount;
-//     delete rounds;
-// }
-
-// void Effects::addEffect(Monster* m, const string t, const int am){
-//     Monster** newMonsters = new Monster*[affectedMonsters+1];
-//     string* newType = new string[affectedMonsters+1];
-//     int* newAmount = new int[affectedMonsters+1];
-//     int* newRounds = new int[affectedMonsters+1];
-//     for (int i=0; i<affectedMonsters; i++){
-//         newMonsters[i] = monsters[i];
-//         delete monsters[i];
-//         newType[i] = type[i];
-//         newAmount[i] = amount[i];
-//         newRounds[i] = rounds[i];
-//     }
-//     delete type;
-//     delete amount;
-//     delete rounds;
-//     newMonsters[affectedMonsters] = m;
-//     newType[affectedMonsters] = t;
-//     newAmount[affectedMonsters] = am;
-//     newRounds[affectedMonsters++] =  3;
-    
-//     monsters = new Monster*[affectedMonsters];
-//     type = new string[affectedMonsters];
-//     amount = new int[affectedMonsters];
-//     for (int i=0; i<affectedMonsters; i++){
-//         monsters[i]
-//     }
-// }
-
-
 
 
