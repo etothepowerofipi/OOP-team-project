@@ -142,6 +142,7 @@ bool Grid::checkBlock(int i,int j){
         if(inputAnswer() == true){
             market=new Marketplace(heroes,numofheroes);
             market->menu();
+            delete market;
         }
         return true;
     }
@@ -315,16 +316,13 @@ Marketplace::Marketplace(Hero** h,int noh){
     int i;
     heroes=h;
     numofheroes=noh;
-    Weapon** w = new Weapon*[numofheroes];   //To market periexei 2 opla gia ka8e xarakthra 
+    Weapon** w = new Weapon*[numofheroes];   //To market periexei 2 opla gia ka8e xarakthra
     Armor** a = new Armor*[numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
     Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
     for(int i=0;i<numofheroes;i++){
-        stock.addWeapon( *(w[i]=new Weapon( randomLevel(heroes[i]->getLevel().getRL()) , genName("weapon") ) ) );
-        // stock.addWeapon( *(w[i+numofheroes]=new Weapon( heroes[i]->getLevel().getRL() , genName("weapon") ) ) );
-
         stock.addArmor( *(a[i]=new Armor( randomLevel(heroes[i]->getLevel().getRL()) , genName("armor") ) ) );
-        // stock.addArmor( *(a[i+numofheroes]=new Armor( heroes[i]->getLevel().getRL() , genName("armor") ) ) );
+        stock.addWeapon( *(w[i]=new Weapon( randomLevel(heroes[i]->getLevel().getRL()) , genName("weapon") ) ) );
     }
     //Arxikopoihsh spell
     //To prwto spell einai analogo tou level tou prwtou xarakthra
@@ -332,18 +330,15 @@ Marketplace::Marketplace(Hero** h,int noh){
     //To deutero spell einai analogo tou level tou deuterou xarakthra, an uparxei
     if(numofheroes >= 2) stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[1]->getLevel().getRL()) , genName("icespell") ) );
     else stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[0]->getLevel().getRL()) , genName("icespell") ) );
-
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
     if(numofheroes == 3) stock.addSpell( s[2]=new LightningSpell(randomLevel(heroes[2]->getLevel().getRL()) , genName("lightningspell")) );
     else stock.addSpell( s[2]=new LightningSpell( randomLevel(heroes[0]->getLevel().getRL()) , genName("lightningspell") ) );
-
     //Arxikopoihsh potion
     for(int i=0;i<numofheroes; i++){
         stock.addPotion( *(p[i]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"HP") ) );
         stock.addPotion( *(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"MP" ) ) );
     }
-    stock.addPotion( *(p[i+numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) ) );
-
+    stock.addPotion( *(p[2*numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) ) );
 }
 
 void Marketplace::menu(){
@@ -372,6 +367,10 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the weapon." << endl;
                                     inputH=inputNumber(numofheroes) - 1;
+                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
+                                        break;
+                                    }
                                 }
                                 cout << "Enter the number of the weapon you would like to buy." << endl;
                                 input=inputNumber(stock.getWeaponsSize())-1;
@@ -410,6 +409,10 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the armor." << endl;
                                     inputH=inputNumber(numofheroes)-1;
+                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
+                                        break;
+                                    }
                                 }
                                 cout << "Enter the number of the armor you would like to buy." << endl;
                                 input=inputNumber(stock.getArmorsSize())-1;
@@ -447,6 +450,10 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the spell." << endl;
                                     inputH=inputNumber(numofheroes)-1;
+                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
+                                        break;
+                                    }
                                 }
                                 cout << "Enter the number of the spell you would like to buy." << endl;
                                 input=inputNumber(stock.getSpellsSize())-1;
@@ -484,6 +491,10 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the potion." << endl;
                                     inputH=inputNumber(numofheroes)-1;
+                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
+                                        break;
+                                    }
                                 }
                                 cout << "Enter the number of the potion you would like to buy." << endl;
                                 input=inputNumber(stock.getPotionsSize())-1;

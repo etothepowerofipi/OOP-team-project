@@ -32,7 +32,7 @@ int main(void){
             case 3 :
                 heroes[i]=new Sorcerer(name);
         }
-        heroes[i]->addGold(1000);
+        heroes[i]->addGold(10000);
     }
     Grid grid(heroes,dif);
 

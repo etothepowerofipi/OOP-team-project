@@ -90,7 +90,7 @@ int inputNumber(const int m)
 
 int randomLevel(const int heroLevel){
     int randomlvl = heroLevel + rand()%5 - 2;
-    return max(randomlvl,0); 
+    return max(randomlvl,1);
 }
 
 int max(const int a, const int b){
