@@ -370,7 +370,7 @@ void Marketplace::menu(){
                                 if(numofheroes >= 2){
                                     cout << "Which hero to buy the weapon?" << endl;
                                     for(int i=0;i<numofheroes;i++)
-                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the weapon." << endl;
                                     inputH=inputNumber(numofheroes) - 1;
                                 }
                                 cout << "Enter the number of the weapon you would like to buy." << endl;
@@ -408,7 +408,7 @@ void Marketplace::menu(){
                                 if(numofheroes >= 2){
                                     cout << "Which hero to buy the armor?" << endl;
                                     for(int i=0;i<numofheroes;i++)
-                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the armor." << endl;
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the armor." << endl;
                                     inputH=inputNumber(numofheroes)-1;
                                 }
                                 cout << "Enter the number of the armor you would like to buy." << endl;
@@ -445,7 +445,7 @@ void Marketplace::menu(){
                                 if(numofheroes >= 2){
                                     cout << "Which hero to buy the spell?" << endl;
                                     for(int i=0;i<numofheroes;i++)
-                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the spell." << endl;
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the spell." << endl;
                                     inputH=inputNumber(numofheroes)-1;
                                 }
                                 cout << "Enter the number of the spell you would like to buy." << endl;
@@ -482,7 +482,7 @@ void Marketplace::menu(){
                                 if(numofheroes >= 2){
                                     cout << "Which hero to buy the potion?" << endl;
                                     for(int i=0;i<numofheroes;i++)
-                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " to money buy the potion." << endl;
+                                        cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the potion." << endl;
                                     inputH=inputNumber(numofheroes)-1;
                                 }
                                 cout << "Enter the number of the potion you would like to buy." << endl;
