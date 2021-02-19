@@ -598,8 +598,8 @@ void Inventory::addSpell(Spell* s){
 //PLAYERINVENTORY
 //PLAYERINVENTORY
 
-bool PlayerInventory::isFull(const Hero& h) const{
-    if(weapons.size() + armors.size() + potions.size() + spells.size() < Capacity(h.getLevel().getRL())) return false;
+bool PlayerInventory::isFull(Hero* h) const{
+    if(weapons.size() + armors.size() + potions.size() + spells.size() < Capacity(h->getLevel().getRL())){return false;}
     return true;
 }
 

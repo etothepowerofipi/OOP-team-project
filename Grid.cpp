@@ -140,9 +140,7 @@ bool Grid::checkBlock(int i,int j){
     if(map[i][j]== 'M'){
         cout << "You have reached a marketplace!\nWould you like to enter? y/n" << endl;
         if(inputAnswer() == true){
-            market=new Marketplace(heroes,numofheroes);
-            market->menu();
-            delete market;
+            Marketplace market(heroes,numofheroes);
         }
         return true;
     }
@@ -166,7 +164,6 @@ bool Grid::battle(){
     Monster** monsters = new Monster*[monstersInBattle];
     for (int i=0; i< monstersInBattle; i++)
         monsters[i] = monsterGenerator(level());
-
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
         cout << "\n\n" << endl;
         for (int i=0; i<heroesInBattle; i++){
@@ -183,6 +180,7 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
+                            cout << heroes[i]->getName() << " attacks " << monsters[monsterIndex]->getName() << " with a normal attack." << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage))
                                 monsterFainted(monsters,monstersInBattle,monsterIndex);
@@ -222,7 +220,7 @@ bool Grid::battle(){
             cout << "\n" << endl;
             int damage = monsters[i]->attack();
             int randomHero = rand() % heroesInBattle;
-            cout << monsters[i]->getName() << " attacks " + heroes[randomHero]->getName() + " for " << damage << " damage!" << endl;
+            cout  << monsters[i]->getName() << " attacks " << heroes[randomHero]->getName() << endl;
             if (heroes[randomHero]->defend(damage))
                 heroFainted(heroes,heroesInBattle,randomHero);
         }
@@ -250,7 +248,7 @@ void Grid::battleStats(Monster** monsterArray, const int monsters, const int her
 }
 
 int Grid::battleMenu(const int index) const{
-    cout << "\nWhat would you like " + heroes[index]->getName() + " to do?" << endl;
+    cout << "\nWhat would you like " << heroes[index]->getName() << " to do?" << endl;
     cout << "To attack normally, type 1." << endl;
     cout << "To cast a spell, type 2." << endl;
     cout << "To use a potion, type 3." << endl;
@@ -273,7 +271,7 @@ void Grid::print(){
             cout << map[i][j] << " ";
         cout << endl;
     }
-    cout << endl << endl;
+    cout << "\n" << endl;
 }
 
 bool Grid::menu(){
@@ -300,15 +298,13 @@ bool Grid::menu(){
 //////////////MARKETPLACE////////////
 ////////////////////////////////////
 
-Marketplace::Marketplace(Hero** h,int noh){
+Marketplace::Marketplace(Hero** heroes,int noh){
     int i;
-    heroes=h;
-    numofheroes=noh;
-    Weapon** w = new Weapon*[numofheroes];   //To market periexei 2 opla gia ka8e xarakthra
-    Armor** a = new Armor*[numofheroes];   //To market periexei 2 panoplies gia ka8e xarakthra
+    Weapon** w = new Weapon*[noh];   //To market periexei 2 opla gia ka8e xarakthra
+    Armor** a = new Armor*[noh];   //To market periexei 2 panoplies gia ka8e xarakthra
     Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
     Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
-    for(int i=0;i<numofheroes;i++){
+    for(int i=0;i<noh;i++){
         stock.addArmor( *(a[i]=new Armor( randomLevel(heroes[i]->getLevel().getRL()) , genName("armor") ) ) );
         stock.addWeapon( *(w[i]=new Weapon( randomLevel(heroes[i]->getLevel().getRL()) , genName("weapon") ) ) );
     }
@@ -316,22 +312,23 @@ Marketplace::Marketplace(Hero** h,int noh){
     //To prwto spell einai analogo tou level tou prwtou xarakthra
     stock.addSpell( s[0]=new FireSpell(randomLevel(heroes[0]->getLevel().getRL()) , genName("firespell") ) );
     //To deutero spell einai analogo tou level tou deuterou xarakthra, an uparxei
-    if(numofheroes >= 2) stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[1]->getLevel().getRL()) , genName("icespell") ) );
+    if(noh >= 2) stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[1]->getLevel().getRL()) , genName("icespell") ) );
     else stock.addSpell( s[1]=new IceSpell(randomLevel(heroes[0]->getLevel().getRL()) , genName("icespell") ) );
     //To trito spell einai analogo tou level tou trito xarakthra, an uparxei
-    if(numofheroes == 3) stock.addSpell( s[2]=new LightningSpell(randomLevel(heroes[2]->getLevel().getRL()) , genName("lightningspell")) );
+    if(noh == 3) stock.addSpell( s[2]=new LightningSpell(randomLevel(heroes[2]->getLevel().getRL()) , genName("lightningspell")) );
     else stock.addSpell( s[2]=new LightningSpell( randomLevel(heroes[0]->getLevel().getRL()) , genName("lightningspell") ) );
     //Arxikopoihsh potion
-    for(int i=0;i<numofheroes; i++){
+    for(int i=0;i<noh; i++){
         stock.addPotion( *(p[i]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"HP") ) );
-        stock.addPotion( *(p[i+numofheroes]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"MP" ) ) );
+        stock.addPotion( *(p[i+noh]=new Potion(randomLevel(heroes[i]->getLevel().getRL()),"MP" ) ) );
     }
-    stock.addPotion( *(p[2*numofheroes]=new Potion( level(heroes,numofheroes),genName("potion")) ) );
+    stock.addPotion( *(p[2*noh]=new Potion( level(heroes,noh),genName("potion")) ) );
+    menu(heroes,noh); //Otan teleiwsei o constructor kalei thn menu
 }
 
-void Marketplace::menu(){
+void Marketplace::menu(Hero** heroes,int numofheroes){
     cout << "What would you like to do?\n" << endl;
-    unsigned int input,inputH,inputSwitch;
+    int input,inputH,inputSwitch;
     char inputS;
     bool answer;
     do{
@@ -355,7 +352,7 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the weapon." << endl;
                                     inputH=inputNumber(numofheroes) - 1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
@@ -397,7 +394,7 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the armor." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
@@ -438,7 +435,7 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " money to buy the spell." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }
@@ -479,7 +476,7 @@ void Marketplace::menu(){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " to money buy the potion." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(*heroes[inputH]) == true){
+                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
                                         cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
                                         break;
                                     }

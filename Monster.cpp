@@ -60,7 +60,7 @@ int Monster::attack(){
 
 bool Monster::defend(int damage){
     if(dodge()){
-        cout << getName() + " dodges the attack!" << endl;
+        cout << getName() << " dodges the attack!" << endl;
         return 0;
     }
     damage -= defense;
@@ -73,11 +73,11 @@ bool Monster::dodge(){
 }
 
 void Monster::faint(){
-    cout << getName() + " has fainted! It's out of the battle!" << endl;
+    cout << getName() << " has fainted! It's out of the battle!" << endl;
 }
 
 void Monster::print() const{
-    cout << type() + "\tHP:" << healthPower << "\tName: " + name << endl;
+    cout << type() << "\tHP:" << healthPower << "\tName: " << name << endl;
 }
 
 int Monster::maxHP() const{
@@ -131,5 +131,6 @@ int chooseMonster(Monster** monsterArray, const int monsters){
         cout << (i+1) << ". ";
         monsterArray[i]->print();
     }
+    cout << endl;
     return inputNumber(monsters)-1;
 }

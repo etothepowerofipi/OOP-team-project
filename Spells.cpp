@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <cstdlib>
 #include "Spells.h"
 
 using namespace std;

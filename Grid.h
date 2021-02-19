@@ -5,12 +5,10 @@
 
 class Marketplace{
     Inventory stock;
-    Hero** heroes;
-    int numofheroes;
 public:
     Marketplace(Hero** ,int );
 
-    void menu();
+    void menu(Hero** ,int );
 };
 
 class Grid{
@@ -22,7 +20,6 @@ class Grid{
     int y; //y h sthlh pou einai o xarakthras ston xarth
     int numofheroes;
     Hero** heroes;
-    Marketplace* market;
 public:
     Grid(Hero** ,int );
     
