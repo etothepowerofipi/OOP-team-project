@@ -16,7 +16,7 @@ Grid::Grid(Hero** h,int numofh){
             map[i][j] = '+';
     }
 
-    int numofmarkets = 15 + rand()%6;  //Paragei enan tuxaio ari8mo anamesa sto min marketplaces=15 kai max marketplaces=20
+    int numofmarkets = 50 + rand()%6;  //Paragei enan tuxaio ari8mo anamesa sto min marketplaces=15 kai max marketplaces=20
     int i,j;
     while(numofmarkets > 0){
         i = rand()%maxi;
