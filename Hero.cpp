@@ -42,7 +42,7 @@ Paladin::Paladin(const string s): Hero(s){
 }
 
 Inventory::Inventory() {} 
-PlayerInventory::PlayerInventory(): Inventory() {}
+PlayerInventory::PlayerInventory():  maxCap(10) , Inventory() {}
 
 //DESTRUCTORS
 //DESTRUCTORS
@@ -166,6 +166,7 @@ void Hero::gainXP(const int monsters){
 void Hero::levelUp(){
     cout << name << " leveled up!" << endl;
     LivingBeing::level++;
+    if(this->getLevel().getRL()%3 == 0) this->getPInventory()->increaseMaxCap(); //Au3hsh ari8mou item pou xwraei to inventory ka8e 3 level
     healthPower = maxHP();
     MP = maxMP();
 }
@@ -285,6 +286,10 @@ void Hero::sell(string type){
     }
 }
 bool Hero::buy(Weapon w){
+    if(inventory.isFull() == true){
+        cout << name << "'s inventory is full! Cannot purchase another item." << endl; 
+        return false;
+    }
     if(gold >= w.getPrice()){
         gold-= w.getPrice();
         inventory.addWeapon(w);
@@ -297,6 +302,10 @@ bool Hero::buy(Weapon w){
 }
 
 bool Hero::buy(Armor a){
+    if(inventory.isFull() == true){
+        cout << name << "'s inventory is full! Cannot purchase another item." << endl; 
+        return false;
+    }
     if(gold >= a.getPrice()){
         gold-= a.getPrice();
         inventory.addArmor(a);
@@ -308,6 +317,10 @@ bool Hero::buy(Armor a){
     }
 }
 bool Hero::buy(Potion p){
+    if(inventory.isFull() == true){
+        cout << name << "'s inventory is full! Cannot purchase another item." << endl; 
+        return false;
+    }
     if(gold >= p.getPrice()){
         gold-= p.getPrice();
         inventory.addPotion(p);
@@ -319,6 +332,10 @@ bool Hero::buy(Potion p){
     }
 }
 bool Hero::buy(Spell* s){
+    if(inventory.isFull() == true){
+        cout << name << "'s inventory is full! Cannot purchase another item." << endl; 
+        return false;
+    }
     if(gold >= s->getPrice()){
         gold-= s->getPrice();
         inventory.addSpell(s);
@@ -336,6 +353,7 @@ Armor Hero::getArmor() const {return *armor;}
 Armor* Hero::getPArmor(){return armor;}
 Level Hero::getLevel() const {return level;}
 PlayerInventory Hero::getInventory() const {return inventory;}
+PlayerInventory* Hero::getPInventory(){return &inventory;}
 int Hero::getAgility() const {return agility;}
 int Hero::getGold(){return gold;}
 
@@ -601,17 +619,19 @@ void Inventory::addSpell(Spell* s){
 //PLAYERINVENTORY
 //PLAYERINVENTORY
 
-bool PlayerInventory::isFull(Hero* h) const{
-    if(weapons.size() + armors.size() + potions.size() + spells.size() < Capacity(h->getLevel().getRL())) return false;
+void PlayerInventory::increaseMaxCap(){maxCap++;}
+
+bool PlayerInventory::isFull(){
+    if(weapons.size() + armors.size() + potions.size() + spells.size() < maxCap) return false;
     return true;
 }
 
-int PlayerInventory::Capacity(const int level) const{
-    return (10 + level/3);
+int PlayerInventory::Capacity(){
+    return maxCap;
 }
 
 void PlayerInventory::print(Hero& h){
-    cout << getSize() << '/' << Capacity(h.getLevel().getRL()) << " slots are in use." << endl;
+    cout << getSize() << '/' << Capacity() << " slots are in use." << endl;
     
     Inventory::print();
 

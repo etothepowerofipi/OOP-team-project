@@ -145,6 +145,7 @@ bool Grid::checkBlock(int i,int j){
         return true;
     }
     else if(map[i][j] == '+'){
+        return true;
         int prob=rand()%100;
         if(prob < 30) return battle();
         else return true;
@@ -365,10 +366,6 @@ void Marketplace::menu(Hero** heroes,int numofheroes){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the weapon." << endl;
                                     inputH=inputNumber(numofheroes) - 1;
-                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
-                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
-                                        break;
-                                    }
                                 }
                                 cout << "Enter the number of the weapon you would like to buy." << endl;
                                 input=inputNumber(stock.getWeaponsSize())-1;
@@ -407,10 +404,6 @@ void Marketplace::menu(Hero** heroes,int numofheroes){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the armor." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
-                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
-                                        break;
-                                    }
                                 }
                                 cout << "Enter the number of the armor you would like to buy." << endl;
                                 input=inputNumber(stock.getArmorsSize())-1;
@@ -448,10 +441,6 @@ void Marketplace::menu(Hero** heroes,int numofheroes){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the spell." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
-                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
-                                        break;
-                                    }
                                 }
                                 cout << "Enter the number of the spell you would like to buy." << endl;
                                 input=inputNumber(stock.getSpellsSize())-1;
@@ -489,10 +478,6 @@ void Marketplace::menu(Hero** heroes,int numofheroes){
                                     for(int i=0;i<numofheroes;i++)
                                         cout << "Press " << i+1 << " if you would like " << heroes[i]->getName() << " who has " << heroes[i]->getGold() << " gold to buy the potion." << endl;
                                     inputH=inputNumber(numofheroes)-1;
-                                    if(heroes[inputH]->getInventory().isFull(heroes[inputH]) == true){
-                                        cout << "Inventory for " << heroes[inputH]->getName() << " is full! Cannot procced with purchase." << endl;
-                                        break;
-                                    }
                                 }
                                 cout << "Enter the number of the potion you would like to buy." << endl;
                                 input=inputNumber(stock.getPotionsSize())-1;

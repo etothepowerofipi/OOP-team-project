@@ -68,12 +68,14 @@ class Inventory
 
 class PlayerInventory : public Inventory
 {
+    int maxCap;
     public:
         PlayerInventory();
         ~PlayerInventory();
 
-        int Capacity(const int) const;
-        bool isFull(Hero*) const;
+        bool isFull();
+        int Capacity();
+        void increaseMaxCap();
         void print(Hero&);
 };
 
@@ -146,6 +148,7 @@ class Hero: public LivingBeing
         Armor* getPArmor();
         Level getLevel() const;
         PlayerInventory getInventory() const;
+        PlayerInventory* getPInventory();
         int getAgility() const; 
         int getGold();
         virtual std::string type() const = 0;
