@@ -60,9 +60,10 @@ int Monster::attack(){
 
 bool Monster::defend(int damage){
     if(dodge()){
-        cout << getName() << " dodges the attack!" << endl;
+        cout << name << " dodges the attack!" << endl;
         return 0;
     }
+    loseHpMessage(damage,getName());
     damage -= defense;
     return takeDamage(max(damage,0));
 }
