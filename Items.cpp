@@ -122,18 +122,6 @@ bool Weapon::getTwoHanded() const{return twoHanded;}
 
 //mutators
 
-bool Weapon::areTheSame(Weapon w1,Weapon w2){
-    if(w1.getDamage() == w2.getDamage() && w1.getMinLevel() == w2.getMinLevel() && w1.getName() == w2.getName() && w1.getPrice() == w2.getPrice() && w1.getTwoHanded() == w2.getTwoHanded())
-        return true;
-    return false;
-}
-
-bool Armor::areTheSame(Armor a1,Armor a2){
-    if( a1.getProtection() == a2.getProtection() && a1.getMinLevel() == a2.getMinLevel() && a1.getName() == a2.getName() && a1.getPrice() == a2.getPrice())
-        return true;
-    return false;
-}
-
 void Weapon::starterWeapon(){
     name="Basic dagger";
     price=0;
