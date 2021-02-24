@@ -113,15 +113,15 @@ int Monster::maxHP() const{
 
 //type
 
-string Dragon::type() const{
+std::string Dragon::type() const{
     return "\tType: Dragon     ";
 }
 
-string Exosceleton::type() const{
+std::string Exosceleton::type() const{
     return "\tType: Exosceleton ";
 }
 
-string Spirit::type() const{
+std::string Spirit::type() const{
     return "\tType: Spirit     ";
 }
 
@@ -143,14 +143,10 @@ Monster* monsterGenerator(const int heroAverage){
     return monster;
 }
 
-void removeMonster(Monster** monsterArray, int& size, const int index, string* names){
+void removeMonster(Monster** monsterArray, int& size, const int index){
     Monster* monster = monsterArray[index];
     monsterArray[index] = monsterArray[size-1];
-    monsterArray[size-1] = monster;
-
-    string name = names[index];
-    names[index] = names[size-1];
-    names[--size] = name;
+    monsterArray[--size] = monster;
 }
 
 int chooseMonster(Monster** monsterArray, const int monsters){

@@ -54,5 +54,5 @@ class Spirit: public Monster
 };
 
 Monster* monsterGenerator(const int);
-void removeMonster(Monster**, int&, const int, string*);
+void removeMonster(Monster**, int&, const int);
 int chooseMonster(Monster**, const int);

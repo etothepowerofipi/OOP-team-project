@@ -143,7 +143,6 @@ bool Grid::checkBlock(int i,int j){
         return true;
     }
     else if(map[i][j] == '+'){
-        return true;
         int prob=rand()%100;
         if(prob < 30) return battle();
         else return true;
