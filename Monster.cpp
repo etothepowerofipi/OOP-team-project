@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <ctime>
+#include <cstdlib>
 #include "Monster.h"
 using namespace std;
 

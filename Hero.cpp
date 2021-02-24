@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <ctime>
+#include <cstdlib>
 #include "Hero.h"
 #include "Functions.h"
 using namespace std;
@@ -263,7 +263,7 @@ void Hero::faint(){
 }
 
 void Hero::gainXP(const int monsters){
-    int expGained = 10*monsters*level.getRL();
+    int expGained = 30*monsters*level.getRL();
     cout << name << " gained " << expGained << " experience!" << endl;
     const int levelUps = level.addXp(expGained);
     for (int i=0; i<levelUps; i++)
@@ -280,7 +280,7 @@ void Hero::levelUp(){
 }
 
 void Hero::gainGold(const int monsters){
-    int goldGained = 2*monsters*level.getRL();
+    int goldGained = 30*monsters*level.getRL();
     addGold(goldGained);
     cout << name << " gained " << goldGained << " gold! Current gold is : " << gold << endl;
 }
@@ -489,8 +489,8 @@ void Hero::removePotion(const int index){
 
 void Warrior::levelUp(){
     Hero::levelUp();
-    strength += 10* 1.5; //TOBECHANGED
-    agility += 0.05* 1.5;
+    strength += 8; //TOBECHANGED
+    agility += 2;
     dexterity += 5;
 }
 string Warrior::type() const{
@@ -500,9 +500,9 @@ string Warrior::type() const{
 
 void Sorcerer::levelUp(){
     Hero::levelUp();
-    strength += 10; //TOBECHANGED
-    agility += 0.05* 1.5;
-    dexterity += 5* 1.5;
+    strength += 5; //TOBECHANGED
+    agility += 2;
+    dexterity += 8;
 }
 string Sorcerer::type() const{
     return "\tType: Sorcerer   ";
@@ -510,9 +510,9 @@ string Sorcerer::type() const{
 
 void Paladin::levelUp(){
     Hero::levelUp();
-    strength += 10* 1.5; //TOBECHANGED
-    agility += 0.05;
-    dexterity += 5* 1.5;
+    strength += 8; //TOBECHANGED
+    agility +=1;
+    dexterity += 8;
 }
 string Paladin::type() const{
     return "\tType: Paladin    ";

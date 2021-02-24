@@ -160,6 +160,9 @@ bool Grid::battle(){
         cout << "\nMonsters have appeared!\nPrepare to battle!" << endl;
     Effects effects;
     Monster** monsters = new Monster*[monstersInBattle];
+    for (int i=0; i< monstersInBattle; i++){
+        monsters[i] = monsterGenerator(level());
+    }
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
         cout << endl << endl;
         effects.newRound();
