@@ -12,7 +12,6 @@ class Effects{
 
     public:
         Effects();
-        ~Effects();
 
         void addEffect(Monster*, int*);
         void newRound();

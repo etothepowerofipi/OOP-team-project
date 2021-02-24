@@ -36,33 +36,6 @@ char inputMove(){
     return input;   
 }
 
-void loseHpMessage(int damage,string name){cout <<  name << " takes " << damage << " damage!" << endl;}
-
-/*
-char inputChar(const char a, const char b, const char c, const char d, const char e){
-    char* ch = new char[5];
-    ch[0] = a;
-    ch[1] = b;
-    ch[2] = c;
-    ch[3] = d;
-    ch[4] = e;
-    int size = 5;
-    while(c[size-1]==0){size--;}
-    delete ch;
-    ch = new char[size];
-    char input;
-    cin >> input;
-    while (!is_in(ch,size,input)){
-        cout << "Wrong input. Try again."
-        cin >> input;
-    }
-    return input;
-}
-*/
-// bool letter(char input, char lowercase){
-//     return (input == lowercase) || (input == lowercase - 32);
-// }
-
 char inputSell(){
     char input;
     cin >> input;

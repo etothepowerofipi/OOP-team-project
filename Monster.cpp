@@ -15,7 +15,7 @@ Monster::Monster(const string s, const int lvl=1):  LivingBeing(s,lvl) {
 
 Dragon::Dragon(const string n,int lvl) :  Monster(n,lvl) {
     minAttack = 5 + 3*level;
-    maxAttack = 10 + 4*level;
+    maxAttack = 8 + 5*level;
     defense = 5 + 2*level;
     dodgeChance = 5 + 2*level;
 }
@@ -28,21 +28,11 @@ Exosceleton::Exosceleton(const string n,int lvl) : Monster(n,lvl) {
 Spirit::Spirit(const string n,int lvl) : Monster(n,lvl) {
     minAttack = 4 + 3*level;
     maxAttack = 5 + 4*level;
-    defense = 10 + 4*level;
+    defense = 5 + 2*level;
     dodgeChance = 10 + 3*level;
 }
 
-//DESTRUCTORS
-//DESTRUCTORS
-//DESTRUCTORS
 
-Monster::~Monster() {}
-
-Dragon::~Dragon() {}
-
-Exosceleton::~Exosceleton() {}
-
-Spirit::~Spirit() {}
 
 //MONSTER
 //MONSTER
@@ -63,25 +53,29 @@ int Monster::defend(int damage){
         cout << name << " dodges the attack!" << endl;
         return 2;
     }
-    loseHpMessage(damage,getName()); //Den nomizw na xreiazetai
     damage -= defense;
     return takeDamage(max(damage,0));
 }
 
 void Monster::takeSpell(const Spell* spell){
+    int reduction = spell->getReduction();
     switch (spell->type()){
         case 1:
-            minAttack -= spell->getReduction();
-            maxAttack -= spell->getReduction();
-            cout << name << "'s attack has been reduced by " << spell->getReduction() << "!" << endl;
+            minAttack -= reduction;
+            minAttack = max(minAttack,0);
+            maxAttack -= reduction;
+            maxAttack = max(maxAttack,0);
+            cout << name << "'s attack has been reduced by " << reduction << "!" << endl;
             break;
         case 2:
-            defense -= spell->getReduction();
-            cout << name << "'s defense has been reduced by " << spell->getReduction() << "!" << endl;
+            defense -= reduction;
+            defense = max(defense,0);
+            cout << name << "'s defense has been reduced by " << reduction << "!" << endl;
             break;
         case 3:
-            dodgeChance -= spell->getReduction();
-            cout << name << "'s dodge rate has been reduced by " << spell->getReduction() << "%!" << endl;         
+            dodgeChance -= reduction;
+            dodgeChance = max(dodgeChance,0);
+            cout << name << "'s dodge rate has been reduced by " << reduction << "%!" << endl;         
     }
 }
 
@@ -119,15 +113,15 @@ int Monster::maxHP() const{
 
 //type
 
-std::string Dragon::type() const{
+string Dragon::type() const{
     return "\tType: Dragon     ";
 }
 
-std::string Exosceleton::type() const{
+string Exosceleton::type() const{
     return "\tType: Exosceleton ";
 }
 
-std::string Spirit::type() const{
+string Spirit::type() const{
     return "\tType: Spirit     ";
 }
 
@@ -149,10 +143,14 @@ Monster* monsterGenerator(const int heroAverage){
     return monster;
 }
 
-void removeMonster(Monster** monsterArray, int& size, const int index){
+void removeMonster(Monster** monsterArray, int& size, const int index, string* names){
     Monster* monster = monsterArray[index];
     monsterArray[index] = monsterArray[size-1];
-    monsterArray[--size] = monster;
+    monsterArray[size-1] = monster;
+
+    string name = names[index];
+    names[index] = names[size-1];
+    names[--size] = name;
 }
 
 int chooseMonster(Monster** monsterArray, const int monsters){
