@@ -663,12 +663,12 @@ void PlayerInventory::print(Hero& h){
     
     Inventory::print();
 
-    if(h.getPWeapon() == NULL) cout << "No weapon currently equipped" << endl;
+    if(h.getPWeapon()->getName() == "No weapon") cout << "No weapon currently equipped" << endl;
     else{
         cout << "\nCurrent weapon is :" << endl;
         h.getWeapon().print();
     }
-    if(h.getPArmor() == NULL) cout << "No armor currently equipped" << endl;
+    if(h.getPArmor()->getName() == "No armor") cout << "No armor currently equipped" << endl;
     else{
         if(h.getPWeapon() != NULL){
             if(h.getWeapon().getTwoHanded() == false){
@@ -681,6 +681,7 @@ void PlayerInventory::print(Hero& h){
             h.getArmor().print();
         }
     }
+    cout << endl;
 }
 const Spell* PlayerInventory::getSpell(int i) const{return spells[i];}
 

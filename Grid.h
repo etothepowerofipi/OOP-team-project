@@ -21,9 +21,15 @@ class Effects{
 
 class Marketplace{
 private:
+    Weapon** w;
+    Armor** a;
+    Spell** s;
+    Potion** p;
+    int noh;
     Inventory stock;
 public:
     Marketplace(Hero** ,int);
+    // ~Marketplace();
 
     void menu(Hero** ,int );
 };
