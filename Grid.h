@@ -28,7 +28,7 @@ private:
     Inventory stock;
 public:
     Marketplace(Hero** ,int);
-    // ~Marketplace();
+    ~Marketplace();
 
     void menu(Hero** ,int );
 };

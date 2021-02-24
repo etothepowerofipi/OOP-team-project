@@ -139,12 +139,11 @@ void Grid::moveDown(){
 bool Grid::checkBlock(int i,int j){
     if(map[i][j]== 'M'){
         cout << "You have reached a marketplace!\nWould you like to enter? y/n" << endl;
-        if(inputAnswer() == true){
-            Marketplace market(heroes,numofheroes);
-        }
+        if(inputAnswer() == true) Marketplace market(heroes,numofheroes);
         return true;
     }
     else if(map[i][j] == '+'){
+        return true;
         int prob=rand()%100;
         if(prob < 30) return battle();
         else return true;
@@ -307,18 +306,17 @@ bool Grid::menu(){
 //////////////MARKETPLACE////////////
 ////////////////////////////////////
 
-// Marketplace::~Marketplace(){
-//     for(int i=0;i<noh;i++){
-//         delete w[i];
-//         delete a[i];
-//     }
-//     for(int i=0;i<3;i++) delete s[i];
-//     for(int i=0;i<2*noh+1;i++) delete p[i];
-//     delete w;
-//     delete a;
-//     delete s;
-//     delete p;
-// }
+Marketplace::~Marketplace(){
+    for(int i=0;i<noh;i++){
+        delete w[i];
+        delete a[i];
+    }
+    for(int i=0;i<2*noh+1;i++) delete p[i];
+    delete w;
+    delete a;
+    delete p;
+    delete s;
+}
 
 Marketplace::Marketplace(Hero** heroes,int n){
     this->noh=n;
