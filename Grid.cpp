@@ -186,7 +186,7 @@ bool Grid::battle(){
                             cout << heroes[i]->getName() << " attacks " << names[monsterIndex] << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage)  == 1)
-                                removeMonster(monsters,monstersInBattle,monsterIndex,names);
+                                removeMonster(monsters,monstersInBattle,monsterIndex);
                             break;
                         case 2:
                             index = heroes[i]->castSpell();
@@ -198,7 +198,7 @@ bool Grid::battle(){
                                 switch (result[0]){
                                     case 0:
                                         if (result[1] == 1)
-                                            removeMonster(monsters,monstersInBattle,monsterIndex,names);
+                                            removeMonster(monsters,monstersInBattle,monsterIndex);
                                         break;
                                     default:
                                         effects.addEffect(monsters[monsterIndex],result);
@@ -226,7 +226,6 @@ bool Grid::battle(){
             if (heroesInBattle > 0){
                 int damage = monsters[i]->attack();
                 int randomHero = rand() % heroesInBattle;
-                heroes[randomHero]->takeDamageMessage(monsters[i]->getName());
                 if (heroes[randomHero]->defend(damage))
                     heroFainted(heroes,heroesInBattle,randomHero);
             }
