@@ -213,7 +213,7 @@ int* Hero::cast(const int index, Monster* monster)
             return returnArray;
         }
     }
-    cout << "Hero's level " << level.getRL() << " is not high enough to cast this spell. " << inventory.getSpell(index)->getLevelReq() << endl;
+    cout << "Hero's level is not high enough to cast this spell." << endl;
     return returnArray;
 }
 
