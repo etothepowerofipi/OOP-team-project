@@ -489,8 +489,8 @@ void Hero::removePotion(const int index){
 
 void Warrior::levelUp(){
     Hero::levelUp();
-    strength += 10* 1.5; //TOBECHANGED
-    agility += 0.05* 1.5;
+    strength += 8; //TOBECHANGED
+    agility += 2;
     dexterity += 5;
 }
 string Warrior::type() const{
@@ -500,9 +500,9 @@ string Warrior::type() const{
 
 void Sorcerer::levelUp(){
     Hero::levelUp();
-    strength += 10; //TOBECHANGED
-    agility += 0.05* 1.5;
-    dexterity += 5* 1.5;
+    strength += 5; //TOBECHANGED
+    agility += 2;
+    dexterity += 8;
 }
 string Sorcerer::type() const{
     return "\tType: Sorcerer   ";
@@ -510,9 +510,9 @@ string Sorcerer::type() const{
 
 void Paladin::levelUp(){
     Hero::levelUp();
-    strength += 10* 1.5; //TOBECHANGED
-    agility += 0.05;
-    dexterity += 5* 1.5;
+    strength += 8; //TOBECHANGED
+    agility +=1;
+    dexterity += 8;
 }
 string Paladin::type() const{
     return "\tType: Paladin    ";
