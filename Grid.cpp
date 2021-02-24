@@ -154,7 +154,6 @@ bool Grid::battle(){
     int heroesInBattle = numofheroes;
     const int initialMonsters =  heroesInBattle + rand()%2;
     int monstersInBattle = initialMonsters;
-    string* names=new string[monstersInBattle];
     if (monstersInBattle == 1)
         cout << "\nA monster has appeared!\nPrepare to battle!" << endl;
     else
@@ -163,7 +162,6 @@ bool Grid::battle(){
     Monster** monsters = new Monster*[monstersInBattle];
     for (int i=0; i< monstersInBattle; i++){
         monsters[i] = monsterGenerator(level());
-        names[i]=monsters[i]->getName();
     }
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
         cout << endl << endl;
@@ -183,7 +181,6 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
-                            cout << heroes[i]->getName() << " attacks " << names[monsterIndex] << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage)  == 1)
                                 removeMonster(monsters,monstersInBattle,monsterIndex);
@@ -244,7 +241,6 @@ bool Grid::battle(){
         delete monsters[i];
     }
     delete monsters;
-    delete names;
     return (heroesInBattle>0);
 }
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <ctime>
+#include <cstdlib>
 #include "Hero.h"
 #include "Functions.h"
 using namespace std;
@@ -263,7 +263,7 @@ void Hero::faint(){
 }
 
 void Hero::gainXP(const int monsters){
-    int expGained = 10*monsters*level.getRL();
+    int expGained = 30*monsters*level.getRL();
     cout << name << " gained " << expGained << " experience!" << endl;
     const int levelUps = level.addXp(expGained);
     for (int i=0; i<levelUps; i++)
@@ -280,7 +280,7 @@ void Hero::levelUp(){
 }
 
 void Hero::gainGold(const int monsters){
-    int goldGained = 2*monsters*level.getRL();
+    int goldGained = 30*monsters*level.getRL();
     addGold(goldGained);
     cout << name << " gained " << goldGained << " gold! Current gold is : " << gold << endl;
 }
