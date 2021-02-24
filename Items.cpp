@@ -106,7 +106,17 @@ Potion& Potion::operator=(const Potion& p)
 }
 
 
-//getters
+//accessors
+
+bool Weapon::areTheSame(Weapon w){
+    if(this->name == w.getName() && this->damage == w.getDamage() && this->price == w.getPrice() && this->minLevel == w.getMinLevel() && this->twoHanded == w.getTwoHanded()) return true;
+    return false;
+}
+
+bool Armor::areTheSame(Armor a){
+    if(this->name == a.getName() && this->protection == a.getProtection() && this->price == a.getPrice() && this->minLevel == a.getMinLevel()) return true;
+    return false;
+}
 
 string Item::getName() const{return name;}
 int Item::getPrice() const{return price;}
@@ -122,12 +132,30 @@ bool Weapon::getTwoHanded() const{return twoHanded;}
 
 //mutators
 
+Weapon* Weapon::noWeapon(){
+    Weapon* w = new Weapon();
+    w->name="No weapon";
+    w->damage=0;
+    w->price=0;
+    w->minLevel=1;
+    w->twoHanded=false;
+    return w;
+}
+
 void Weapon::starterWeapon(){
     name="Basic dagger";
     price=0;
     minLevel=1;
     damage=15;
     twoHanded=false;
+}
+
+Armor* Armor::noArmor(){
+    Armor* a= new Armor();
+    a->name = "No armor";
+    a->protection=0;
+    a->minLevel=1;
+    return a;
 }
 
 void Armor::starterArmor(){

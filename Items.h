@@ -30,6 +30,8 @@ public:
     ~Weapon();
     Weapon& operator=(const Weapon& );
 
+    bool areTheSame(Weapon);
+    Weapon* noWeapon();
     void starterWeapon();
     int getDamage() const;
     bool getTwoHanded() const;
@@ -45,6 +47,8 @@ public:
     ~Armor();
     Armor& operator=(const Armor& );
     
+    bool areTheSame(Armor);
+    Armor* noArmor();
     void starterArmor();
     int getProtection() const;
     void print() const;

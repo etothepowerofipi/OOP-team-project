@@ -237,7 +237,7 @@ void Hero::sell(string type){
             cout << "Input the number of the weapon you would like to sell." << endl;
             inputI=inputNumber(inventory.getWeaponsSize()) - 1;
 
-            if(weapon == inventory.getPWeapon(inputI)) weapon=NULL;
+            if(weapon->areTheSame(inventory.getWeapon(inputI)) ){ weapon=weapon->noWeapon();}
             addGold(inventory.getWeapon(inputI).getPrice()/2);
             inventory.removeWeapon(inputI);
             cout << "Current gold for " << name << " is :" << gold << endl;
@@ -252,7 +252,7 @@ void Hero::sell(string type){
             cout << "Input the number of the armor you would like to sell." << endl;
             inputI=inputNumber(inventory.getArmorsSize()) - 1;
 
-            if(armor == inventory.getPArmor(inputI)) armor=NULL;
+            if(armor->areTheSame(inventory.getArmor(inputI)) ) armor=armor->noArmor();
             addGold(inventory.getArmor(inputI).getPrice()/2);
             inventory.removeArmor(inputI);
             cout << "Current gold for " << name << " is :" << gold << endl;
@@ -636,12 +636,12 @@ void PlayerInventory::print(Hero& h){
     
     Inventory::print();
 
-    if(h.getPWeapon() == NULL) cout << "No weapon currently equipped" << endl;
+    if(h.getPWeapon()->getName() == "No weapon") cout << "No weapon currently equipped" << endl;
     else{
         cout << "\nCurrent weapon is :" << endl;
         h.getWeapon().print();
     }
-    if(h.getPArmor() == NULL) cout << "No armor currently equipped" << endl;
+    if(h.getPArmor()->getName() == "No armor") cout << "No armor currently equipped" << endl;
     else{
         if(h.getPWeapon() != NULL){
             if(h.getWeapon().getTwoHanded() == false){
@@ -654,6 +654,7 @@ void PlayerInventory::print(Hero& h){
             h.getArmor().print();
         }
     }
+    cout << endl;
 }
 
 

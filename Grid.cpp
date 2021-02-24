@@ -312,12 +312,26 @@ bool Grid::menu(){
 //////////////MARKETPLACE////////////
 ////////////////////////////////////
 
-Marketplace::Marketplace(Hero** heroes,int noh){
+// Marketplace::~Marketplace(){
+//     for(int i=0;i<noh;i++){
+//         delete w[i];
+//         delete a[i];
+//     }
+//     for(int i=0;i<3;i++) delete s[i];
+//     for(int i=0;i<2*noh+1;i++) delete p[i];
+//     delete w;
+//     delete a;
+//     delete s;
+//     delete p;
+// }
+
+Marketplace::Marketplace(Hero** heroes,int n){
+    this->noh=n;
     int i;
-    Weapon** w = new Weapon*[noh];   //To market periexei 2 opla gia ka8e xarakthra
-    Armor** a = new Armor*[noh];   //To market periexei 2 panoplies gia ka8e xarakthra
-    Spell** s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
-    Potion** p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
+    w = new Weapon*[noh];   //To market periexei 2 opla gia ka8e xarakthra
+    a = new Armor*[noh];   //To market periexei 2 panoplies gia ka8e xarakthra
+    s = new Spell*[3];              //To market periexei 1 spell gia ka8e eidous spell
+    p = new Potion*[2*noh+1];      //To market periexei 2 HP kai 2 MP potion kai ena allo potion agility h dexterity h strength potion
     for(int i=0;i<noh;i++){
         stock.addArmor( *(a[i]=new Armor( randomLevel(heroes[i]->getLevel().getRL()) , genName("armor") ) ) );
         stock.addWeapon( *(w[i]=new Weapon( randomLevel(heroes[i]->getLevel().getRL()) , genName("weapon") ) ) );
