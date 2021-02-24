@@ -106,14 +106,14 @@ void Hero::showStats(){
 }
 
 //BATTLE
-void Hero::gainMP(){
-    MP += 4*level.getRL();
-    MP = min(MP,maxMP());
-}
-
 void Hero::gainHP(){
     healthPower += 5*level.getRL();
     healthPower = min(healthPower,maxHP());
+}
+
+void Hero::gainMP(){
+    MP += 4*level.getRL();
+    MP = min(MP,maxMP());
 }
 
 void Hero::gainHP(const int potionEffect){
@@ -138,7 +138,14 @@ void Hero::gainMP(const int potionEffect){
     }
 }
 
-int Hero::attack() {return weapon->getDamage() + strength;}
+int Hero::attack() {
+    int damage = strength;
+    if (weapon!=NULL)
+        damage += weapon->getDamage();
+    else
+        damage++;
+    return damage;
+}
 
 bool Hero::dodge(){
     int temp = rand()%100 + 1; // 1 <= temp <= 100
@@ -150,8 +157,108 @@ bool Hero::defend(int damage){
         cout << name << " dodges the attack!" << endl; 
         return 0;
     }
-    damage -= armor->getProtection();
+    if (armor!=NULL)
+        damage -= armor->getProtection();
     return takeDamage(max(damage,0));
+}
+
+int Hero::castSpell(){
+    if (inventory.getSpellsSize() > 0){
+        cout << "Choose which spell to use" << endl;
+        for (int i=0; i<inventory.getSpellsSize(); i++){
+            cout << i+1 << '.';
+            inventory.getSpell(i)->print();
+        }
+        int index = inputNumber(inventory.getSpellsSize()) -1;
+        return index;
+    }
+    else
+        cout << "This hero has no spells available" << endl;
+    return -1;
+}
+
+
+int* Hero::cast(const int index, Monster* monster)
+{
+    int* returnArray = new int[2];
+    returnArray[0] = returnArray[1] = 0;
+    if (inventory.getSpell(index)->getLevelReq() <= level.getRL())
+    {
+        if (inventory.getSpell(index)->getMP() <= MP){
+            int damage = rand() % (inventory.getSpell(index)->getMax() - inventory.getSpell(index)->getMin());
+            damage += inventory.getSpell(index)->getMin();
+            MP -= inventory.getSpell(index)->getMP();
+            cout << name << " casts " << inventory.getSpell(index)->getName() << "!" << endl;
+            int result = monster->defend(damage);
+            switch (result){
+                case 1: //Monster died from the attack
+                    returnArray[0] = 0; //Indicates monster did not take the spell normally
+                    returnArray[1] = 1; //Indicates monster took damage
+                    break;
+                case 2: //Monster dodged the attack
+                //this is here for clarity's sake
+                    returnArray[0] = 0;
+                    returnArray[1] = 0;
+                    break;
+                default:
+                    returnArray[0] = inventory.getSpell(index)->type();
+                    returnArray[1] = inventory.getSpell(index)->getReduction();
+                    monster->takeSpell(inventory.getSpell(index));
+            }
+            return returnArray;
+        }
+        else{
+            cout << "Hero's Magic Power is not enough to cast this spell." << endl;
+            return returnArray;
+        }
+    }
+    cout << "Hero's level " << level.getRL() << " is not high enough to cast this spell. " << inventory.getSpell(index)->getLevelReq() << endl;
+    return returnArray;
+}
+
+int Hero::usePotion(){
+    if (getInventory().getPotionsSize() > 0){
+        cout << "Choose which potion to use" << endl;
+        printPotions();
+        return inputNumber(getInventory().getPotionsSize()) - 1;
+    }
+    else
+        cout << "This hero has no potions available" << endl;
+    return -1;
+}
+
+void Hero::use(const int index){
+    Potion p = inventory.getPotion(index);
+    if (p.getMinLevel() <= level.getRL()){
+        if (p.getUse() == "HP")
+            gainHP(p.getEffectPoints());
+        else if (p.getUse() == "MP")
+            gainMP(p.getEffectPoints());
+        else if (p.getUse() == "Strength") {
+            strength += p.getEffectPoints();
+            cout << name << "'s strength has been increased by " << p.getEffectPoints() << "!" << endl;
+        }
+        else if (p.getUse() == "Agility") {
+            agility += p.getEffectPoints();
+            cout << name << "'s agility has been increased by " << p.getEffectPoints() << "!" << endl;
+        }
+        else {
+            dexterity += p.getEffectPoints();
+            cout << name << "'s dexterity has been increased by " << p.getEffectPoints() << "!" << endl;
+        }
+        removePotion(index);
+    }
+    else
+        cout << "Hero's level is not high enough to use this potion." << endl;
+}
+
+void Hero::faint(){
+    cout << name << " has fainted and is out of the battle!" << endl;
+    const int initialGold = gold;
+    gold /=2;
+    cout << name << " lost " << initialGold - gold << " gold!" << endl;
+    healthPower = maxHP()/2;
+    MP = maxMP()/2;
 }
 
 void Hero::gainXP(const int monsters){
@@ -164,8 +271,8 @@ void Hero::gainXP(const int monsters){
 }
 
 void Hero::levelUp(){
-    cout << name << " leveled up!" << endl;
     LivingBeing::level++;
+    cout << name << " leveled up! Current level is: " << LivingBeing::level << endl;
     if(this->getLevel().getRL()%3 == 0) this->getPInventory()->increaseMaxCap(); //Au3hsh ari8mou item pou xwraei to inventory ka8e 3 level
     healthPower = maxHP();
     MP = maxMP();
@@ -219,73 +326,8 @@ void Hero::checkInventory(){
     }
 }
 
-void Hero::printInventory(){ inventory.Inventory::print(); }
-void Hero::printWeapons(){ inventory.printWeapons(); }
-void Hero::printArmors(){ inventory.printArmors(); }
-void Hero::printSpells(){ inventory.printSpells(); }
-void Hero::printPotions(){ inventory.printPotions(); }
 
-void Hero::addGold(int a){gold += a;}
-void Hero::sell(string type){
-    int inputI;
-    if(type == "weapon"){
-        cout << "Weapons on inventory of " << name << " are :" << endl;
-        inventory.printWeapons();
-        if(inventory.getWeaponsSize() != 0){
-            cout << "Are you sure you want to sell a weapon? y/n" << endl;
-            if(inputAnswer() == false) return;
-            cout << "Input the number of the weapon you would like to sell." << endl;
-            inputI=inputNumber(inventory.getWeaponsSize()) - 1;
-
-            if(weapon == inventory.getPWeapon(inputI)) weapon=NULL;
-            addGold(inventory.getWeapon(inputI).getPrice()/2);
-            inventory.removeWeapon(inputI);
-            cout << "Current gold for " << name << " is :" << gold << endl;
-        }
-    }
-    else if(type == "armor"){
-        cout << "Armors on inventory of " << name << " are :" << endl;
-        inventory.printArmors();
-        if(inventory.getArmorsSize() != 0){
-            cout << "Are you sure you want to sell an armor? y/n" << endl;
-            if(inputAnswer() == false) return;
-            cout << "Input the number of the armor you would like to sell." << endl;
-            inputI=inputNumber(inventory.getArmorsSize()) - 1;
-
-            if(armor == inventory.getPArmor(inputI)) armor=NULL;
-            addGold(inventory.getArmor(inputI).getPrice()/2);
-            inventory.removeArmor(inputI);
-            cout << "Current gold for " << name << " is :" << gold << endl;
-        }
-    }
-    else if(type == "spell"){
-        cout << "Spells on inventory of " << name << " are :" << endl;
-        inventory.printSpells();
-        if(inventory.getSpellsSize() != 0){
-            cout << "Are you sure you want to sell a spell? y/n" << endl;
-            if(inputAnswer() == false) return;
-            cout << "Input the number of the spell you would like to sell." << endl;
-            inputI=inputNumber(inventory.getSpellsSize()) - 1;
-            addGold(inventory.getSpell(inputI)->getPrice()/2);
-            inventory.removeSpell(inputI);
-            cout << "Current gold for " << name << " is :" << gold << endl;
-        }
-    }
-    else{
-        cout << "Potions on inventory of " << name << " are :" << endl;
-        inventory.printPotions();
-        if(inventory.getPotionsSize() != 0){
-            cout << "Are you sure you want to sell a potion? y/n" << endl;
-            if(inputAnswer() == false) return;
-            cout << "Input the number of the potion you would like to sell." << endl;
-            inputI=inputNumber(inventory.getPotionsSize()) - 1;
-            addGold(inventory.getPotion(inputI).getPrice()/2);
-            inventory.removePotion(inputI);
-            cout << "Current gold for " << name << " is :" << gold << endl;
-        }
-    }
-}
-
+//MARKETPLACE
 bool Hero::buy(Weapon w){
     if(inventory.isFull() == true){
         cout << name << "'s inventory is full! Cannot purchase another item." << endl; 
@@ -348,6 +390,69 @@ bool Hero::buy(Spell* s){
     }
 }
 
+void Hero::addGold(int a){gold += a;}
+void Hero::sell(string type){
+    int inputI;
+    if(type == "weapon"){
+        cout << "Weapons on inventory of " << name << " are :" << endl;
+        inventory.printWeapons();
+        if(inventory.getWeaponsSize() != 0){
+            cout << "Are you sure you want to sell a weapon? y/n" << endl;
+            if(inputAnswer() == false) return;
+            cout << "Input the number of the weapon you would like to sell." << endl;
+            inputI=inputNumber(inventory.getWeaponsSize()) - 1;
+
+            if(weapon == inventory.getPWeapon(inputI)) weapon=NULL;
+            addGold(inventory.getWeapon(inputI).getPrice()/2);
+            inventory.removeWeapon(inputI);
+            cout << "Current gold for " << name << " is :" << gold << endl;
+        }
+    }
+    else if(type == "armor"){
+        cout << "Armors on inventory of " << name << " are :" << endl;
+        inventory.printArmors();
+        if(inventory.getArmorsSize() != 0){
+            cout << "Are you sure you want to sell an armor? y/n" << endl;
+            if(inputAnswer() == false) return;
+            cout << "Input the number of the armor you would like to sell." << endl;
+            inputI=inputNumber(inventory.getArmorsSize()) - 1;
+
+            if(armor == inventory.getPArmor(inputI)) armor=NULL;
+            addGold(inventory.getArmor(inputI).getPrice()/2);
+            inventory.removeArmor(inputI);
+            cout << "Current gold for " << name << " is :" << gold << endl;
+        }
+    }
+    else if(type == "spell"){
+        cout << "Spells on inventory of " << name << " are :" << endl;
+        inventory.printSpells();
+        if(inventory.getSpellsSize() != 0){
+            cout << "Are you sure you want to sell a spell? y/n" << endl;
+            if(inputAnswer() == false) return;
+            cout << "Input the number of the spell you would like to sell." << endl;
+            inputI=inputNumber(inventory.getSpellsSize()) - 1;
+            addGold(inventory.getSpell(inputI)->getPrice()/2);
+            inventory.removeSpell(inputI);
+            cout << "Current gold for " << name << " is :" << gold << endl;
+        }
+    }
+    else{
+        cout << "Potions on inventory of " << name << " are :" << endl;
+        inventory.printPotions();
+        if(inventory.getPotionsSize() != 0){
+            cout << "Are you sure you want to sell a potion? y/n" << endl;
+            if(inputAnswer() == false) return;
+            cout << "Input the number of the potion you would like to sell." << endl;
+            inputI=inputNumber(inventory.getPotionsSize()) - 1;
+            addGold(inventory.getPotion(inputI).getPrice()/2);
+            inventory.removePotion(inputI);
+            cout << "Current gold for " << name << " is :" << gold << endl;
+        }
+    }
+}
+
+
+//ACCESSORS
 Weapon Hero::getWeapon() const {return *weapon;}
 Weapon* Hero::getPWeapon(){return weapon;}
 Armor Hero::getArmor() const {return *armor;}
@@ -358,106 +463,16 @@ PlayerInventory* Hero::getPInventory(){return &inventory;}
 int Hero::getAgility() const {return agility;}
 int Hero::getGold(){return gold;}
 
+//PRINTERS
 void Hero::print() const{
     cout << type() << "\tHP:" << healthPower << "\tMP:" << MP << "\tName: " << name << endl;
 }
+void Hero::printInventory(){ inventory.Inventory::print(); }
+void Hero::printWeapons(){ inventory.printWeapons(); }
+void Hero::printArmors(){ inventory.printArmors(); }
+void Hero::printSpells(){ inventory.printSpells(); }
+void Hero::printPotions(){ inventory.printPotions(); }
 
-
-int Hero::castSpell(){
-    if (inventory.getSpellsSize() > 0){
-        cout << "Choose which spell to use" << endl;
-        for (int i=0; i<inventory.getSpellsSize(); i++){
-            cout << i+1 << '.';
-            inventory.getSpell(i)->print();
-        }
-        int index = inputNumber(inventory.getSpellsSize()) -1;
-        return index;
-    }
-    else
-        cout << "This hero has no spells available" << endl;
-    return -1;
-}
-
-
-int* Hero::cast(const int index, Monster* monster)
-{
-    int* returnArray = new int[2];
-    returnArray[0] = returnArray[1] = 0;
-    if (inventory.getSpell(index)->getLevelReq() <= level.getRL())
-    {
-        if (inventory.getSpell(index)->getMP() <= MP){
-            int damage = rand() % (inventory.getSpell(index)->getMax() - inventory.getSpell(index)->getMin());
-            damage += inventory.getSpell(index)->getMin();
-            MP -= inventory.getSpell(index)->getMP();
-            cout << name << " casts " << inventory.getSpell(index)->getName() << "!" << endl;
-            int result = monster->defend(damage);
-            switch (result){
-                case 1: //Monster died from the attack
-                    returnArray[0] = 0; //Indicates monster did not take the spell normally
-                    returnArray[1] = 1; //Indicates monster took damage
-                    break;
-                case 2: //Monster dodged the attack
-                //this is here for clarity's sake
-                    returnArray[0] = 0;
-                    returnArray[1] = 0;
-                    break;
-                default:
-                    returnArray[0] = inventory.getSpell(index)->type();
-                    returnArray[1] = inventory.getSpell(index)->getReduction();
-                    monster->takeSpell(inventory.getSpell(index));
-            }
-            return returnArray;
-        }
-        else{
-            cout << "Hero's Magic Power is not enough to cast this spell." << endl;
-            return returnArray;
-        }
-    }
-    cout << "Hero's level is not high enough to cast this spell." << endl;
-    return returnArray;
-}
-
-int Hero::usePotion(){
-    if (getInventory().getPotionsSize() > 0){
-        cout << "Choose which potion to use" << endl;
-        printPotions();
-        cout << "Choose the potion" << endl; //debug
-        return inputNumber(getInventory().getPotionsSize()) - 1;
-    }
-    else
-        cout << "This hero has no potions available" << endl;
-    return -1;
-}
-
-void Hero::use(const int index){
-    cout << "In Hero::use" << endl; //debug
-    Potion p = inventory.getPotion(index);
-    cout << "Potion clone created" << endl; //debug
-    if (p.getMinLevel() <= level.getRL()){
-        cout << "Inside first if" << endl; //debug
-        if (p.getUse() == "HP"){
-            cout << "Potion is for HP!" << endl; //debug
-            gainHP(p.getEffectPoints());
-        }
-        else if (p.getUse() == "MP")
-            gainMP(p.getEffectPoints());
-        else if (p.getUse() == "Strength") {
-            strength += p.getEffectPoints();
-            cout << name << "'s strength has been increased by " << p.getEffectPoints() << "!" << endl;
-        }
-        else if (p.getUse() == "Agility") {
-            agility += p.getEffectPoints();
-            cout << name << "'s agility has been increased by " << p.getEffectPoints() << "!" << endl;
-        }
-        else {
-            dexterity += p.getEffectPoints();
-            cout << name << "'s dexterity has been increased by " << p.getEffectPoints() << "!" << endl;
-        }
-        removePotion(index);
-    }
-    else
-        cout << "Hero's level is not high enough to use this potion." << endl;
-}
 
 void Hero::removeSpell(const int index){
     inventory.removeSpell(index);
@@ -467,14 +482,7 @@ void Hero::removePotion(const int index){
     inventory.removePotion(index);
 }
 
-void Hero::faint(){
-    cout << name << " has fainted and is out of the battle!" << endl;
-    const int initialGold = gold;
-    gold /=2;
-    cout << name << " lost " << initialGold - gold << " gold!" << endl;
-    healthPower = maxHP()/2;
-    MP = maxMP()/2;
-}
+
 
 //SubClasses Hero
 
@@ -563,8 +571,7 @@ Armor* Inventory::getPArmor(int i){return &armors[i];}
 Potion Inventory::getPotion(int i){return potions[i];}
 Spell* Inventory::getSpell(int i){return spells[i];}
 
-//temp
-const Spell* PlayerInventory::getSpell(int i) const{cout << "In P::getSpell(" << i << ")" << endl; return spells[i];}//debug
+
 
 void Inventory::print()
 {
@@ -675,10 +682,10 @@ void PlayerInventory::print(Hero& h){
         }
     }
 }
+const Spell* PlayerInventory::getSpell(int i) const{return spells[i];}
 
 
-
-//MISCELLANEOUS
+//OTHER
 int level(Hero** heroes, const int numOfHeroes){
     int sum = 0;
     for (int i=0; i<numOfHeroes; i++)

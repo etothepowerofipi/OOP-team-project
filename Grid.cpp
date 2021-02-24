@@ -167,7 +167,9 @@ bool Grid::battle(){
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
         cout << endl << endl;
         effects.newRound();
+        cout << "After effects::newRound" << endl; //debug
         for (int i=0; i<heroesInBattle; i++){
+            heroes[i]->gainHP();
             heroes[i]->gainMP();
             if (monstersInBattle>0){
                 bool acceptableAction = false;
@@ -223,7 +225,6 @@ bool Grid::battle(){
                                 //     cout << "After addEffect" << endl; //debug
                         case 3:
                             index = heroes[i]->usePotion();
-                            cout << "After usePotion" << endl; //debug
                             if (index > -1){
                                 acceptableAction = true;
                                 heroes[i]->use(index);
@@ -239,6 +240,7 @@ bool Grid::battle(){
         }
         for (int i=0; i<monstersInBattle; i++){
             cout << "\n" << endl;
+            monsters[i]->gainHP();
             if (heroesInBattle > 0){
                 int damage = monsters[i]->attack();
                 int randomHero = rand() % heroesInBattle;
@@ -571,10 +573,14 @@ void Effects::addEffect(Monster* m, int* effects){
 }
 
 void Effects::newRound(){
+    cout << "In effects::newRound" << endl; //debug
     for (vector<int>::size_type i = 0; i != rounds.size(); i++){
         rounds[i]--;
         if (rounds[i] == 0){
+            cout << "Before RegainStats" << endl; //debug
             monsters[i]->regainStats(type[i],amount[i]);
+            cout << "After RegainStats" << endl; //debug
+
 
             //monster
             vector<Monster*> tempMon;

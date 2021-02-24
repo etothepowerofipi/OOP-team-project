@@ -17,18 +17,15 @@ Spell::Spell(int lvl,const string s):  name(s), mpRequired(30), minDamage(10), m
     price=100+50*base;
 }
 
-IceSpell::IceSpell(int lvl,const string s): Spell(lvl,s)
-{
+IceSpell::IceSpell(int lvl,const string s): Spell(lvl,s){
     damageReduction = 10; //TOBECHANGED
 }
 
-FireSpell::FireSpell(int lvl,const string s): Spell(lvl,s)
-{
+FireSpell::FireSpell(int lvl,const string s): Spell(lvl,s){
     defenseReduction  = 5; //TOBECHANGED
 }
 
-LightningSpell::LightningSpell(int lvl,const string s): Spell(lvl,s)
-{
+LightningSpell::LightningSpell(int lvl,const string s): Spell(lvl,s){
     dodgeReduction = 1; //TOBECHANGED
 }
 
@@ -45,17 +42,10 @@ LightningSpell::~LightningSpell() {}
 
 
 
-
-
-
-
-
 //COPY-CONSTRUCTORS
 
-Spell::Spell(const Spell& s)
-{
-    if (this!=&s)
-    {
+Spell::Spell(const Spell& s){
+    if (this!=&s){
         name = s.name;
         minDamage = s.minDamage;
         maxDamage = s.maxDamage;
@@ -64,20 +54,17 @@ Spell::Spell(const Spell& s)
     }
 }
 
-IceSpell::IceSpell(const IceSpell& i):Spell(i)
-{
+IceSpell::IceSpell(const IceSpell& i):Spell(i){
     if (this!=&i)
         damageReduction = i.damageReduction;
 }
 
-FireSpell::FireSpell(const FireSpell& f):Spell(f)
-{
+FireSpell::FireSpell(const FireSpell& f):Spell(f){
     if (this!=&f)
         defenseReduction = f.defenseReduction;
 }
 
-LightningSpell::LightningSpell(const LightningSpell& l):Spell(l)
-{
+LightningSpell::LightningSpell(const LightningSpell& l):Spell(l){
     if (this!=&l)
         dodgeReduction = l.dodgeReduction;
 }
@@ -85,8 +72,7 @@ LightningSpell::LightningSpell(const LightningSpell& l):Spell(l)
 
 //ASSIGNMENT OPERATOR OVERLOADS
 
-Spell& Spell::operator=(const Spell& s)
-{
+Spell& Spell::operator=(const Spell& s){
     if (this!=&s)
     {
         name = s.name;
@@ -98,24 +84,21 @@ Spell& Spell::operator=(const Spell& s)
     return *this;
 }
 
-IceSpell& IceSpell::operator=(const IceSpell& i)
-{
+IceSpell& IceSpell::operator=(const IceSpell& i){
     Spell::operator=(i);
     if (this!=&i)
         damageReduction = i.damageReduction;
     return *this;
 }
 
-FireSpell& FireSpell::operator=(const FireSpell& f)
-{
+FireSpell& FireSpell::operator=(const FireSpell& f){
     Spell::operator=(f);
     if (this!=&f)
         defenseReduction = f.defenseReduction;
     return *this;
 }
 
-LightningSpell& LightningSpell::operator=(const LightningSpell& l)
-{
+LightningSpell& LightningSpell::operator=(const LightningSpell& l){
     Spell::operator=(l);
     if (this!=&l)
         dodgeReduction = l.dodgeReduction;
@@ -127,33 +110,12 @@ LightningSpell& LightningSpell::operator=(const LightningSpell& l)
 //SPELL
 //SPELL
 
-string Spell::getName() const
-{
-    return name;
-}
-
-int Spell::getPrice() const
-{
-    return price;
-}
-
-int Spell::getLevelReq() const
-{
-    return levelRequired;
-}
-
-int Spell::getMP() const
-{
-    return mpRequired;
-}
-
-int Spell::getMin() const {
-    return minDamage;
-}
-
-int Spell::getMax() const {
-    return maxDamage;
-}
+string Spell::getName() const{return name;}
+int Spell::getPrice() const {return price;}
+int Spell::getLevelReq() const {return levelRequired;}
+int Spell::getMP() const {return mpRequired;}
+int Spell::getMin() const {return minDamage;}
+int Spell::getMax() const {return maxDamage;}
 
 //PRINT
 //PRINT
@@ -188,34 +150,15 @@ void LightningSpell::print() const{
 //GETREDUCTION
 //GETREDUCTION
 
-int IceSpell::getReduction() const{
-    cout << "In IceSpell::getReduction()" << endl; // debug
-    return damageReduction;
-}
-
-int FireSpell::getReduction() const{
-    cout << "In FireSpell::getReduction()" << endl; // debug
-    return defenseReduction;
-}
-
-int LightningSpell::getReduction() const{
-    cout << "In LightningSpell::getReduction()" << endl; // debug
-    return dodgeReduction;
-}
+int IceSpell::getReduction() const {return damageReduction;}
+int FireSpell::getReduction() const {return defenseReduction;}
+int LightningSpell::getReduction() const {return dodgeReduction;}
 
 
 //TYPE
 //TYPE
 //TYPE
 
-int IceSpell::type() const{
-    return 1;
-}
-
-int FireSpell::type() const{
-    return 2;
-}
-
-int LightningSpell::type() const{
-    return 3;
-}
+int IceSpell::type() const {return 1;}
+int FireSpell::type() const {return 2;}
+int LightningSpell::type() const {return 3;}
