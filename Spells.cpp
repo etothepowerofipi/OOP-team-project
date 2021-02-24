@@ -189,14 +189,17 @@ void LightningSpell::print() const{
 //GETREDUCTION
 
 int IceSpell::getReduction() const{
+    cout << "In IceSpell::getReduction()" << endl; // debug
     return damageReduction;
 }
 
 int FireSpell::getReduction() const{
+    cout << "In FireSpell::getReduction()" << endl; // debug
     return defenseReduction;
 }
 
 int LightningSpell::getReduction() const{
+    cout << "In LightningSpell::getReduction()" << endl; // debug
     return dodgeReduction;
 }
 
@@ -205,14 +208,14 @@ int LightningSpell::getReduction() const{
 //TYPE
 //TYPE
 
-string IceSpell::type() const{
-    return "Ice";
+int IceSpell::type() const{
+    return 1;
 }
 
-string FireSpell::type() const{
-    return "Fire";
+int FireSpell::type() const{
+    return 2;
 }
 
-string LightningSpell::type() const{
-    return "Lightning";
+int LightningSpell::type() const{
+    return 3;
 }

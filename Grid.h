@@ -6,7 +6,7 @@
 class Effects{
     private:
         std::vector <Monster*> monsters;
-        std::vector <std::string> type;
+        std::vector <int> type;
         std::vector <int> amount;
         std::vector <int> rounds;
 
@@ -14,7 +14,7 @@ class Effects{
         Effects();
         ~Effects();
 
-        void addEffect(Monster*, std::string, const int);
+        void addEffect(Monster*, int*);
         void newRound();
 };
 

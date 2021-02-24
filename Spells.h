@@ -25,7 +25,7 @@ class Spell
         int getMP() const;
         int getMin() const;
         int getMax() const;
-        virtual std::string type() const = 0;
+        virtual int type() const = 0;
         virtual int getReduction() const = 0;
         virtual void print() const ;
 };
@@ -41,7 +41,7 @@ class IceSpell: public Spell
         IceSpell(const IceSpell&);
         IceSpell& operator=(const IceSpell&);
 
-        std::string type() const;
+        int type() const;
         int getReduction() const;
         void print() const;
 };
@@ -57,7 +57,7 @@ class FireSpell: public Spell
         FireSpell(const FireSpell&);
         FireSpell& operator=(const FireSpell&);
 
-        std::string type() const;
+        int type() const;
         int getReduction() const;
         void print() const;
 };
@@ -73,7 +73,7 @@ class LightningSpell: public Spell
         LightningSpell(const LightningSpell&);
         LightningSpell& operator=(const LightningSpell&);
 
-        std::string type() const;
+        int type() const;
         int getReduction() const;
         void print() const;
 };
