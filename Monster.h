@@ -20,10 +20,10 @@ class Monster: public LivingBeing
         virtual ~Monster();
 
         int attack(); //Epistrefei tuxaio arithmo anamesa sto minAttack kai to maxAttack.
-        bool defend(int);
-        void takeSpell(Spell*);
+        int defend(int);
+        void takeSpell(const Spell*);
         void gainHP();
-        void regainStats(const std::string, const int);
+        void regainStats(const int, const int);
 
 
         virtual std::string type() const = 0;

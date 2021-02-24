@@ -58,29 +58,30 @@ int Monster::attack(){
     return damage;
 }
 
-bool Monster::defend(int damage){
+int Monster::defend(int damage){
     if(dodge()){
         cout << name << " dodges the attack!" << endl;
-        return 0;
+        return 2;
     }
-    loseHpMessage(damage,getName());
+    loseHpMessage(damage,getName()); //Den nomizw na xreiazetai
     damage -= defense;
     return takeDamage(max(damage,0));
 }
 
-void Monster::takeSpell(Spell* spell){
-    if (spell->type() == "Ice"){
-        minAttack -= spell->getReduction();
-        maxAttack -= spell->getReduction();
-        cout << name << "'s attack has been reduced by " << spell->getReduction() << "!" << endl;
-    }
-    else if (spell->type() == "Fire"){
-        defense -= spell->getReduction();
-        cout << name << "'s defense has been reduced by " << spell->getReduction() << "!" << endl;
-    }
-    else{
-        dodgeChance -= spell->getReduction();
-        cout << name << "'s dodge rate has been reduced by " << spell->getReduction() << "!" << endl;
+void Monster::takeSpell(const Spell* spell){
+    switch (spell->type()){
+        case 1:
+            minAttack -= spell->getReduction();
+            maxAttack -= spell->getReduction();
+            cout << name << "'s attack has been reduced by " << spell->getReduction() << "!" << endl;
+            break;
+        case 2:
+            defense -= spell->getReduction();
+            cout << name << "'s defense has been reduced by " << spell->getReduction() << "!" << endl;
+            break;
+        case 3:
+            dodgeChance -= spell->getReduction();
+            cout << name << "'s dodge rate has been reduced by " << spell->getReduction() << "%!" << endl;         
     }
 }
 
@@ -89,16 +90,17 @@ bool Monster::dodge(){
     return (temp <= dodgeChance);
 }
 
-void Monster::regainStats(const string type, const int amount){
-    if (type == "Ice"){
-        minAttack += amount;
-        maxAttack += amount;
-    }
-    else if(type == "Fire"){
-        defense += amount;
-    }
-    else{
-        dodgeChance += amount;
+void Monster::regainStats(const int type, const int amount){
+    switch (type){
+        case 1:
+            minAttack += amount;
+            maxAttack += amount;
+            break;
+        case 2:
+            defense += amount;
+            break;
+        case 3:
+            dodgeChance += amount;
     }
 }
 
@@ -117,15 +119,15 @@ int Monster::maxHP() const{
 
 //type
 
-string Dragon::type() const{
+std::string Dragon::type() const{
     return "\tType: Dragon     ";
 }
 
-string Exosceleton::type() const{
-    return "\tType: Exosceleton";
+std::string Exosceleton::type() const{
+    return "\tType: Exosceleton ";
 }
 
-string Spirit::type() const{
+std::string Spirit::type() const{
     return "\tType: Spirit     ";
 }
 

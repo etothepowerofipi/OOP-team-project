@@ -77,6 +77,7 @@ class PlayerInventory : public Inventory
         int Capacity();
         void increaseMaxCap();
         void print(Hero&);
+        const Spell* getSpell(int) const;
 };
 
 class Hero: public LivingBeing
@@ -112,7 +113,7 @@ class Hero: public LivingBeing
         int attack();
         bool defend(int);
         int castSpell();
-        bool cast(const int, Monster*);
+        int* cast(const int, Monster*);
         int usePotion();    
         void use(const int);
         virtual void levelUp();

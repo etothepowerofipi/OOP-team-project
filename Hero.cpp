@@ -379,8 +379,10 @@ int Hero::castSpell(){
 }
 
 
-bool Hero::cast(const int index, Monster* monster)
+int* Hero::cast(const int index, Monster* monster)
 {
+    int* returnArray = new int[2];
+    returnArray[0] = returnArray[1] = 0;
     if (inventory.getSpell(index)->getLevelReq() <= level.getRL())
     {
         if (inventory.getSpell(index)->getMP() <= MP){
@@ -388,28 +390,38 @@ bool Hero::cast(const int index, Monster* monster)
             damage += inventory.getSpell(index)->getMin();
             MP -= inventory.getSpell(index)->getMP();
             cout << name << " casts " << inventory.getSpell(index)->getName() << "!" << endl;
-            bool monsterFainted = monster->defend(damage);
-            if (!monsterFainted){
-                monster->takeSpell(inventory.getSpell(index));
+            int result = monster->defend(damage);
+            switch (result){
+                case 1: //Monster died from the attack
+                    returnArray[0] = 0; //Indicates monster did not take the spell normally
+                    returnArray[1] = 1; //Indicates monster took damage
+                    break;
+                case 2: //Monster dodged the attack
+                //this is here for clarity's sake
+                    returnArray[0] = 0;
+                    returnArray[1] = 0;
+                    break;
+                default:
+                    returnArray[0] = inventory.getSpell(index)->type();
+                    returnArray[1] = inventory.getSpell(index)->getReduction();
+                    monster->takeSpell(inventory.getSpell(index));
             }
-            return monsterFainted;
+            return returnArray;
         }
         else{
             cout << "Hero's Magic Power is not enough to cast this spell." << endl;
-            return false;
+            return returnArray;
         }
     }
-    cout << "Hero's level " << level.getRL() << " is not high enough to cast this spell." << inventory.getSpell(index)->getLevelReq() << endl;
-    return false;
+    cout << "Hero's level is not high enough to cast this spell." << endl;
+    return returnArray;
 }
 
 int Hero::usePotion(){
     if (getInventory().getPotionsSize() > 0){
         cout << "Choose which potion to use" << endl;
-        for (int i=0; i<getInventory().getPotionsSize(); i++){
-            cout << i+1 << '.';
-            getInventory().getPotion(i).print();
-        }
+        printPotions();
+        cout << "Choose the potion" << endl; //debug
         return inputNumber(getInventory().getPotionsSize()) - 1;
     }
     else
@@ -418,10 +430,15 @@ int Hero::usePotion(){
 }
 
 void Hero::use(const int index){
+    cout << "In Hero::use" << endl; //debug
     Potion p = inventory.getPotion(index);
+    cout << "Potion clone created" << endl; //debug
     if (p.getMinLevel() <= level.getRL()){
-        if (p.getUse() == "HP") 
+        cout << "Inside first if" << endl; //debug
+        if (p.getUse() == "HP"){
+            cout << "Potion is for HP!" << endl; //debug
             gainHP(p.getEffectPoints());
+        }
         else if (p.getUse() == "MP")
             gainMP(p.getEffectPoints());
         else if (p.getUse() == "Strength") {
@@ -439,7 +456,7 @@ void Hero::use(const int index){
         removePotion(index);
     }
     else
-        cout << "Hero's level " << level.getRL() << " is not high enough to use this potion. " << p.getMinLevel() << endl;
+        cout << "Hero's level is not high enough to use this potion." << endl;
 }
 
 void Hero::removeSpell(const int index){
@@ -545,6 +562,9 @@ Armor Inventory::getArmor(int i){return armors[i];}
 Armor* Inventory::getPArmor(int i){return &armors[i];}
 Potion Inventory::getPotion(int i){return potions[i];}
 Spell* Inventory::getSpell(int i){return spells[i];}
+
+//temp
+const Spell* PlayerInventory::getSpell(int i) const{cout << "In P::getSpell(" << i << ")" << endl; return spells[i];}//debug
 
 void Inventory::print()
 {
