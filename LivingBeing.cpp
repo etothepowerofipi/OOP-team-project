@@ -34,7 +34,6 @@ bool LivingBeing::takeDamage(const int damage)
     }
 }
 
-void LivingBeing::takeDamageMessage(string nameofattacker){cout << nameofattacker << " attacks " << name << endl;}
 string LivingBeing::getName() const{return name;}
 int LivingBeing::getHP() const{return healthPower;}
 int LivingBeing::getLevel() const{return level;}
