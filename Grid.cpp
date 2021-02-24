@@ -143,7 +143,6 @@ bool Grid::checkBlock(int i,int j){
         return true;
     }
     else if(map[i][j] == '+'){
-        return true;
         int prob=rand()%100;
         if(prob < 30) return battle();
         else return true;
@@ -155,14 +154,17 @@ bool Grid::battle(){
     int heroesInBattle = numofheroes;
     const int initialMonsters =  heroesInBattle + rand()%2;
     int monstersInBattle = initialMonsters;
+    string* names=new string[monstersInBattle];
     if (monstersInBattle == 1)
         cout << "\nA monster has appeared!\nPrepare to battle!" << endl;
     else
         cout << "\nMonsters have appeared!\nPrepare to battle!" << endl;
     Effects effects;
     Monster** monsters = new Monster*[monstersInBattle];
-    for (int i=0; i< monstersInBattle; i++)
+    for (int i=0; i< monstersInBattle; i++){
         monsters[i] = monsterGenerator(level());
+        names[i]=monsters[i]->getName();
+    }
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
         cout << endl << endl;
         effects.newRound();
@@ -182,10 +184,10 @@ bool Grid::battle(){
                         case 1:
                             acceptableAction = true;
                             monsterIndex = chooseMonster(monsters,monstersInBattle);
-                            monsters[monsterIndex]->takeDamageMessage(heroes[i]->getName());
+                            cout << heroes[i]->getName() << " attacks " << names[monsterIndex] << endl;
                             damage = heroes[i]->attack();
                             if (monsters[monsterIndex]->defend(damage)  == 1)
-                                removeMonster(monsters,monstersInBattle,monsterIndex);
+                                removeMonster(monsters,monstersInBattle,monsterIndex,names);
                             break;
                         
 
@@ -199,7 +201,7 @@ bool Grid::battle(){
                                 switch (result[0]){
                                     case 0:
                                         if (result[1] == 1)
-                                            removeMonster(monsters,monstersInBattle,monsterIndex);
+                                            removeMonster(monsters,monstersInBattle,monsterIndex,names);
                                         break;
                                     default:
                                         effects.addEffect(monsters[monsterIndex],result);
@@ -262,6 +264,7 @@ bool Grid::battle(){
         delete monsters[i];
     }
     delete monsters;
+    delete names;
     return (heroesInBattle>0);
 }
 
