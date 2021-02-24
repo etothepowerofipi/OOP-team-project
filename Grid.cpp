@@ -167,7 +167,6 @@ bool Grid::battle(){
     while ( (heroesInBattle>0) && (monstersInBattle>0) ){
         cout << endl << endl;
         effects.newRound();
-        cout << "After effects::newRound" << endl; //debug
         for (int i=0; i<heroesInBattle; i++){
             heroes[i]->gainHP();
             heroes[i]->gainMP();
@@ -188,8 +187,6 @@ bool Grid::battle(){
                             if (monsters[monsterIndex]->defend(damage)  == 1)
                                 removeMonster(monsters,monstersInBattle,monsterIndex);
                             break;
-                        
-
                         case 2:
                             index = heroes[i]->castSpell();
                             if (index > -1){
@@ -208,21 +205,6 @@ bool Grid::battle(){
                                 delete result;
                             }
                             break;
-                                // if (monsterFainted)
-                                //     removeMonster(monsters,monstersInBattle,monsterIndex);
-                                // else{
-                                //     //Enallaktika
-                                //     // const Spell*const* spell = new Spell*const;
-                                //     // spell = &heroes[i]->getInventory().getSpell(index);
-
-                                //     cout << "Before reduction" << endl;
-                                //     int reduction = heroes[i]->getInventory().getSpell(index)->getReduction();
-                                //     cout << "After reduction: " << reduction << endl; //debug
-                                //     string type = heroes[i]->getInventory().getSpell(index)->type();
-                                //     cout << "After type: " << type << endl; //debug
-                                    
-                                //     effects.addEffect(monsters[monsterIndex],type,reduction);
-                                //     cout << "After addEffect" << endl; //debug
                         case 3:
                             index = heroes[i]->usePotion();
                             if (index > -1){
@@ -233,7 +215,6 @@ bool Grid::battle(){
                         case 4:
                             acceptableAction = true;
                             heroes[i]->checkInventory();
-                        
                     }
                 }
             }
@@ -571,14 +552,6 @@ void Marketplace::menu(Hero** heroes,int numofheroes){
 
 Effects::Effects(){}
 
-//Mallon axreiasto, ka8ws ta monsters diagrafontai sth Grid::battle()
-Effects::~Effects(){
-    monsters.clear();
-    type.clear();
-    amount.clear();
-    rounds.clear();
-}
-
 void Effects::addEffect(Monster* m, int* effects){
     monsters.push_back(m);
     type.push_back(effects[0]);
@@ -587,14 +560,10 @@ void Effects::addEffect(Monster* m, int* effects){
 }
 
 void Effects::newRound(){
-    cout << "In effects::newRound" << endl; //debug
-    for (vector<int>::size_type i = 0; i != rounds.size(); i++){
+    for (int i=0; i<rounds.size(); i++){
         rounds[i]--;
         if (rounds[i] == 0){
-            cout << "Before RegainStats" << endl; //debug
             monsters[i]->regainStats(type[i],amount[i]);
-            cout << "After RegainStats" << endl; //debug
-
 
             //monster
             vector<Monster*> tempMon;

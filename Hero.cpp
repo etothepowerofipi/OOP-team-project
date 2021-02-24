@@ -107,12 +107,12 @@ void Hero::showStats(){
 
 //BATTLE
 void Hero::gainHP(){
-    healthPower += 5*level.getRL();
+    healthPower += 4*level.getRL();
     healthPower = min(healthPower,maxHP());
 }
 
 void Hero::gainMP(){
-    MP += 4*level.getRL();
+    MP += 3*level.getRL();
     MP = min(MP,maxMP());
 }
 
@@ -149,7 +149,7 @@ int Hero::attack() {
 
 bool Hero::dodge(){
     int temp = rand()%100 + 1; // 1 <= temp <= 100
-    return (temp <= agility );
+    return (temp <= agility);
 }
 
 bool Hero::defend(int damage){
@@ -187,6 +187,7 @@ int* Hero::cast(const int index, Monster* monster)
         if (inventory.getSpell(index)->getMP() <= MP){
             int damage = rand() % (inventory.getSpell(index)->getMax() - inventory.getSpell(index)->getMin());
             damage += inventory.getSpell(index)->getMin();
+            damage += dexterity;
             MP -= inventory.getSpell(index)->getMP();
             cout << name << " casts " << inventory.getSpell(index)->getName() << "!" << endl;
             int result = monster->defend(damage);

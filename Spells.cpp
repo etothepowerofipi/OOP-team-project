@@ -10,23 +10,24 @@ using namespace std;
 //CONSTRUCTORS
 //CONSTRUCTORS
 
-Spell::Spell(int lvl,const string s):  name(s), mpRequired(30), minDamage(10), maxDamage(100) { //TOBECHANGED
-    int base=rand()%4;
-    levelRequired=lvl-2+base;
-    if(levelRequired <= 0) levelRequired=1;
-    price=100+50*base;
+Spell::Spell(int lvl,const string s):  name(s) {
+    levelRequired = max(randomLevel(lvl),1);
+    mpRequired = 30 + levelRequired*10;
+    minDamage = 10 + levelRequired*5;
+    maxDamage = 50 + levelRequired*5;
+    price = 100 + levelRequired*50;
 }
 
 IceSpell::IceSpell(int lvl,const string s): Spell(lvl,s){
-    damageReduction = 10; //TOBECHANGED
+    damageReduction = 7 + levelRequired*3;
 }
 
 FireSpell::FireSpell(int lvl,const string s): Spell(lvl,s){
-    defenseReduction  = 5; //TOBECHANGED
+    defenseReduction  = 3 + levelRequired*2; 
 }
 
 LightningSpell::LightningSpell(int lvl,const string s): Spell(lvl,s){
-    dodgeReduction = 1; //TOBECHANGED
+    dodgeReduction = 2 + levelRequired*2; 
 }
 
 
